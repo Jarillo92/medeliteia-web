@@ -20,12 +20,15 @@ function Footer() {
           
           {/* Column 1: Brand & Desc */}
           <div className="md:col-span-5 space-y-6">
-            <div className="flex items-center min-h-[56px]">
-              <img 
-                src="/logo.webp" 
-                alt="MedElite IA Logo" 
-                className="h-14 w-auto object-contain"
-              />
+            <div className="flex items-center">
+              <div className="relative block w-48 h-12 overflow-hidden select-none bg-transparent">
+                <img 
+                  src="/logo.webp" 
+                  alt="MedElite IA Logo" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340%] h-[340%] max-w-none object-contain pointer-events-none"
+                  style={{ mixBlendMode: 'screen' }}
+                />
+              </div>
             </div>
             <p className="text-xs text-brand-silver font-light leading-relaxed max-w-sm">
               Agencia española pionera en sistemas de automatización con Inteligencia Artificial. Diseñamos e implementamos agentes de WhatsApp inteligentes y páginas web premium para llenar la agenda de clínicas privadas.

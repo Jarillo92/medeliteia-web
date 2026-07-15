@@ -19,14 +19,14 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo Container (Generous height, min 56-64px, no overflow restriction) */}
-          <div className="flex-shrink-0 flex items-center min-h-[64px] py-1">
-            <a href="#" className="flex items-center select-none">
+          {/* Logo Container with visual cropping and transparency blending */}
+          <div className="flex-shrink-0 flex items-center py-1">
+            <a href="#" className="relative block w-52 h-14 overflow-hidden select-none bg-transparent">
               <img 
                 src="/logo.webp" 
                 alt="MedElite IA Logo" 
-                className="h-16 w-auto object-contain block" 
-                style={{ maxHeight: 'none' }} // Ensure no max-height overrides crop it
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340%] h-[340%] max-w-none object-contain pointer-events-none"
+                style={{ mixBlendMode: 'screen' }}
               />
             </a>
           </div>
