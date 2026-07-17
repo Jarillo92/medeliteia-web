@@ -110,6 +110,16 @@ function Footer() {
           </div>
 
         </div>
+        {/* Cartel de subvención Castilla-La Mancha */}
+        <div className="w-full flex justify-center md:justify-start py-8">
+          <div className="bg-white rounded-lg p-4 max-w-[560px] w-full">
+            <img
+              src="/subvencion-clm.jpg"
+              alt="Ayudas para el fomento del autoempleo - Cofinanciado por la Unión Europea, Ministerio de Trabajo y Economía Social, Castilla-La Mancha"
+              className="w-full h-auto object-contain"
+            />
+          </div>
+        </div>
 
         {/* Copyright */}
         <div className="flex flex-col sm:flex-row justify-between items-center pt-8 text-[11px] text-slate-500 font-light space-y-4 sm:space-y-0">
@@ -121,6 +131,7 @@ function Footer() {
           </div>
         </div>
 
+        
       </div>
     </footer>
   )
