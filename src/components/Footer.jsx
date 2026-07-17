@@ -111,7 +111,8 @@ function Footer() {
 
         </div>
         {/* Cartel de subvención Castilla-La Mancha */}
-        <div className="w-full flex justify-center md:justify-start py-8">
+        {/*<div className="w-full flex justify-center md:justify-start py-8">*/}
+        <div className="w-full flex justify-center py-8">
           <div className="bg-white rounded-lg p-4 max-w-[560px] w-full">
             <img
               src="/subvencion-clm.jpg"
