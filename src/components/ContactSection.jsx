@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Mail, Phone, MapPin } from 'lucide-react'
 
 function BookingCalendar() {
+  const [iframeHeight, setIframeHeight] = useState(900);
+
   useEffect(() => {
     const scriptId = 'ghl-form-embed-script';
     if (!document.getElementById(scriptId)) {
@@ -11,13 +13,22 @@ function BookingCalendar() {
       script.type = 'text/javascript';
       document.body.appendChild(script);
     }
+
+    const handleMessage = (event) => {
+      if (event.data && event.data.type === 'iframe-resize' && event.data.height) {
+        setIframeHeight(event.data.height + 20);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
   }, []);
 
   return (
     <div className="glass-card rounded-2xl p-2 sm:p-4 border border-white/5 overflow-hidden">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
-        style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '900px' }}
+        style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
         scrolling="no"
         id="ZFBJGeef7qz5jyRrEyYa_1784279743535"
         title="Reserva tu Análisis Inicial"
