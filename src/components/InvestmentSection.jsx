@@ -13,7 +13,7 @@ function InvestmentSection() {
         'Pruebas y control de calidad (testing de conversación).',
         'Formación práctica para tu personal de recepción.'
       ],
-      icon: <Cpu className="w-6 h-6 text-brand-electric" />,
+      icon: Cpu,
       tag: 'Pago Único de Setup'
     },
     {
@@ -27,96 +27,70 @@ function InvestmentSection() {
         'Monitorización de servidores y control de incidencias.',
         'Acceso a mejoras de motor y actualizaciones de modelos de lenguaje.'
       ],
-      icon: <ShieldCheck className="w-6 h-6 text-brand-accent" />,
+      icon: ShieldCheck,
       tag: 'Cuota de Mantenimiento'
     }
   ];
 
   return (
-    <section id="inversion" className="relative py-24 z-20">
+    <section id="inversion" className="relative py-20 md:py-28 bg-surface border-y border-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-sm font-semibold tracking-wider text-brand-electric uppercase mb-3">Inversión</h2>
-          <p className="text-3xl sm:text-4xl font-bold font-serif text-white mb-4">
+
+        <div className="max-w-3xl mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
             Un modelo comercial transparente y orientado a resultados
-          </p>
-          <p className="text-brand-silver font-light">
+          </h2>
+          <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
             No cobramos licencias de software genéricas. Inviertes en un sistema adaptado a tu clínica y en un equipo de ingeniería español que vela por su funcionamiento.
           </p>
         </div>
 
-        {/* Two Columns Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16">
-          {columns.map((col, idx) => (
-            <div 
-              key={idx} 
-              className="glass-card rounded-2xl p-8 relative flex flex-col justify-between overflow-hidden border border-white/5"
-            >
-              
-              {/* Highlight ribbon tag */}
-              <div className="absolute top-4 right-4 bg-brand-cobalt/20 border border-brand-electric/30 text-[10px] font-semibold text-brand-accent px-2.5 py-1 rounded-full uppercase tracking-wider">
-                {col.tag}
-              </div>
-
-              <div>
-                {/* Header */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    {col.icon}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          {columns.map((col) => {
+            const Icon = col.icon;
+            return (
+              <div key={col.title} className="flex flex-col rounded-2xl border border-line bg-ground p-7 md:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft">
+                    <Icon className="h-5 w-5 text-accent" />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-white leading-tight">{col.title}</h3>
-                    <p className="text-xs text-brand-silver font-light mt-1">{col.subtitle}</p>
-                  </div>
+                  <span className="rounded-full bg-surface border border-line px-3 py-1 text-sm font-medium text-muted">
+                    {col.tag}
+                  </span>
                 </div>
+                <h3 className="mt-5 text-xl font-semibold text-ink">{col.title}</h3>
+                <p className="mt-1 text-[15px] text-muted">{col.subtitle}</p>
+                <p className="mt-4 text-base leading-relaxed text-muted">{col.description}</p>
 
-                <p className="text-sm text-slate-300 font-light leading-relaxed mb-8">
-                  {col.description}
-                </p>
-
-                {/* Features list */}
-                <div className="border-t border-white/5 pt-6">
-                  <ul className="space-y-4">
-                    {col.features.map((feat, fIdx) => (
-                      <li key={fIdx} className="flex items-start gap-3 text-xs text-brand-silver font-light leading-relaxed">
-                        <div className="w-5 h-5 rounded-full bg-brand-cobalt/10 border border-brand-cobalt/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <Check className="w-3.5 h-3.5 text-brand-accent" />
-                        </div>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <ul className="mt-6 space-y-3 border-t border-line pt-6">
+                  {col.features.map((feat) => (
+                    <li key={feat} className="flex items-start gap-3 text-[15px] leading-relaxed text-ink">
+                      <Check className="mt-1 h-4 w-4 flex-shrink-0 text-accent" />
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* CTA Banner */}
-        <div className="max-w-4xl mx-auto text-center glass-card p-8 sm:p-10 rounded-3xl border border-white/10 relative overflow-hidden">
-          
-          {/* Subtle background glow */}
-          <div className="absolute -top-24 -left-24 w-48 h-48 bg-brand-electric/10 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none"></div>
-
-          <h3 className="text-xl sm:text-2xl font-bold font-serif text-white mb-3">
+        {/* Llamada a la acción sobre campo azul */}
+        <div className="rounded-[28px] bg-accent-deep px-6 py-10 sm:px-12 sm:py-14 text-center">
+          <h3 className="text-2xl sm:text-3xl font-bold tracking-[-0.02em] text-white">
             ¿Quieres saber la inversión exacta para tu clínica?
           </h3>
-          <p className="text-sm text-brand-silver font-light max-w-2xl mx-auto mb-8 leading-relaxed">
+          <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg leading-relaxed text-[#C9D8F5]">
             Analizamos la estructura de tus citas y tus canales para ofrecerte una propuesta económica personalizada y adaptada al volumen de tu clínica.
           </p>
-
           <a
             href="https://wa.me/34694262425"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-semibold bg-gradient-to-r from-brand-cobalt to-brand-electric shadow-lg shadow-brand-cobalt/20 hover:shadow-brand-electric/30 transition-all duration-300 transform hover:-translate-y-0.5 group"
+            className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-base font-semibold text-accent-deep hover:bg-accent-soft active:scale-[0.98] transition-[background-color,transform] duration-200"
           >
-            <span>Solicitar Propuesta Personalizada</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
+            Solicitar Propuesta Personalizada
+            <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
           </a>
         </div>
 
