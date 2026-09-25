@@ -7,31 +7,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          dark: '#030712',      // Deep premium dark background
-          graphite: '#080c14',  // Blue-graphite dark tone for cards
-          cobalt: '#1d4ed8',    // Strong electric cobalt blue
-          electric: '#2563eb',  // Bright hover electric blue
-          silver: '#94a3b8',    // Muted silver for subtitles
-          accent: '#38bdf8',    // Cyan glow accents
-          border: 'rgba(255, 255, 255, 0.05)', // Border for glassmorphism
-        }
+        ink: {
+          DEFAULT: '#0F172A', // Texto principal (mismo tono que "Elite IA" en el logo)
+          soft: '#334155',    // Texto de apoyo fuerte
+        },
+        muted: '#475569',     // Párrafos y descripciones
+        subtle: '#64748B',    // Metadatos, solo sobre blanco o en tamaños grandes
+        ground: '#F5F7FA',    // Fondo de página
+        surface: '#FFFFFF',   // Tarjetas y paneles
+        line: '#E3E8EF',      // Bordes y separadores
+        accent: {
+          DEFAULT: '#2563EB', // Azul del logo: único color de acción
+          strong: '#1D4ED8',  // Hover / pulsado
+          soft: '#EAF1FF',    // Fondos suaves de acento
+          deep: '#0B2A66',    // Campo de color para bloques destacados
+        },
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['Inter', 'sans-serif'],
+        sans: ['"Bricolage Grotesque Variable"', 'system-ui', 'sans-serif'],
       },
-      animation: {
-        'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'float-slow': 'float 6s ease-in-out infinite',
-        'float-medium': 'float 4s ease-in-out infinite',
+      boxShadow: {
+        soft: '0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px -12px rgba(15, 23, 42, 0.12)',
+        lift: '0 2px 4px rgba(15, 23, 42, 0.06), 0 24px 48px -20px rgba(15, 23, 42, 0.28)',
       },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-8px)' },
-        }
-      }
+      maxWidth: {
+        prose: '65ch',
+      },
     },
   },
   plugins: [],

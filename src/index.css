@@ -3,76 +3,66 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Deja hueco para la barra fija al saltar a una sección */
+    scroll-padding-top: 5rem;
+  }
+
   body {
-    background-color: #030712; /* brand.dark */
-    color: #ffffff;
-    font-family: 'Inter', sans-serif;
+    @apply bg-ground text-ink font-sans antialiased;
+    caret-color: theme('colors.accent.DEFAULT');
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: theme('colors.accent.soft');
+    color: theme('colors.ink.DEFAULT');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.accent.DEFAULT');
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  a {
+    text-underline-offset: 3px;
   }
 }
 
-/* Custom Scrollbar */
+/* Barra de desplazamiento en la paleta de la web */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: theme('colors.ground');
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 999px;
+  border: 2px solid theme('colors.ground');
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: theme('colors.subtle');
 }
 
-/* Premium Glassmorphic Card Styling */
-.glass-card {
-  background: rgba(8, 12, 20, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card:hover {
-  border-color: rgba(37, 99, 235, 0.3);
-  box-shadow: 0 12px 40px 0 rgba(37, 99, 235, 0.12);
-  transform: translateY(-2px);
-}
-
-/* Subtly illuminated border for callouts */
-.glow-border {
-  position: relative;
-}
-.glow-border::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(to right, rgba(37, 99, 235, 0.4), rgba(148, 163, 184, 0.1));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-}
-
-/* Custom Background Blurs (Aurora) */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-}
-
-/* Chat bubble styling for the WhatsApp mockup */
-.chat-bubble-patient {
-  background-color: #1e293b;
-  border-radius: 12px 12px 12px 0px;
-}
-
-.chat-bubble-agent {
-  background: linear-gradient(135deg, #1e40af 0%, #1d4ed8 100%);
-  border-radius: 12px 12px 0px 12px;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  /* Las animaciones en bucle se detienen; los cambios de estado (hover, foco) se mantienen */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
