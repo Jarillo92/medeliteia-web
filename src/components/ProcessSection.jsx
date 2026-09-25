@@ -1,4 +1,3 @@
-import React from 'react'
 import { Search, Settings2, Rocket, HeartHandshake } from 'lucide-react'
 
 function ProcessSection() {

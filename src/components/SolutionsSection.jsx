@@ -1,5 +1,4 @@
-import React from 'react'
-import { Check, MessageSquare, CalendarRange, RefreshCw, LayoutTemplate, Zap, MapPin, ArrowRight } from 'lucide-react'
+import { Check, MessageSquare, CalendarRange, RefreshCw, LayoutTemplate, Zap, MapPin } from 'lucide-react'
 
 function SolutionsSection() {
   const steps = [

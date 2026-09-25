@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Menu, X, Sparkles } from 'lucide-react'
 
 function Navbar() {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { MessageSquare, ArrowRight, Play, CheckCircle2, Cpu, Calendar } from 'lucide-react'
 
 function Hero() {

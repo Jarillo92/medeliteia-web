@@ -1,4 +1,3 @@
-import React from 'react'
 import { Check, ShieldCheck, Cpu, ArrowRight } from 'lucide-react'
 
 function InvestmentSection() {

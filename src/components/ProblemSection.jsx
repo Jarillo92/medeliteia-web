@@ -1,5 +1,4 @@
-import React from 'react'
-import { Stethoscope, Sparkles, Ban, Clock, AlertTriangle, MessageSquareCode } from 'lucide-react'
+import { Stethoscope, Sparkles, Ban, AlertTriangle } from 'lucide-react'
 
 function ProblemSection() {
   const problems = [
