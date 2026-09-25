@@ -25,7 +25,7 @@ function BookingCalendar() {
   }, []);
 
   return (
-    <div className="glass-card rounded-2xl p-2 sm:p-4 border border-white/5 overflow-hidden">
+    <div className="rounded-2xl border border-line bg-surface p-2 sm:p-4 shadow-soft overflow-hidden">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
         style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
@@ -39,62 +39,59 @@ function BookingCalendar() {
 
 function ContactSection() {
   return (
-    <section id="contacto" className="relative py-24 z-20 bg-brand-dark/50">
+    <section id="contacto" className="relative py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Left Column: Direct Info */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cobalt/20 border border-brand-electric/30 text-brand-accent text-xs font-semibold">
-              <span>Contacto Directo</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white leading-tight">
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+
+          {/* Datos de contacto directo */}
+          <div className="lg:col-span-5">
+            <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
               Reserva tu Análisis Inicial
             </h2>
-            <p className="text-brand-silver font-light leading-relaxed">
+            <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
               Elige el hueco que mejor te venga en el calendario y cuéntanos brevemente tu situación. Si lo prefieres, puedes escribirnos o llamarnos directamente por WhatsApp.
             </p>
 
-            <div className="border-t border-white/5 pt-8 space-y-6">
-              
+            <dl className="mt-8 space-y-5 border-t border-line pt-8">
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <Phone className="w-5 h-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                  <Phone className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">WhatsApp / Teléfono</div>
-                  <a href="https://wa.me/34694262425" className="text-base font-semibold text-white hover:text-brand-accent transition-colors duration-200">
-                    +34 694 26 24 25
-                  </a>
+                  <dt className="text-sm text-muted">WhatsApp y teléfono</dt>
+                  <dd>
+                    <a href="https://wa.me/34694262425" className="inline-block py-2 text-lg font-semibold text-ink hover:text-accent transition-colors duration-200">
+                      +34 694 26 24 25
+                    </a>
+                  </dd>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <Mail className="w-5 h-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                  <Mail className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">Correo Electrónico</div>
-                  <a href="mailto:medeliteia@gmail.com" className="text-base font-semibold text-white hover:text-brand-accent transition-colors duration-200">
-                    medeliteia@gmail.com
-                  </a>
+                  <dt className="text-sm text-muted">Correo electrónico</dt>
+                  <dd>
+                    <a href="mailto:medeliteia@gmail.com" className="inline-block py-2 text-lg font-semibold text-ink hover:text-accent transition-colors duration-200">
+                      medeliteia@gmail.com
+                    </a>
+                  </dd>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <MapPin className="w-5 h-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
+                  <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">Ubicación</div>
-                  <div className="text-base font-semibold text-white">
-                    España
-                  </div>
+                  <dt className="text-sm text-muted">Ubicación</dt>
+                  <dd className="text-lg font-semibold text-ink">España</dd>
                 </div>
               </div>
-
-            </div>
+            </dl>
           </div>
 
           {/* Right Column: Booking Calendar */}
