@@ -3,9 +3,14 @@
 ## Negocio
 - Soy Rafa, fundador de MedElite IA, agencia española de automatización con IA.
 - Producto principal: agentes de IA en WhatsApp que atienden y agendan citas automáticamente. Secundario: webs a medida.
-- Sectores objetivo: clínicas dentales privadas, clínicas veterinarias, centros de estética y salones de belleza.
-- Modelo: prueba gratuita + cuota mensual de mantenimiento. Mercado: España.
-- La web es mi principal herramienta de captación: su objetivo es que el visitante reserve un análisis inicial.
+- Especialidad (lo que se destaca en el hero): clínicas dentales privadas, clínicas veterinarias y centros de estética / salones de belleza.
+- También trabajo con gimnasios, centros deportivos y cualquier negocio que viva de su agenda. Primer cliente real: el gimnasio MOOV Huesca (caso de éxito; testimonio pendiente de permiso).
+- Oferta: demo y auditoría gratuita y personalizada de 30 minutos, en la que enseño el agente funcionando para su sector. Después: puesta en marcha + cuota mensual, sin permanencia. Mercado: España.
+- Precio: a consultar. Nunca poner cifras en la web; se da en la demo según cada negocio.
+- No hay prueba gratuita. No usar "Pago Único de Setup" como gancho.
+- Integraciones reales: GoHighLevel, Calendly y Make. No mencionar ninguna otra (Gesden, Clinic Cloud, etc.).
+- La web es mi principal herramienta de captación: su objetivo es que el visitante reserve la demo gratuita.
+- Acción principal de toda la web: "Reservar demo gratuita", que lleva al calendario de GoHighLevel. WhatsApp (+34 694 26 24 25) es la alternativa. El botón "Pruébalo tú mismo: escríbele a nuestro asistente" está preparado pero oculto hasta que el agente atienda ese número.
 
 ## Stack y despliegue
 - React 18 + Vite 5 + Tailwind 3 + framer-motion + lucide-react. Landing de una sola página.
