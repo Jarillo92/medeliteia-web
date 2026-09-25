@@ -1,10 +1,10 @@
-import { Stethoscope, Sparkles, Ban, AlertTriangle } from 'lucide-react'
+import { Stethoscope, Sparkles, PawPrint, CircleSlash } from 'lucide-react'
 
 function ProblemSection() {
   const problems = [
     {
       sector: 'Clínicas Dentales',
-      icon: <Stethoscope className="w-6 h-6 text-brand-electric" />,
+      icon: <Stethoscope className="w-5 h-5 text-accent" />,
       tagline: 'Gabinete vacío y llamadas perdidas',
       pains: [
         {
@@ -19,7 +19,7 @@ function ProblemSection() {
     },
     {
       sector: 'Centros de Estética y Belleza',
-      icon: <Sparkles className="w-6 h-6 text-brand-accent" />,
+      icon: <Sparkles className="w-5 h-5 text-accent" />,
       tagline: 'Leads fríos por respuestas lentas',
       pains: [
         {
@@ -34,7 +34,7 @@ function ProblemSection() {
     },
     {
       sector: 'Clínicas Veterinarias',
-      icon: <AlertTriangle className="w-6 h-6 text-amber-500" />,
+      icon: <PawPrint className="w-5 h-5 text-accent" />,
       tagline: 'Gestión ineficiente de urgencias',
       pains: [
         {
@@ -50,47 +50,36 @@ function ProblemSection() {
   ];
 
   return (
-    <section id="problemas" className="relative py-24 z-20 bg-brand-dark/50">
+    <section id="problemas" className="relative py-20 md:py-28 bg-surface border-y border-line">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Title */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sm font-semibold tracking-wider text-brand-electric uppercase mb-3">El coste de no digitalizar</h2>
-          <p className="text-3xl sm:text-4xl font-bold font-serif text-white mb-4">
+
+        <div className="max-w-3xl mb-12 md:mb-16">
+          <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
             Los problemas reales que drenan la rentabilidad de tu clínica
-          </p>
-          <p className="text-brand-silver font-light">
+          </h2>
+          <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
             Las clínicas privadas pierden decenas de citas al mes no por falta de pacientes, sino por procesos manuales obsoletos y lentitud en la atención.
           </p>
         </div>
 
-        {/* Problems Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {problems.map((prob, idx) => (
-            <div key={idx} className="glass-card rounded-2xl p-8 flex flex-col h-full">
-              {/* Card Header */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {problems.map((prob) => (
+            <div key={prob.sector} className="flex flex-col rounded-2xl border border-line bg-ground p-7">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-soft">
                   {prob.icon}
                 </div>
-                <div>
-                  <span className="text-xs font-semibold text-brand-accent uppercase tracking-wider">{prob.sector}</span>
-                  <h3 className="text-lg font-semibold text-white mt-0.5">{prob.tagline}</h3>
-                </div>
+                <span className="text-sm font-semibold text-accent">{prob.sector}</span>
               </div>
+              <h3 className="mt-4 text-xl font-semibold leading-snug text-ink">{prob.tagline}</h3>
 
-              <div className="border-b border-white/5 my-4"></div>
-
-              {/* Card Body Pains */}
-              <div className="space-y-6 flex-1">
-                {prob.pains.map((pain, pIdx) => (
-                  <div key={pIdx} className="flex gap-3">
-                    <div className="mt-1 flex-shrink-0">
-                      <Ban className="w-4 h-4 text-rose-500" />
-                    </div>
+              <div className="mt-6 space-y-5 border-t border-line pt-6">
+                {prob.pains.map((pain) => (
+                  <div key={pain.title} className="flex gap-3">
+                    <CircleSlash className="mt-1 h-4 w-4 flex-shrink-0 text-subtle" />
                     <div>
-                      <h4 className="text-sm font-semibold text-slate-100">{pain.title}</h4>
-                      <p className="text-xs text-brand-silver font-light mt-1 leading-relaxed">{pain.desc}</p>
+                      <h4 className="text-base font-semibold text-ink">{pain.title}</h4>
+                      <p className="mt-1 text-[15px] leading-relaxed text-muted">{pain.desc}</p>
                     </div>
                   </div>
                 ))}
