@@ -14,6 +14,8 @@
 
 ## Stack y despliegue
 - React 18 + Vite 5 + Tailwind 3 + framer-motion + lucide-react. Landing de una sola página.
+- Hero 3D con Three.js + React Three Fiber 8 + drei 9 (compatibles con React 18), cargado de forma diferida: nunca importarlo desde el paquete principal. En móvil, sin WebGL o con prefers-reduced-motion hay versión ligera.
+- Textos y enlaces de las llamadas a la acción centralizados en src/config.js (ASSISTANT_LIVE activa el botón "Pruébalo tú mismo").
 - Reserva de citas incrustada desde GoHighLevel (LeadConnector) en ContactSection.jsx: no romperla.
 - Desplegada en Vercel, conectada a GitHub (Jarillo92/medeliteia-web). Un push a main publica en producción; cualquier otra rama genera una URL de preview.
 - Repo local: C:\Github\medeliteia-web. Uso GitHub Desktop.

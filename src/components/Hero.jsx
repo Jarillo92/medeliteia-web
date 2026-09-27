@@ -1,160 +1,182 @@
-import { useState, useEffect } from 'react'
-import { ArrowRight, CheckCircle2, CalendarCheck, SendHorizontal } from 'lucide-react'
+import { lazy, Suspense, useRef } from 'react'
+import { useInView, useScroll } from 'framer-motion'
+import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react'
+import { ASSISTANT_LIVE, ASSISTANT_URL, DEMO_HREF, DEMO_LABEL, WHATSAPP_URL } from '../config'
+import PhoneFallback from './hero/PhoneFallback'
+import { useDeviceTier, useIdleMount } from './hero/useDeviceTier'
 
-const conversation = [
-  { sender: 'patient', text: 'Buenas, ¿tenéis hueco para una revisión mañana por la tarde?', time: '19:42' },
-  { sender: 'agent', text: '¡Hola! Sí, para odontología general mañana tengo libre a las 16:30 y a las 18:00. ¿Cuál te va mejor?', time: '19:42' },
-  { sender: 'patient', text: 'A las 18:00 me viene perfecto, déjamela reservada.', time: '19:43' },
-  { sender: 'agent', text: '¡Hecho! Acabo de registrar tu revisión para mañana a las 18:00. Te acabo de enviar la confirmación por correo y te recordaré unas horas antes por aquí. ¡Nos vemos!', time: '19:43' }
-];
+// Las escenas 3D se cargan aparte: el texto y el botón no esperan a Three.js
+const PhoneScene = lazy(() => import('./hero/PhoneScene'))
+const GlobeScene = lazy(() => import('./hero/GlobeScene'))
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  );
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = () => setReduced(mq.matches);
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  return reduced;
+function getVariant() {
+  if (typeof window === 'undefined') return { variant: 'a', isPrototype: false };
+  const param = new URLSearchParams(window.location.search).get('hero');
+  return { variant: param === 'b' ? 'b' : 'a', isPrototype: param !== null };
 }
 
-function ChatDemo() {
-  const reducedMotion = usePrefersReducedMotion();
-  const [activeStep, setActiveStep] = useState(0);
+// Globo en CSS: respaldo sin WebGL y marcador mientras carga la escena
+function StaticGlobe() {
+  return (
+    <div className="relative aspect-square w-[min(78vw,420px)]" aria-hidden="true">
+      <div className="absolute inset-[-8%] rounded-full bg-[radial-gradient(closest-side,rgba(47,107,255,0.28),transparent)] blur-2xl" />
+      <div
+        className="absolute inset-0 rounded-full shadow-[inset_-18px_-24px_60px_rgba(0,0,0,0.85),inset_10px_14px_40px_rgba(91,140,255,0.25),0_0_60px_rgba(47,107,255,0.25)]"
+        style={{
+          background:
+            'repeating-linear-gradient(0deg, transparent 0 22px, rgba(91,140,255,0.12) 22px 23px), repeating-linear-gradient(90deg, transparent 0 22px, rgba(91,140,255,0.08) 22px 23px), radial-gradient(circle at 35% 30%, #13264F, #050B1A 70%)',
+        }}
+      />
+    </div>
+  );
+}
 
-  // La conversación se reproduce en bucle; con movimiento reducido se muestra completa
-  useEffect(() => {
-    if (reducedMotion) return;
-    const timer = setInterval(() => {
-      setActiveStep((prev) => (prev < conversation.length - 1 ? prev + 1 : 0));
-    }, 3200);
-    return () => clearInterval(timer);
-  }, [reducedMotion]);
+function PrototypeSwitcher({ variant }) {
+  const options = [
+    { id: 'a', label: 'A · Móvil 3D' },
+    { id: 'b', label: 'B · Globo 3D' },
+  ];
+  return (
+    <div className="fixed bottom-24 left-3 z-[55] flex items-center gap-1 rounded-full border border-white/10 bg-surface/90 p-1 text-[12px] shadow-lift backdrop-blur-md md:bottom-5 md:left-5 md:text-[13px]">
+      <span className="hidden px-2.5 text-subtle sm:inline">Prototipo</span>
+      {options.map((opt) => (
+        <a
+          key={opt.id}
+          href={`?hero=${opt.id}`}
+          className={`whitespace-nowrap rounded-full px-3 py-1.5 font-semibold transition-colors duration-200 ${
+            variant === opt.id ? 'bg-accent-solid text-white' : 'text-muted hover:text-ink'
+          }`}
+          aria-current={variant === opt.id ? 'true' : undefined}
+        >
+          {opt.label}
+        </a>
+      ))}
+    </div>
+  );
+}
 
-  const visibleUntil = reducedMotion ? conversation.length - 1 : activeStep;
+function HeroStage({ variant, scrollProgress }) {
+  const stageRef = useRef(null);
+  const inView = useInView(stageRef, { margin: '0px 0px -15% 0px' });
+  const tier = useDeviceTier();
+  const idle = useIdleMount();
+
+  let content;
+  if (variant === 'a') {
+    const use3D = tier.webgl && tier.desktop && !tier.reducedMotion;
+    const fallback = (
+      <div className="flex h-full items-center justify-center">
+        <PhoneFallback width={tier.desktop ? 300 : Math.min(272, (typeof window !== 'undefined' ? window.innerWidth : 375) - 56)} playing={inView} reducedMotion={tier.reducedMotion} />
+      </div>
+    );
+    content = use3D && idle ? (
+      <Suspense fallback={fallback}>
+        <div className="fade-in absolute inset-0">
+          <PhoneScene active={inView} scrollProgress={scrollProgress} />
+        </div>
+      </Suspense>
+    ) : (
+      fallback
+    );
+  } else {
+    const fallback = (
+      <div className="flex h-full items-center justify-center">
+        <StaticGlobe />
+      </div>
+    );
+    content = tier.webgl && idle ? (
+      <Suspense fallback={fallback}>
+        <div className="fade-in absolute inset-0">
+          <GlobeScene
+            active={inView}
+            lite={!tier.desktop || tier.lowPower}
+            reducedMotion={tier.reducedMotion}
+            scrollProgress={scrollProgress}
+          />
+        </div>
+      </Suspense>
+    ) : (
+      fallback
+    );
+  }
+
+  const heightClass = variant === 'a' ? 'h-[600px] lg:h-[680px]' : 'h-[380px] sm:h-[480px] lg:h-[620px]';
 
   return (
-    <div className="relative w-[300px] sm:w-[330px] rounded-[44px] bg-ink p-2.5 shadow-lift">
-      <div className="overflow-hidden rounded-[36px] bg-[#EEF2F7]">
-        {/* Cabecera del chat */}
-        <div className="flex items-center gap-3 bg-surface px-4 pt-7 pb-3 border-b border-line">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-soft text-xs font-bold text-accent">
-            ME
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-ink leading-tight">Asistente MedElite</div>
-            <div className="text-xs text-subtle">en línea</div>
-          </div>
-        </div>
-
-        {/* Mensajes */}
-        <div className="flex h-[400px] flex-col gap-3 px-3 pt-4" aria-live="polite">
-          {conversation.map((msg, index) => {
-            const isVisible = index <= visibleUntil;
-            const isPatient = msg.sender === 'patient';
-            return (
-              <div
-                key={index}
-                className={`flex max-w-[84%] flex-col transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                } ${isPatient ? 'self-start' : 'self-end'}`}
-                aria-hidden={!isVisible}
-              >
-                <div
-                  className={`px-3 py-2 text-[13px] leading-snug text-ink shadow-[0_1px_1px_rgba(15,23,42,0.06)] ${
-                    isPatient ? 'rounded-2xl rounded-bl-md bg-surface' : 'rounded-2xl rounded-br-md bg-[#DCE7FE]'
-                  }`}
-                >
-                  {msg.text}
-                </div>
-                <span className={`mt-1 px-1 text-[11px] text-subtle ${isPatient ? 'self-start' : 'self-end'}`}>{msg.time}</span>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Barra de escritura simulada */}
-        <div className="flex items-center gap-2 bg-surface px-3 py-3 border-t border-line" aria-hidden="true">
-          <div className="flex-1 rounded-full bg-ground px-4 py-2 text-xs text-subtle">Escribe un mensaje</div>
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-white">
-            <SendHorizontal className="h-4 w-4" />
-          </div>
-        </div>
-      </div>
+    <div ref={stageRef} className={`relative ${heightClass}`}>
+      {/* Suelo: una línea de luz que asienta el objeto */}
+      <div className="pointer-events-none absolute inset-x-[12%] bottom-[6%] h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-[25%] bottom-[3%] h-10 rounded-[100%] bg-accent-solid/20 blur-2xl" aria-hidden="true" />
+      {content}
     </div>
   );
 }
 
 function Hero() {
-  return (
-    <section className="relative pt-28 pb-16 md:pt-32 md:pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
+  const { variant, isPrototype } = getVariant();
 
-          {/* Texto y llamadas a la acción */}
-          <div className="lg:col-span-7">
-            <h1 className="text-[2.5rem] leading-[1.05] sm:text-5xl lg:text-[3.75rem] font-bold tracking-[-0.03em] text-ink">
-              La agenda de tu clínica{' '}
-              <span className="text-accent">llena de citas confirmadas</span>
+  return (
+    <section ref={sectionRef} className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-20">
+      {/* Una sola fuente de luz: foco azul detrás del objeto y luz cenital suave */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(55% 60% at 72% 42%, rgba(47,107,255,0.20), transparent 70%), radial-gradient(45% 35% at 50% -5%, rgba(156,187,255,0.10), transparent 70%)',
+        }}
+        aria-hidden="true"
+      />
+      {/* Fundido inferior hacia la siguiente sección */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-ground" aria-hidden="true" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+
+          <div className="lg:col-span-6">
+            <h1 className="rise-in text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-[4.25rem] font-semibold tracking-[-0.035em] text-ink">
+              La agenda de tu clínica,{' '}
+              <span className="text-accent-bright">llena de citas confirmadas</span>
             </h1>
 
-            <p className="mt-6 max-w-prose text-lg leading-relaxed text-muted">
-              Desarrollamos <strong className="font-semibold text-ink">agentes de IA en WhatsApp</strong> que atienden a tus pacientes y agendan citas automáticamente, junto con <strong className="font-semibold text-ink">páginas web a medida</strong> diseñadas exclusivamente para convertir visitas en ingresos.
+            <p className="rise-in mt-6 max-w-[34rem] text-lg sm:text-xl leading-relaxed text-muted" style={{ animationDelay: '70ms' }}>
+              Un asistente de IA en WhatsApp contesta a tus pacientes al momento, les da cita en tu agenda y les recuerda que vengan.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+            <div className="rise-in mt-9 flex flex-col sm:flex-row gap-3" style={{ animationDelay: '140ms' }}>
+              <a id="hero-cta" href={DEMO_HREF} className="btn-primary group px-7 py-4 text-base">
+                {DEMO_LABEL}
+                <ArrowRight className="h-5 w-5 transition-transform duration-200 ease-out group-hover:translate-x-0.5" />
+              </a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost px-7 py-4 text-base">
+                <MessageCircle className="h-5 w-5 text-accent" />
+                Escríbenos por WhatsApp
+              </a>
+            </div>
+
+            {ASSISTANT_LIVE && (
               <a
-                href="https://wa.me/34694262425"
+                href={ASSISTANT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-7 py-4 text-base font-semibold text-white shadow-soft hover:bg-accent-strong active:scale-[0.98] transition-[background-color,transform] duration-200"
+                className="rise-in mt-5 inline-flex items-center gap-2 text-[15px] font-medium text-accent-bright hover:text-white transition-colors duration-200"
+                style={{ animationDelay: '210ms' }}
               >
-                Solicitar Análisis Inicial
-                <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                <Sparkles className="h-4 w-4" />
+                Pruébalo tú mismo: escríbele a nuestro asistente
               </a>
-              <a
-                href="#soluciones"
-                className="inline-flex items-center justify-center rounded-full border border-line bg-surface px-7 py-4 text-base font-semibold text-ink hover:border-ink/30 transition-colors duration-200"
-              >
-                Ver cómo funciona
-              </a>
-            </div>
-
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[15px] text-muted">
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-accent" />
-                Configuración a Medida
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-accent" />
-                Sin cuotas de configuración gratuitas
-              </li>
-              <li className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-accent" />
-                Soporte Mensual Técnico
-              </li>
-            </ul>
+            )}
           </div>
 
-          {/* Demostración: el asistente atendiendo por WhatsApp */}
-          <div className="lg:col-span-5">
-            <div className="relative flex justify-center rounded-[32px] bg-accent-deep px-6 py-10 sm:py-12">
-              <ChatDemo />
-
-              <div className="absolute left-3 bottom-20 hidden sm:flex max-w-[190px] items-center gap-3 rounded-2xl bg-surface p-3 shadow-lift lg:-left-8">
-                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-accent-soft">
-                  <CalendarCheck className="h-5 w-5 text-accent" />
-                </div>
-                <div className="text-sm font-semibold leading-tight text-ink">Cita confirmada en la agenda</div>
-              </div>
-            </div>
+          <div className="lg:col-span-6">
+            <HeroStage variant={variant} scrollProgress={scrollYProgress} />
           </div>
 
         </div>
       </div>
+
+      {isPrototype && <PrototypeSwitcher variant={variant} />}
     </section>
   )
 }

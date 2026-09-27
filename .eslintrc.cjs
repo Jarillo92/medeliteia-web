@@ -16,5 +16,14 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    // El proyecto no usa PropTypes
+    'react/prop-types': 'off',
   },
+  overrides: [
+    {
+      // Escenas de React Three Fiber: sus props (metalness, intensity...) son de Three.js, no del DOM
+      files: ['src/components/hero/*Scene.jsx'],
+      rules: { 'react/no-unknown-property': 'off' },
+    },
+  ],
 }
