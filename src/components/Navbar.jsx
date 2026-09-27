@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { DEMO_HREF, DEMO_LABEL } from '../config'
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,16 +16,16 @@ function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-line/80 bg-ground/85 backdrop-blur-md">
+    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06] bg-ground/70 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
 
           <a href="#" className="flex-shrink-0 flex items-center py-1.5" aria-label="MedElite IA, volver al inicio">
             <img
-              src="/logo-light.webp"
+              src="/logo-dark.webp"
               alt="MedElite IA"
               width="640"
-              height="165"
+              height="167"
               className="h-9 w-auto sm:h-10"
             />
           </a>
@@ -43,13 +44,8 @@ function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center">
-            <a
-              href="https://wa.me/34694262425"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-2.5 text-[15px] font-semibold text-white shadow-soft hover:bg-accent-strong active:scale-[0.98] transition-[background-color,transform] duration-200"
-            >
-              Solicitar Análisis
+            <a href={DEMO_HREF} className="btn-primary px-5 py-2.5 text-[15px]">
+              {DEMO_LABEL}
             </a>
           </div>
 
@@ -58,7 +54,7 @@ function Navbar() {
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-ink/5 transition-colors duration-200"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink hover:bg-white/5 transition-colors duration-200"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -71,26 +67,21 @@ function Navbar() {
 
       {/* Menú móvil */}
       {isOpen && (
-        <div className="md:hidden border-t border-line bg-ground" id="mobile-menu">
+        <div className="md:hidden border-t border-white/[0.06] bg-ground/95 backdrop-blur-xl" id="mobile-menu">
           <div className="px-4 pt-2 pb-4 space-y-1">
             {menuItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="block rounded-xl px-3 py-3 text-base font-medium text-ink hover:bg-ink/5 transition-colors duration-200"
+                className="block rounded-xl px-3 py-3 text-base font-medium text-ink hover:bg-white/5 transition-colors duration-200"
               >
                 {item.name}
               </a>
             ))}
             <div className="pt-3">
-              <a
-                href="https://wa.me/34694262425"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex w-full items-center justify-center rounded-full bg-accent px-5 py-3.5 text-base font-semibold text-white hover:bg-accent-strong transition-colors duration-200"
-              >
-                Solicitar Análisis
+              <a href={DEMO_HREF} onClick={() => setIsOpen(false)} className="btn-primary w-full py-3.5 text-base">
+                {DEMO_LABEL}
               </a>
             </div>
           </div>

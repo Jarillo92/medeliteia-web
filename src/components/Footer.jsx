@@ -20,10 +20,10 @@ function Footer() {
           {/* Marca y descripción */}
           <div className="md:col-span-5">
             <img
-              src="/logo-light.webp"
+              src="/logo-dark.webp"
               alt="MedElite IA"
               width="640"
-              height="165"
+              height="167"
               loading="lazy"
               className="h-10 w-auto"
             />
@@ -105,7 +105,7 @@ function Footer() {
 
         {/* Cartel de subvención Castilla-La Mancha */}
         <div className="flex justify-center py-8">
-          <div className="w-full max-w-[560px] rounded-xl border border-line bg-white p-4">
+          <div className="w-full max-w-[560px] rounded-xl bg-white p-4">
             <img
               src="/subvencion-clm.jpg"
               alt="Ayudas para el fomento del autoempleo - Cofinanciado por la Unión Europea, Ministerio de Trabajo y Economía Social, Castilla-La Mancha"
