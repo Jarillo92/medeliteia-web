@@ -47,10 +47,10 @@ function ContactSection() {
           {/* Datos de contacto directo */}
           <div className="lg:col-span-5">
             <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
-              Reserva tu Análisis Inicial
+              Reserva tu demo gratuita
             </h2>
             <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
-              Elige el hueco que mejor te venga en el calendario y cuéntanos brevemente tu situación. Si lo prefieres, puedes escribirnos o llamarnos directamente por WhatsApp.
+              Elige día y hora. En 30 minutos te enseñamos el asistente funcionando con casos de tu sector y resolvemos tus dudas. Si lo prefieres, escríbenos o llámanos por WhatsApp.
             </p>
 
             <dl className="mt-8 space-y-5 border-t border-line pt-8">

@@ -18,7 +18,7 @@ function SolutionsSection() {
 
   const badges = [
     { title: 'Respuestas naturales en español', desc: 'Adaptado al vocabulario y empatía que requiere la atención sanitaria.', icon: MessageSquare },
-    { title: 'Sincronización con tu agenda real', desc: 'Integración directa con agendas médicas (Cliniko, Clinic Cloud, Gesden, Google Calendar, etc.).', icon: CalendarRange },
+    { title: 'Sincronización con tu agenda real', desc: 'Conectado a tu agenda mediante GoHighLevel, Calendly o Make.', icon: CalendarRange },
     { title: 'Reactivación de pacientes inactivos', desc: 'Campañas periódicas y personalizadas para rellenar huecos vacíos.', icon: RefreshCw },
     { title: 'Configuración a medida', desc: 'Entrenamos al agente con el dossier y reglas específicas de tu propia clínica.', icon: Check }
   ];

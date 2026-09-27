@@ -3,7 +3,7 @@ import { Search, Settings2, Rocket, HeartHandshake } from 'lucide-react'
 function ProcessSection() {
   const steps = [
     {
-      title: 'Análisis Inicial Sin Coste',
+      title: 'Demo y auditoría gratuita',
       desc: 'Realizamos una auditoría en profundidad de tus flujos de atención y puntos de pérdida de pacientes para trazar el plan óptimo.',
       icon: Search
     },

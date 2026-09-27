@@ -1,4 +1,5 @@
 import { Check, ShieldCheck, Cpu, ArrowRight } from 'lucide-react'
+import { DEMO_HREF, DEMO_LABEL } from '../config'
 
 function InvestmentSection() {
   const columns = [
@@ -9,12 +10,12 @@ function InvestmentSection() {
       features: [
         'Auditoría y análisis de procesos de tu clínica.',
         'Entrenamiento personalizado de la IA con tus políticas y servicios.',
-        'Integración con tu CRM, PMS o agenda médica actual.',
+        'Conexión con tu agenda mediante GoHighLevel, Calendly o Make.',
         'Pruebas y control de calidad (testing de conversación).',
         'Formación práctica para tu personal de recepción.'
       ],
       icon: Cpu,
-      tag: 'Pago Único de Setup'
+      tag: 'Puesta en marcha'
     },
     {
       title: 'Evolución Continua',
@@ -28,7 +29,7 @@ function InvestmentSection() {
         'Acceso a mejoras de motor y actualizaciones de modelos de lenguaje.'
       ],
       icon: ShieldCheck,
-      tag: 'Cuota de Mantenimiento'
+      tag: 'Cuota mensual sin permanencia'
     }
   ];
 
@@ -83,13 +84,8 @@ function InvestmentSection() {
           <p className="mx-auto mt-3 max-w-2xl text-base sm:text-lg leading-relaxed text-[#C9D8F5]">
             Analizamos la estructura de tus citas y tus canales para ofrecerte una propuesta económica personalizada y adaptada al volumen de tu clínica.
           </p>
-          <a
-            href="https://wa.me/34694262425"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-white px-7 py-4 text-base font-semibold text-accent-deep hover:bg-accent-soft active:scale-[0.98] transition-[background-color,transform] duration-200"
-          >
-            Solicitar Propuesta Personalizada
+          <a href={DEMO_HREF} className="btn-primary group mt-8 px-7 py-4 text-base">
+            {DEMO_LABEL}
             <ArrowRight className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-0.5" />
           </a>
         </div>

@@ -7,6 +7,7 @@ import ProcessSection from './components/ProcessSection'
 import InvestmentSection from './components/InvestmentSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
+import StickyCTA from './components/StickyCTA'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <ContactSection />
       </main>
       <Footer />
+      <StickyCTA />
     </div>
   )
 }
