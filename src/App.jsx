@@ -6,6 +6,7 @@ import SectorsSection from './components/SectorsSection'
 import WebSection from './components/WebSection'
 import ProcessSection from './components/ProcessSection'
 import InvestmentSection from './components/InvestmentSection'
+import FaqSection from './components/FaqSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import StickyCTA from './components/StickyCTA'
@@ -22,6 +23,7 @@ function App() {
         <WebSection />
         <ProcessSection />
         <InvestmentSection />
+        <FaqSection />
         <ContactSection />
       </main>
       <Footer />
