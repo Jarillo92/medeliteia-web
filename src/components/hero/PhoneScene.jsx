@@ -1,28 +1,84 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { ContactShadows, Environment, Html, Lightformer, PerformanceMonitor, RoundedBox } from '@react-three/drei'
 import * as THREE from 'three'
-import { CalendarCheck2, Zap } from 'lucide-react'
-import ChatScreen, { SCREEN_HEIGHT, SCREEN_WIDTH } from './ChatScreen'
+import { Zap } from 'lucide-react'
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from './ChatScreen'
 import { useConversation } from './useConversation'
+import { useChatTexture } from './chatTexture'
 import { pointer, trackPointer } from './pointer'
 import { Globe } from './GlobeScene'
 
-// drei Html en modo transform: 1 px de HTML = DISTANCE_FACTOR / 400 unidades 3D
-const DISTANCE_FACTOR = 2;
-const PX = DISTANCE_FACTOR / 400;
-const SCREEN_W = SCREEN_WIDTH * PX;
-const SCREEN_H = SCREEN_HEIGHT * PX;
-const BODY_W = SCREEN_W + 0.13;
-const BODY_H = SCREEN_H + 0.13;
-const DEPTH = 0.17;
+// Proporciones de un smartphone actual (tipo iPhone 15: 71,6 × 147,6 × 7,8 mm)
+const SCREEN_W = 1.5;
+const SCREEN_H = SCREEN_W * (SCREEN_HEIGHT / SCREEN_WIDTH);
+const BEZEL = 0.055; // marco negro, igual en los cuatro lados
+const RIM = 0.02; // canto metálico que asoma por el frontal
+const BODY_W = SCREEN_W + BEZEL * 2;
+const BODY_H = SCREEN_H + BEZEL * 2;
+const CORNER = 0.25;
+const CORE_DEPTH = 0.11; // grosor total = CORE_DEPTH + 2 * RIM
+const FRONT_Z = CORE_DEPTH / 2 + RIM;
 
-function FloatingCard({ show, icon: Icon, title, detail, align = 'left' }) {
+// Giro máximo respecto a la posición de reposo (~9°)
+const MAX_TILT = 0.16;
+const REST = { x: 0.06, y: -0.14, z: 0.012 };
+
+function roundedRectShape(w, h, r) {
+  const s = new THREE.Shape();
+  const x = -w / 2;
+  const y = -h / 2;
+  s.moveTo(x + r, y);
+  s.lineTo(x + w - r, y);
+  s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h);
+  s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r);
+  s.quadraticCurveTo(x, y, x + r, y);
+  return s;
+}
+
+function useBodyGeometry() {
+  return useMemo(() => {
+    const g = new THREE.ExtrudeGeometry(roundedRectShape(BODY_W, BODY_H, CORNER), {
+      depth: CORE_DEPTH,
+      bevelEnabled: true,
+      bevelThickness: RIM,
+      bevelSize: RIM,
+      bevelSegments: 10,
+      curveSegments: 48,
+    });
+    g.translate(0, 0, -CORE_DEPTH / 2);
+    return g;
+  }, []);
+}
+
+function useScreenGeometry() {
+  return useMemo(() => {
+    const g = new THREE.ShapeGeometry(roundedRectShape(SCREEN_W, SCREEN_H, CORNER - BEZEL), 48);
+    // UV de 0 a 1 sobre el rectángulo de la pantalla, para que la textura encaje exacta
+    const pos = g.attributes.position;
+    const uv = g.attributes.uv;
+    for (let i = 0; i < pos.count; i++) {
+      uv.setXY(i, pos.getX(i) / SCREEN_W + 0.5, pos.getY(i) / SCREEN_H + 0.5);
+    }
+    return g;
+  }, []);
+}
+
+function FloatingCard({ icon: Icon, title, detail }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setShow(true), 700);
+    return () => clearTimeout(t);
+  }, []);
   return (
     <div
       className={`w-[236px] rounded-2xl border border-white/10 bg-[#0B1120]/90 p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_20px_40px_-12px_rgba(0,0,0,0.8)] backdrop-blur-md transition-[opacity,transform] duration-500 ${
-        align === 'left' ? 'origin-bottom-left' : 'origin-bottom-right'
-      } ${show ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-[0.96]'}`}
+        show ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
+      }`}
       style={{ transitionTimingFunction: 'cubic-bezier(0.23, 1, 0.32, 1)' }}
     >
       <div className="flex items-center gap-3">
@@ -38,67 +94,61 @@ function FloatingCard({ show, icon: Icon, title, detail, align = 'left' }) {
   );
 }
 
+const clamp = THREE.MathUtils.clamp;
+
 function Phone({ conversation, scrollProgress }) {
   const rig = useRef();
   const cards = useRef();
+  const body = useBodyGeometry();
+  const screen = useScreenGeometry();
+  const chat = useChatTexture(conversation);
+  // Grupo 0 de la extrusión: frontal y trasera; grupo 1: canto y bisel
+  const bodyMaterials = useMemo(() => [
+    new THREE.MeshPhysicalMaterial({ color: '#05070B', metalness: 0.2, roughness: 0.12, clearcoat: 1, clearcoatRoughness: 0.05 }),
+    new THREE.MeshPhysicalMaterial({ color: '#A3ACBD', metalness: 1, roughness: 0.26, clearcoat: 0.4 }),
+  ], []);
 
   useFrame((state, delta) => {
     const p = scrollProgress ? scrollProgress.get() : 0;
     const t = state.clock.elapsedTime;
     const damp = THREE.MathUtils.damp;
-    // El móvil sigue al ratón con retardo (sensación de muelle) y gira al hacer scroll
-    const targetRotY = -0.38 + pointer.x * 0.3 + p * 0.85;
-    const targetRotX = 0.08 - pointer.y * 0.16 + p * 0.3;
-    rig.current.rotation.y = damp(rig.current.rotation.y, targetRotY, 3, delta);
-    rig.current.rotation.x = damp(rig.current.rotation.x, targetRotX, 3, delta);
-    rig.current.rotation.z = damp(rig.current.rotation.z, 0.04 - pointer.x * 0.03, 3, delta);
-    rig.current.position.y = damp(rig.current.position.y, Math.sin(t * 0.8) * 0.05 + p * 0.7, 4, delta);
-    // Las tarjetas flotan en otra capa de profundidad: se mueven un poco menos (paralaje)
-    cards.current.rotation.y = damp(cards.current.rotation.y, targetRotY * 0.55, 2.5, delta);
-    cards.current.rotation.x = damp(cards.current.rotation.x, targetRotX * 0.55, 2.5, delta);
-    cards.current.position.y = damp(cards.current.position.y, Math.sin(t * 0.8 + 1.2) * 0.07 + p * 0.5, 3, delta);
+    // Giro contenido: ratón + scroll, nunca más de ~9° desde el reposo
+    const dy = clamp(pointer.x * 0.1 + p * 0.08, -MAX_TILT, MAX_TILT);
+    const dx = clamp(-pointer.y * 0.07 + p * 0.06, -MAX_TILT, MAX_TILT);
+    rig.current.rotation.y = damp(rig.current.rotation.y, REST.y + dy, 3, delta);
+    rig.current.rotation.x = damp(rig.current.rotation.x, REST.x + dx, 3, delta);
+    rig.current.rotation.z = REST.z;
+    rig.current.position.y = damp(rig.current.position.y, Math.sin(t * 0.8) * 0.04 + p * 0.6, 4, delta);
+    // La tarjeta flota en otra capa: se mueve algo menos (paralaje)
+    cards.current.position.x = damp(cards.current.position.x, pointer.x * 0.05, 2.5, delta);
+    cards.current.position.y = damp(cards.current.position.y, Math.sin(t * 0.8 + 1.2) * 0.06 + p * 0.45, 3, delta);
   });
 
   return (
     <>
-      <group ref={rig}>
-        {/* Marco metálico */}
-        <RoundedBox args={[BODY_W + 0.05, BODY_H + 0.05, DEPTH - 0.03]} radius={0.27} smoothness={8}>
-          <meshPhysicalMaterial color="#9AA3B5" metalness={1} roughness={0.28} clearcoat={0.5} />
+      <group ref={rig} rotation={[REST.x, REST.y, REST.z]}>
+        {/* Cuerpo: frontal y trasera de cristal negro, canto de titanio */}
+        <mesh geometry={body} material={bodyMaterials} />
+        {/* Botones laterales, casi enrasados */}
+        <RoundedBox args={[0.03, 0.44, 0.06]} radius={0.012} position={[BODY_W / 2 + RIM, 0.62, 0]}>
+          <meshStandardMaterial color="#9AA3B5" metalness={1} roughness={0.3} />
         </RoundedBox>
-        {/* Cuerpo lacado */}
-        <RoundedBox args={[BODY_W, BODY_H, DEPTH]} radius={0.25} smoothness={8}>
-          <meshPhysicalMaterial color="#0A0F1A" metalness={0.5} roughness={0.3} clearcoat={1} clearcoatRoughness={0.12} />
+        <RoundedBox args={[0.03, 0.26, 0.06]} radius={0.012} position={[-BODY_W / 2 - RIM, 0.82, 0]}>
+          <meshStandardMaterial color="#9AA3B5" metalness={1} roughness={0.3} />
         </RoundedBox>
-        {/* Botones laterales */}
-        <RoundedBox args={[0.035, 0.46, 0.07]} radius={0.015} position={[BODY_W / 2 + 0.02, 0.75, 0]}>
-          <meshStandardMaterial color="#8C95A8" metalness={1} roughness={0.3} />
-        </RoundedBox>
-        <RoundedBox args={[0.035, 0.26, 0.07]} radius={0.015} position={[-BODY_W / 2 - 0.02, 0.95, 0]}>
-          <meshStandardMaterial color="#8C95A8" metalness={1} roughness={0.3} />
-        </RoundedBox>
-        <RoundedBox args={[0.035, 0.26, 0.07]} radius={0.015} position={[-BODY_W / 2 - 0.02, 0.6, 0]}>
-          <meshStandardMaterial color="#8C95A8" metalness={1} roughness={0.3} />
+        <RoundedBox args={[0.03, 0.26, 0.06]} radius={0.012} position={[-BODY_W / 2 - RIM, 0.48, 0]}>
+          <meshStandardMaterial color="#9AA3B5" metalness={1} roughness={0.3} />
         </RoundedBox>
 
-        {/* Pantalla: la conversación real en HTML, encajada en el cristal */}
-        <Html
-          transform
-          distanceFactor={DISTANCE_FACTOR}
-          position={[0, 0, DEPTH / 2 + 0.004]}
-          pointerEvents="none"
-          zIndexRange={[20, 0]}
-        >
-          <ChatScreen {...conversation} />
-        </Html>
+        {/* Pantalla: el chat como textura sobre el propio modelo */}
+        <mesh geometry={screen} position={[0, 0, FRONT_Z + 0.001]}>
+          <meshBasicMaterial map={chat} toneMapped={false} />
+        </mesh>
       </group>
 
       <group ref={cards}>
-        <Html transform distanceFactor={DISTANCE_FACTOR} position={[-1.18, 1.42, 0.7]} pointerEvents="none" zIndexRange={[30, 21]}>
-          <FloatingCard show={conversation.visible >= 2} icon={Zap} title="Respondido en segundos" detail="19:42, fuera de horario" />
-        </Html>
-        <Html transform distanceFactor={DISTANCE_FACTOR} position={[1.12, -1.05, 0.9]} pointerEvents="none" zIndexRange={[30, 21]}>
-          <FloatingCard show={conversation.confirmed} icon={CalendarCheck2} title="Cita confirmada" detail="Revisión dental · mañana 18:00" align="right" />
+        <Html center position={[-1.66, 1.42, 0.4]} pointerEvents="none" zIndexRange={[30, 20]}>
+          <FloatingCard icon={Zap} title="Respondido en segundos" detail="19:42, fuera de horario" />
         </Html>
       </group>
     </>
@@ -114,7 +164,8 @@ function PhoneScene({ active = true, scrollProgress }) {
     <Canvas
       dpr={dpr}
       frameloop={active ? 'always' : 'never'}
-      camera={{ position: [0, 0, 7], fov: 32 }}
+      // Teleobjetivo: cámara lejos y campo de visión cerrado, sin deformación de gran angular
+      camera={{ position: [0, 0, 9.6], fov: 24 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: import.meta.env.DEV }}
       style={{ pointerEvents: 'none' }}
     >
@@ -137,13 +188,13 @@ function PhoneScene({ active = true, scrollProgress }) {
       </Environment>
 
       {/* Globo tenue y grande detrás: fondo luminoso, el protagonista sigue siendo el móvil */}
-      <group position={[0.1, 0.15, -4.6]} scale={1.6}>
+      <group position={[0.05, 0.15, -4.6]} scale={1.28}>
         <Globe lite dim={0.38} follow={0.4} scrollProgress={scrollProgress} />
       </group>
 
       <Phone conversation={conversation} scrollProgress={scrollProgress} />
 
-      <ContactShadows position={[0, -2.1, 0]} scale={[5, 3]} blur={2.8} opacity={0.6} far={3.5} resolution={256} color="#000000" />
+      <ContactShadows position={[0, -2.05, 0]} scale={[5, 3]} blur={2.8} opacity={0.55} far={3.5} resolution={256} color="#000000" />
     </Canvas>
   );
 }
