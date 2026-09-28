@@ -22,7 +22,7 @@ module.exports = {
   overrides: [
     {
       // Escenas de React Three Fiber: sus props (metalness, intensity...) son de Three.js, no del DOM
-      files: ['src/components/hero/*Scene.jsx'],
+      files: ['src/components/hero/*Scene.jsx', 'src/components/hero/Globe.jsx'],
       rules: { 'react/no-unknown-property': 'off' },
     },
   ],

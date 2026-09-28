@@ -7,7 +7,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from './ChatScreen'
 import { useConversation } from './useConversation'
 import { useChatTexture } from './chatTexture'
 import { pointer, trackPointer } from './pointer'
-import { Globe } from './GlobeScene'
+import { Globe } from './Globe'
 
 // Proporciones de un smartphone actual (tipo iPhone 15: 71,6 × 147,6 × 7,8 mm)
 const SCREEN_W = 1.5;

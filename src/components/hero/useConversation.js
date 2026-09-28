@@ -15,7 +15,8 @@ const TIMELINE = [
   { at: 2300, visible: 4 },
   { at: 3100, confirmed: true },
 ];
-const LOOP_MS = 8500;
+// La tarjeta de cita confirmada se queda ~9 s en pantalla antes de volver a empezar
+const LOOP_MS = 12000;
 
 const FINAL_STATE = { visible: MESSAGES.length, typing: false, confirmed: true };
 const INITIAL_STATE = { visible: START_VISIBLE, typing: false, confirmed: false };

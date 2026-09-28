@@ -5,18 +5,11 @@ import { ASSISTANT_LIVE, ASSISTANT_URL, DEMO_HREF, DEMO_LABEL, WHATSAPP_URL } fr
 import PhoneFallback from './hero/PhoneFallback'
 import { useDeviceTier, useIdleMount } from './hero/useDeviceTier'
 
-// Las escenas 3D se cargan aparte: el texto y el botón no esperan a Three.js
+// La escena 3D se carga aparte: el texto y el botón no esperan a Three.js
 const PhoneScene = lazy(() => import('./hero/PhoneScene'))
-const GlobeScene = lazy(() => import('./hero/GlobeScene'))
 
-function getVariant() {
-  if (typeof window === 'undefined') return { variant: 'a', isPrototype: false };
-  const param = new URLSearchParams(window.location.search).get('hero');
-  return { variant: param === 'b' ? 'b' : 'a', isPrototype: param !== null };
-}
-
-// Globo en CSS: respaldo sin WebGL y marcador mientras carga la escena
-function StaticGlobe({ className = 'w-[min(78vw,420px)]' }) {
+// Globo en CSS detrás del móvil en la versión ligera
+function StaticGlobe({ className }) {
   return (
     <div className={`relative aspect-square ${className}`} aria-hidden="true">
       <div className="absolute inset-[-8%] rounded-full bg-[radial-gradient(closest-side,rgba(47,107,255,0.28),transparent)] blur-2xl" />
@@ -31,93 +24,42 @@ function StaticGlobe({ className = 'w-[min(78vw,420px)]' }) {
   );
 }
 
-function PrototypeSwitcher({ variant }) {
-  const options = [
-    { id: 'a', label: 'A · Móvil 3D' },
-    { id: 'b', label: 'B · Globo 3D' },
-  ];
-  return (
-    <div className="fixed bottom-24 left-3 z-[55] flex items-center gap-1 rounded-full border border-white/10 bg-surface/90 p-1 text-[12px] shadow-lift backdrop-blur-md md:bottom-5 md:left-5 md:text-[13px]">
-      <span className="hidden px-2.5 text-subtle sm:inline">Prototipo</span>
-      {options.map((opt) => (
-        <a
-          key={opt.id}
-          href={`?hero=${opt.id}`}
-          className={`whitespace-nowrap rounded-full px-3 py-1.5 font-semibold transition-colors duration-200 ${
-            variant === opt.id ? 'bg-accent-solid text-white' : 'text-muted hover:text-ink'
-          }`}
-          aria-current={variant === opt.id ? 'true' : undefined}
-        >
-          {opt.label}
-        </a>
-      ))}
-    </div>
-  );
-}
-
-function HeroStage({ variant, scrollProgress }) {
+function HeroStage({ scrollProgress }) {
   const stageRef = useRef(null);
   const inView = useInView(stageRef, { margin: '0px 0px -15% 0px' });
   const tier = useDeviceTier();
   const idle = useIdleMount();
 
-  let content;
-  if (variant === 'a') {
-    const use3D = tier.webgl && tier.desktop && !tier.reducedMotion;
-    const fallback = (
-      <div className="relative flex h-full items-center justify-center">
-        {/* Versión ligera: globo tenue detrás del móvil, como en la escena 3D */}
-        {!use3D && (
-          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40">
-            <StaticGlobe className="w-[min(125vw,560px)]" />
-          </div>
-        )}
-        <PhoneFallback width={tier.desktop ? 300 : Math.min(272, (typeof window !== 'undefined' ? window.innerWidth : 375) - 56)} playing={inView} reducedMotion={tier.reducedMotion} />
-      </div>
-    );
-    content = use3D && idle ? (
-      <Suspense fallback={fallback}>
-        <div className="fade-in absolute inset-y-0 -inset-x-[22%]">
-          <PhoneScene active={inView} scrollProgress={scrollProgress} />
+  const use3D = tier.webgl && tier.desktop && !tier.reducedMotion;
+  const fallback = (
+    <div className="relative flex h-full items-center justify-center">
+      {/* Versión ligera: globo tenue detrás del móvil, como en la escena 3D */}
+      {!use3D && (
+        <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40">
+          <StaticGlobe className="w-[min(125vw,560px)]" />
         </div>
-      </Suspense>
-    ) : (
-      fallback
-    );
-  } else {
-    const fallback = (
-      <div className="flex h-full items-center justify-center">
-        <StaticGlobe />
+      )}
+      <PhoneFallback width={tier.desktop ? 300 : Math.min(272, (typeof window !== 'undefined' ? window.innerWidth : 375) - 56)} playing={inView} reducedMotion={tier.reducedMotion} />
+    </div>
+  );
+  const content = use3D && idle ? (
+    <Suspense fallback={fallback}>
+      <div className="fade-in absolute inset-y-0 -inset-x-[22%]">
+        <PhoneScene active={inView} scrollProgress={scrollProgress} />
       </div>
-    );
-    content = tier.webgl && idle ? (
-      <Suspense fallback={fallback}>
-        <div className="fade-in absolute inset-0">
-          <GlobeScene
-            active={inView}
-            lite={!tier.desktop || tier.lowPower}
-            reducedMotion={tier.reducedMotion}
-            scrollProgress={scrollProgress}
-          />
-        </div>
-      </Suspense>
-    ) : (
-      fallback
-    );
-  }
-
-  const heightClass = variant === 'a' ? 'h-[600px] lg:h-[680px]' : 'h-[380px] sm:h-[480px] lg:h-[620px]';
+    </Suspense>
+  ) : (
+    fallback
+  );
 
   return (
-    <div ref={stageRef} className={`relative ${heightClass}`}>
+    <div ref={stageRef} className="relative h-[600px] lg:h-[680px]">
       {/* Halo azul detrás del móvil: lo separa del fondo */}
-      {variant === 'a' && (
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ background: 'radial-gradient(closest-side, rgba(47,107,255,0.42), rgba(47,107,255,0.14) 55%, transparent)', filter: 'blur(28px)' }}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: 'radial-gradient(closest-side, rgba(47,107,255,0.42), rgba(47,107,255,0.14) 55%, transparent)', filter: 'blur(28px)' }}
+        aria-hidden="true"
+      />
       {/* Suelo: una línea de luz que asienta el objeto */}
       <div className="pointer-events-none absolute inset-x-[12%] bottom-[6%] h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-x-[25%] bottom-[3%] h-10 rounded-[100%] bg-accent-solid/20 blur-2xl" aria-hidden="true" />
@@ -129,7 +71,6 @@ function HeroStage({ variant, scrollProgress }) {
 function Hero() {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-  const { variant, isPrototype } = getVariant();
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-20">
@@ -154,7 +95,7 @@ function Hero() {
               <span className="text-accent-bright">llena de citas confirmadas</span>
             </h1>
 
-            <p className="rise-in mt-6 max-w-[34rem] text-lg sm:text-xl leading-relaxed text-muted" style={{ animationDelay: '70ms' }}>
+            <p className="rise-in mt-6 max-w-[37rem] text-lg sm:text-xl leading-relaxed text-muted" style={{ animationDelay: '70ms', textWrap: 'balance' }}>
               Un asistente de IA en WhatsApp contesta a tus pacientes al momento, les da cita en tu agenda y les recuerda que vengan.
             </p>
 
@@ -184,13 +125,12 @@ function Hero() {
           </div>
 
           <div className="lg:col-span-6">
-            <HeroStage variant={variant} scrollProgress={scrollYProgress} />
+            <HeroStage scrollProgress={scrollYProgress} />
           </div>
 
         </div>
       </div>
 
-      {isPrototype && <PrototypeSwitcher variant={variant} />}
     </section>
   )
 }

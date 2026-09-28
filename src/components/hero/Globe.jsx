@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Line, PerformanceMonitor } from '@react-three/drei'
+import { useMemo, useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
+import { Line } from '@react-three/drei'
 import * as THREE from 'three'
-import { pointer, trackPointer } from './pointer'
+import { pointer } from './pointer'
 
 const R = 1.55;
 // Giro que deja a España (origen de las conexiones) mirando a cámara, algo desplazada a la derecha
@@ -244,23 +244,3 @@ export function Globe({ lite, reducedMotion, scrollProgress, dim = 1, follow = 1
   );
 }
 
-function GlobeScene({ active = true, lite = false, reducedMotion = false, scrollProgress }) {
-  const [dpr, setDpr] = useState(lite ? 1.25 : 1.75);
-  useEffect(() => trackPointer(), []);
-
-  return (
-    <Canvas
-      dpr={dpr}
-      // Con movimiento reducido se dibuja una sola vez, sin animación continua
-      frameloop={!active ? 'never' : reducedMotion ? 'demand' : 'always'}
-      camera={{ position: [0, 0, 6.6], fov: 38 }}
-      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', preserveDrawingBuffer: import.meta.env.DEV }}
-      style={{ pointerEvents: 'none' }}
-    >
-      <PerformanceMonitor onDecline={() => setDpr(1)} />
-      <Globe lite={lite} reducedMotion={reducedMotion} scrollProgress={scrollProgress} />
-    </Canvas>
-  );
-}
-
-export default GlobeScene
