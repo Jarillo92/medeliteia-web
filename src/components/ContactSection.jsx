@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Check, Mail, Phone } from 'lucide-react'
+import { WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../config'
+import SectionHeader from './ui/SectionHeader'
+import { Reveal } from './ui/Reveal'
 
 function BookingCalendar() {
   const [iframeHeight, setIframeHeight] = useState(900);
@@ -25,85 +28,87 @@ function BookingCalendar() {
   }, []);
 
   return (
-    <div className="glass-card rounded-2xl p-2 sm:p-4 border border-white/5 overflow-hidden">
+    <div className="panel overflow-hidden p-2 sm:p-4">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
         style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
         scrolling="no"
         id="ZFBJGeef7qz5jyRrEyYa_1784279743535"
-        title="Reserva tu Análisis Inicial"
+        title="Reserva tu demo gratuita"
       />
     </div>
   );
 }
 
+const DEMO_POINTS = [
+  '30 minutos, sin compromiso',
+  'Ves el asistente funcionando con casos de tu sector',
+  'Te damos el precio exacto para tu negocio',
+];
+
 function ContactSection() {
   return (
-    <section id="contacto" className="relative py-24 z-20 bg-brand-dark/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Left Column: Direct Info */}
-          <div className="lg:col-span-5 space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cobalt/20 border border-brand-electric/30 text-brand-accent text-xs font-semibold">
-              <span>Contacto Directo</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-white leading-tight">
-              Reserva tu Análisis Inicial
-            </h2>
-            <p className="text-brand-silver font-light leading-relaxed">
-              Elige el hueco que mejor te venga en el calendario y cuéntanos brevemente tu situación. Si lo prefieres, puedes escribirnos o llamarnos directamente por WhatsApp.
-            </p>
+    <section id="contacto" className="relative py-20 md:py-28">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
+        style={{ background: 'radial-gradient(45% 60% at 70% 30%, rgba(47,107,255,0.10), transparent 70%)' }}
+        aria-hidden="true"
+      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-            <div className="border-t border-white/5 pt-8 space-y-6">
-              
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <SectionHeader
+              eyebrow="Demo gratuita"
+              title="Reserva tu demo"
+              accent="y mira el asistente funcionando"
+              lead="Elige día y hora en el calendario. Si lo prefieres, escríbenos o llámanos por WhatsApp."
+            />
+
+            <Reveal as="ul" delay={0.12} className="mt-8 space-y-3">
+              {DEMO_POINTS.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-[16px] text-ink-soft">
+                  <Check className="mt-1 h-4 w-4 flex-shrink-0 text-accent" aria-hidden="true" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </Reveal>
+
+            <Reveal as="dl" delay={0.16} className="mt-10 space-y-4 border-t border-white/[0.07] pt-8">
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <Phone className="w-5 h-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent-bright shadow-[inset_0_0_0_1px_rgba(91,140,255,0.22)]">
+                  <Phone className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">WhatsApp / Teléfono</div>
-                  <a href="https://wa.me/34694262425" className="text-base font-semibold text-white hover:text-brand-accent transition-colors duration-200">
-                    +34 694 26 24 25
-                  </a>
+                  <dt className="text-sm text-subtle">WhatsApp y teléfono</dt>
+                  <dd>
+                    <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
+                      {WHATSAPP_NUMBER_LABEL}
+                    </a>
+                  </dd>
                 </div>
               </div>
-
               <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <Mail className="w-5 h-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent-bright shadow-[inset_0_0_0_1px_rgba(91,140,255,0.22)]">
+                  <Mail className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">Correo Electrónico</div>
-                  <a href="mailto:medeliteia@gmail.com" className="text-base font-semibold text-white hover:text-brand-accent transition-colors duration-200">
-                    medeliteia@gmail.com
-                  </a>
+                  <dt className="text-sm text-subtle">Correo electrónico</dt>
+                  <dd>
+                    <a href="mailto:medeliteia@gmail.com" className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
+                      medeliteia@gmail.com
+                    </a>
+                  </dd>
                 </div>
               </div>
-
-              <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-brand-accent">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <div>
-                  <div className="text-[10px] text-brand-silver uppercase tracking-wider">Ubicación</div>
-                  <div className="text-base font-semibold text-white">
-                    España
-                  </div>
-                </div>
-              </div>
-
-            </div>
+            </Reveal>
           </div>
 
-          {/* Right Column: Booking Calendar */}
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7" delay={0.08}>
             <BookingCalendar />
-          </div>
+          </Reveal>
 
         </div>
-
       </div>
     </section>
   )
