@@ -4,15 +4,17 @@ function Footer() {
   const currentYear = new Date().getFullYear();
 
   const links = [
-    { name: 'Soluciones', href: '#soluciones' },
+    { name: 'Cómo funciona', href: '#como-funciona' },
     { name: 'Sectores', href: '#sectores' },
+    { name: 'Webs a medida', href: '#webs' },
     { name: 'Proceso', href: '#proceso' },
     { name: 'Inversión', href: '#inversion' },
-    { name: 'Contacto', href: '#contacto' },
+    { name: 'Preguntas frecuentes', href: '#preguntas' },
+    { name: 'Reservar demo', href: '#contacto' },
   ];
 
   return (
-    <footer className="relative border-t border-line bg-surface pt-16 pb-8">
+    <footer className="relative border-t border-white/[0.06] bg-[#04060A] pt-16 pb-28 lg:pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-line">
@@ -28,7 +30,7 @@ function Footer() {
               className="h-10 w-auto"
             />
             <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-muted">
-              Agencia española pionera en sistemas de automatización con Inteligencia Artificial. Diseñamos e implementamos agentes de WhatsApp inteligentes y páginas web premium para llenar la agenda de clínicas privadas.
+              Agencia española de automatización con IA. Asistentes en WhatsApp que atienden, dan cita y recuerdan, y webs a medida pensadas para reservar. Especialistas en clínicas dentales, veterinarias y de estética.
             </p>
             <div className="mt-6 flex items-center gap-3">
               <a
@@ -117,7 +119,7 @@ function Footer() {
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-line text-sm text-muted">
           <div>&copy; {currentYear} MedElite IA. Todos los derechos reservados.</div>
-          <div>Desarrollado en España con pasión por el crecimiento clínico</div>
+          <div>Hecho en España</div>
         </div>
 
       </div>
