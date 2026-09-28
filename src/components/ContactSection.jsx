@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Check, Mail, Phone } from 'lucide-react'
+import { WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../config'
+import SectionHeader from './ui/SectionHeader'
+import { Reveal } from './ui/Reveal'
 
 function BookingCalendar() {
   const [iframeHeight, setIframeHeight] = useState(900);
@@ -25,82 +28,87 @@ function BookingCalendar() {
   }, []);
 
   return (
-    <div className="rounded-2xl border border-line bg-surface p-2 sm:p-4 shadow-soft overflow-hidden">
+    <div className="panel overflow-hidden p-2 sm:p-4">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
         style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
         scrolling="no"
         id="ZFBJGeef7qz5jyRrEyYa_1784279743535"
-        title="Reserva tu Análisis Inicial"
+        title="Reserva tu demo gratuita"
       />
     </div>
   );
 }
 
+const DEMO_POINTS = [
+  '30 minutos, sin compromiso',
+  'Ves el asistente funcionando con casos de tu sector',
+  'Te damos el precio exacto para tu negocio',
+];
+
 function ContactSection() {
   return (
     <section id="contacto" className="relative py-20 md:py-28">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
+        style={{ background: 'radial-gradient(45% 60% at 70% 30%, rgba(47,107,255,0.10), transparent 70%)' }}
+        aria-hidden="true"
+      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-          {/* Datos de contacto directo */}
-          <div className="lg:col-span-5">
-            <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
-              Reserva tu demo gratuita
-            </h2>
-            <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
-              Elige día y hora. En 30 minutos te enseñamos el asistente funcionando con casos de tu sector y resolvemos tus dudas. Si lo prefieres, escríbenos o llámanos por WhatsApp.
-            </p>
+          <div className="lg:col-span-5 lg:sticky lg:top-28">
+            <SectionHeader
+              eyebrow="Demo gratuita"
+              title="Reserva tu demo"
+              accent="y mira el asistente funcionando"
+              lead="Elige día y hora en el calendario. Si lo prefieres, escríbenos o llámanos por WhatsApp."
+            />
 
-            <dl className="mt-8 space-y-5 border-t border-line pt-8">
+            <Reveal as="ul" delay={0.12} className="mt-8 space-y-3">
+              {DEMO_POINTS.map((point) => (
+                <li key={point} className="flex items-start gap-3 text-[16px] text-ink-soft">
+                  <Check className="mt-1 h-4 w-4 flex-shrink-0 text-accent" aria-hidden="true" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </Reveal>
+
+            <Reveal as="dl" delay={0.16} className="mt-10 space-y-4 border-t border-white/[0.07] pt-8">
               <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                  <Phone className="h-5 w-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent-bright shadow-[inset_0_0_0_1px_rgba(91,140,255,0.22)]">
+                  <Phone className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <dt className="text-sm text-muted">WhatsApp y teléfono</dt>
+                  <dt className="text-sm text-subtle">WhatsApp y teléfono</dt>
                   <dd>
-                    <a href="https://wa.me/34694262425" className="inline-block py-2 text-lg font-semibold text-ink hover:text-accent transition-colors duration-200">
-                      +34 694 26 24 25
+                    <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
+                      {WHATSAPP_NUMBER_LABEL}
                     </a>
                   </dd>
                 </div>
               </div>
-
               <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                  <Mail className="h-5 w-5" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent-bright shadow-[inset_0_0_0_1px_rgba(91,140,255,0.22)]">
+                  <Mail className="h-5 w-5" aria-hidden="true" />
                 </div>
                 <div>
-                  <dt className="text-sm text-muted">Correo electrónico</dt>
+                  <dt className="text-sm text-subtle">Correo electrónico</dt>
                   <dd>
-                    <a href="mailto:medeliteia@gmail.com" className="inline-block py-2 text-lg font-semibold text-ink hover:text-accent transition-colors duration-200">
+                    <a href="mailto:medeliteia@gmail.com" className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
                       medeliteia@gmail.com
                     </a>
                   </dd>
                 </div>
               </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent">
-                  <MapPin className="h-5 w-5" />
-                </div>
-                <div>
-                  <dt className="text-sm text-muted">Ubicación</dt>
-                  <dd className="text-lg font-semibold text-ink">España</dd>
-                </div>
-              </div>
-            </dl>
+            </Reveal>
           </div>
 
-          {/* Right Column: Booking Calendar */}
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7" delay={0.08}>
             <BookingCalendar />
-          </div>
+          </Reveal>
 
         </div>
-
       </div>
     </section>
   )
