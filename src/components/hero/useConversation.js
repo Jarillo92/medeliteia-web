@@ -7,20 +7,18 @@ export const MESSAGES = [
   { from: 'agent', text: 'Listo, te la dejo reservada. Te enviaré un recordatorio unas horas antes.', time: '19:43' },
 ];
 
-// Momentos (ms) en los que avanza la conversación; al final vuelve a empezar
+// La conversación arranca con 3 mensajes ya en pantalla (nunca se ve vacía).
+// Momentos (ms) en los que avanza; al final vuelve a ese punto de partida.
+const START_VISIBLE = 3;
 const TIMELINE = [
-  { at: 500, visible: 1 },
-  { at: 1300, typing: true },
-  { at: 2600, visible: 2 },
-  { at: 4200, visible: 3 },
-  { at: 5000, typing: true },
-  { at: 6300, visible: 4 },
-  { at: 7100, confirmed: true },
+  { at: 900, typing: true },
+  { at: 2300, visible: 4 },
+  { at: 3100, confirmed: true },
 ];
-const LOOP_MS = 11500;
+const LOOP_MS = 8500;
 
 const FINAL_STATE = { visible: MESSAGES.length, typing: false, confirmed: true };
-const INITIAL_STATE = { visible: 0, typing: false, confirmed: false };
+const INITIAL_STATE = { visible: START_VISIBLE, typing: false, confirmed: false };
 
 /**
  * Estado de la conversación de demostración.
