@@ -65,8 +65,8 @@ function useGridGeometry() {
   }, []);
 }
 
-const coreMaterial = new THREE.ShaderMaterial({
-  uniforms: {},
+const coreMaterial = () => new THREE.ShaderMaterial({
+  uniforms: { uDim: { value: 1 } },
   vertexShader: /* glsl */ `
     varying vec3 vNormal;
     varying vec3 vView;
@@ -78,6 +78,7 @@ const coreMaterial = new THREE.ShaderMaterial({
     }
   `,
   fragmentShader: /* glsl */ `
+    uniform float uDim;
     varying vec3 vNormal;
     varying vec3 vView;
     void main() {
@@ -86,12 +87,13 @@ const coreMaterial = new THREE.ShaderMaterial({
       float key = max(dot(vNormal, normalize(vec3(-0.5, 0.8, 0.6))), 0.0);
       vec3 base = vec3(0.015, 0.035, 0.09) + vec3(0.03, 0.08, 0.22) * key;
       vec3 rim = vec3(0.23, 0.48, 1.0);
-      gl_FragColor = vec4(base + rim * fres * 0.9, 1.0);
+      gl_FragColor = vec4(base * mix(0.6, 1.0, uDim) + rim * fres * 0.9 * uDim, 1.0);
     }
   `,
 });
 
-const atmosphereMaterial = new THREE.ShaderMaterial({
+const atmosphereMaterial = () => new THREE.ShaderMaterial({
+  uniforms: { uDim: { value: 1 } },
   vertexShader: /* glsl */ `
     varying vec3 vNormal;
     void main() {
@@ -100,10 +102,11 @@ const atmosphereMaterial = new THREE.ShaderMaterial({
     }
   `,
   fragmentShader: /* glsl */ `
+    uniform float uDim;
     varying vec3 vNormal;
     void main() {
       float intensity = pow(0.68 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.2);
-      gl_FragColor = vec4(0.25, 0.5, 1.0, 1.0) * intensity;
+      gl_FragColor = vec4(0.25, 0.5, 1.0, 1.0) * intensity * uDim;
     }
   `,
   blending: THREE.AdditiveBlending,
@@ -112,7 +115,7 @@ const atmosphereMaterial = new THREE.ShaderMaterial({
   depthWrite: false,
 });
 
-function Arc({ start, end, speed, delay, color = '#9CBBFF' }) {
+function Arc({ start, end, speed, delay, dim = 1, color = '#9CBBFF' }) {
   const lineRef = useRef();
   const pulseRef = useRef();
   const points = useMemo(() => {
@@ -129,13 +132,13 @@ function Arc({ start, end, speed, delay, color = '#9CBBFF' }) {
     if (pulseRef.current) {
       const hit = Math.max(0, 1 - Math.abs(t - 0.52) * 6);
       pulseRef.current.scale.setScalar(0.6 + hit * 1.8);
-      pulseRef.current.material.opacity = 0.25 + hit * 0.75;
+      pulseRef.current.material.opacity = (0.25 + hit * 0.75) * dim;
     }
   });
 
   return (
     <group>
-      <Line points={points} color="#4F7DFF" lineWidth={1.2} transparent opacity={0.4} />
+      <Line points={points} color="#4F7DFF" lineWidth={1.2} transparent opacity={0.4 * dim} />
       <Line
         ref={lineRef}
         points={points}
@@ -146,7 +149,7 @@ function Arc({ start, end, speed, delay, color = '#9CBBFF' }) {
         gapSize={1.74}
         dashScale={1}
         transparent
-        opacity={0.95}
+        opacity={0.95 * dim}
       />
       <mesh ref={pulseRef} position={end}>
         <sphereGeometry args={[0.022, 12, 12]} />
@@ -156,11 +159,16 @@ function Arc({ start, end, speed, delay, color = '#9CBBFF' }) {
   );
 }
 
-function Globe({ lite, reducedMotion, scrollProgress }) {
+// dim < 1: versión tenue para usarla como fondo luminoso detrás del móvil
+export function Globe({ lite, reducedMotion, scrollProgress, dim = 1, follow = 1 }) {
   const rig = useRef();
   const spin = useRef();
   const ringDot = useRef();
   const grid = useGridGeometry();
+  const core = useMemo(coreMaterial, []);
+  const atmosphere = useMemo(atmosphereMaterial, []);
+  core.uniforms.uDim.value = dim;
+  atmosphere.uniforms.uDim.value = dim;
   const dots = useMemo(() => fibonacciSphere(lite ? 700 : 1800, R * 1.006), [lite]);
 
   const arcs = useMemo(() => {
@@ -186,11 +194,11 @@ function Globe({ lite, reducedMotion, scrollProgress }) {
     const p = scrollProgress ? scrollProgress.get() : 0;
     const damp = THREE.MathUtils.damp;
     if (!reducedMotion) spin.current.rotation.y = SPAIN_FACING + Math.sin(state.clock.elapsedTime * 0.12) * 0.55;
-    rig.current.rotation.x = damp(rig.current.rotation.x, 0.28 - pointer.y * 0.18 + p * 0.35, 2.5, delta);
-    rig.current.rotation.y = damp(rig.current.rotation.y, -0.5 + pointer.x * 0.35 + p * 0.6, 2.5, delta);
-    const s = damp(rig.current.scale.x, 1 - p * 0.12, 3, delta);
+    rig.current.rotation.x = damp(rig.current.rotation.x, 0.28 - pointer.y * 0.18 * follow + p * 0.35 * follow, 2.5, delta);
+    rig.current.rotation.y = damp(rig.current.rotation.y, -0.5 + pointer.x * 0.35 * follow + p * 0.6 * follow, 2.5, delta);
+    const s = damp(rig.current.scale.x, 1 - p * 0.12 * follow, 3, delta);
     rig.current.scale.setScalar(s);
-    rig.current.position.y = damp(rig.current.position.y, p * 0.5, 3, delta);
+    rig.current.position.y = damp(rig.current.position.y, p * 0.5 * follow, 3, delta);
     if (ringDot.current && !reducedMotion) {
       const a = state.clock.elapsedTime * 0.35;
       ringDot.current.position.set(Math.cos(a) * R * 1.27, Math.sin(a) * R * 1.27, 0);
@@ -200,24 +208,24 @@ function Globe({ lite, reducedMotion, scrollProgress }) {
   return (
     <group ref={rig}>
       <group ref={spin} rotation={[0, SPAIN_FACING, 0]}>
-        <mesh material={coreMaterial}>
+        <mesh material={core}>
           <sphereGeometry args={[R, 96, 96]} />
         </mesh>
         <lineSegments geometry={grid}>
-          <lineBasicMaterial color="#3B6DFF" transparent opacity={0.16} depthWrite={false} />
+          <lineBasicMaterial color="#3B6DFF" transparent opacity={0.16 * Math.max(dim, 0.6)} depthWrite={false} />
         </lineSegments>
         <points>
           <bufferGeometry>
             <bufferAttribute attach="attributes-position" count={dots.length / 3} array={dots} itemSize={3} />
           </bufferGeometry>
-          <pointsMaterial color="#8FB3FF" size={0.016} sizeAttenuation transparent opacity={0.75} depthWrite={false} />
+          <pointsMaterial color="#8FB3FF" size={0.016} sizeAttenuation transparent opacity={0.75 * dim} depthWrite={false} />
         </points>
         {arcs.map((arc, i) => (
-          <Arc key={i} {...arc} />
+          <Arc key={i} {...arc} dim={dim} />
         ))}
       </group>
 
-      <mesh material={atmosphereMaterial} scale={1.16}>
+      <mesh material={atmosphere} scale={1.16}>
         <sphereGeometry args={[R, 64, 64]} />
       </mesh>
 
@@ -225,11 +233,11 @@ function Globe({ lite, reducedMotion, scrollProgress }) {
       <group rotation={[1.25, 0.18, -0.42]}>
         <mesh>
           <torusGeometry args={[R * 1.27, 0.004, 8, 200]} />
-          <meshBasicMaterial color="#9CBBFF" transparent opacity={0.45} blending={THREE.AdditiveBlending} depthWrite={false} />
+          <meshBasicMaterial color="#9CBBFF" transparent opacity={0.45 * dim} blending={THREE.AdditiveBlending} depthWrite={false} />
         </mesh>
         <mesh ref={ringDot} position={[R * 1.27, 0, 0]}>
           <sphereGeometry args={[0.035, 16, 16]} />
-          <meshBasicMaterial color="#E4EDFF" />
+          <meshBasicMaterial color="#E4EDFF" transparent opacity={Math.min(1, dim * 1.4)} />
         </mesh>
       </group>
     </group>

@@ -16,9 +16,9 @@ function getVariant() {
 }
 
 // Globo en CSS: respaldo sin WebGL y marcador mientras carga la escena
-function StaticGlobe() {
+function StaticGlobe({ className = 'w-[min(78vw,420px)]' }) {
   return (
-    <div className="relative aspect-square w-[min(78vw,420px)]" aria-hidden="true">
+    <div className={`relative aspect-square ${className}`} aria-hidden="true">
       <div className="absolute inset-[-8%] rounded-full bg-[radial-gradient(closest-side,rgba(47,107,255,0.28),transparent)] blur-2xl" />
       <div
         className="absolute inset-0 rounded-full shadow-[inset_-18px_-24px_60px_rgba(0,0,0,0.85),inset_10px_14px_40px_rgba(91,140,255,0.25),0_0_60px_rgba(47,107,255,0.25)]"
@@ -65,13 +65,19 @@ function HeroStage({ variant, scrollProgress }) {
   if (variant === 'a') {
     const use3D = tier.webgl && tier.desktop && !tier.reducedMotion;
     const fallback = (
-      <div className="flex h-full items-center justify-center">
+      <div className="relative flex h-full items-center justify-center">
+        {/* Versión ligera: globo tenue detrás del móvil, como en la escena 3D */}
+        {!use3D && (
+          <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40">
+            <StaticGlobe className="w-[min(125vw,560px)]" />
+          </div>
+        )}
         <PhoneFallback width={tier.desktop ? 300 : Math.min(272, (typeof window !== 'undefined' ? window.innerWidth : 375) - 56)} playing={inView} reducedMotion={tier.reducedMotion} />
       </div>
     );
     content = use3D && idle ? (
       <Suspense fallback={fallback}>
-        <div className="fade-in absolute inset-0">
+        <div className="fade-in absolute inset-y-0 -inset-x-[22%]">
           <PhoneScene active={inView} scrollProgress={scrollProgress} />
         </div>
       </Suspense>
@@ -104,6 +110,14 @@ function HeroStage({ variant, scrollProgress }) {
 
   return (
     <div ref={stageRef} className={`relative ${heightClass}`}>
+      {/* Halo azul detrás del móvil: lo separa del fondo */}
+      {variant === 'a' && (
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[78%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{ background: 'radial-gradient(closest-side, rgba(47,107,255,0.42), rgba(47,107,255,0.14) 55%, transparent)', filter: 'blur(28px)' }}
+          aria-hidden="true"
+        />
+      )}
       {/* Suelo: una línea de luz que asienta el objeto */}
       <div className="pointer-events-none absolute inset-x-[12%] bottom-[6%] h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent" aria-hidden="true" />
       <div className="pointer-events-none absolute inset-x-[25%] bottom-[3%] h-10 rounded-[100%] bg-accent-solid/20 blur-2xl" aria-hidden="true" />

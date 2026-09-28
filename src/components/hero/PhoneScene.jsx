@@ -6,6 +6,7 @@ import { CalendarCheck2, Zap } from 'lucide-react'
 import ChatScreen, { SCREEN_HEIGHT, SCREEN_WIDTH } from './ChatScreen'
 import { useConversation } from './useConversation'
 import { pointer, trackPointer } from './pointer'
+import { Globe } from './GlobeScene'
 
 // drei Html en modo transform: 1 px de HTML = DISTANCE_FACTOR / 400 unidades 3D
 const DISTANCE_FACTOR = 2;
@@ -123,19 +124,26 @@ function PhoneScene({ active = true, scrollProgress }) {
       <ambientLight intensity={0.2} />
       <directionalLight position={[3, 4, 5]} intensity={1.1} />
       {/* Luz azul de contorno por detrás: separa el móvil del fondo */}
-      <pointLight position={[-2.6, 1.2, -1.6]} color="#2F6BFF" intensity={28} distance={9} />
-      <pointLight position={[2.4, -1.5, -1.2]} color="#7FA8FF" intensity={10} distance={7} />
+      <pointLight position={[-2.6, 1.2, -1.6]} color="#2F6BFF" intensity={48} distance={9} />
+      <pointLight position={[2.4, -1.5, -1.2]} color="#7FA8FF" intensity={22} distance={7} />
+      <pointLight position={[0, 2.8, -1.4]} color="#5B8CFF" intensity={18} distance={6} />
 
       {/* Reflejos generados en la propia escena (sin descargar mapas de entorno) */}
       <Environment resolution={256} frames={1}>
         <Lightformer form="rect" intensity={2.5} position={[0, 4, 3]} scale={[8, 2, 1]} target={[0, 0, 0]} />
-        <Lightformer form="rect" color="#3B6DFF" intensity={5} position={[-4, 0, 1]} scale={[1.5, 7, 1]} target={[0, 0, 0]} />
+        <Lightformer form="rect" color="#3B6DFF" intensity={9} position={[-4, 0, 1]} scale={[1.5, 7, 1]} target={[0, 0, 0]} />
+        <Lightformer form="rect" color="#6F9BFF" intensity={4} position={[4, 1, -1]} scale={[1, 6, 1]} target={[0, 0, 0]} />
         <Lightformer form="rect" intensity={1.4} position={[4, -1, 2]} scale={[1.5, 6, 1]} target={[0, 0, 0]} />
       </Environment>
 
+      {/* Globo tenue y grande detrás: fondo luminoso, el protagonista sigue siendo el móvil */}
+      <group position={[0.1, 0.15, -4.6]} scale={1.6}>
+        <Globe lite dim={0.38} follow={0.4} scrollProgress={scrollProgress} />
+      </group>
+
       <Phone conversation={conversation} scrollProgress={scrollProgress} />
 
-      <ContactShadows position={[0, -2.1, 0]} scale={7} blur={2.8} opacity={0.6} far={3.5} resolution={256} color="#000000" />
+      <ContactShadows position={[0, -2.1, 0]} scale={[5, 3]} blur={2.8} opacity={0.6} far={3.5} resolution={256} color="#000000" />
     </Canvas>
   );
 }
