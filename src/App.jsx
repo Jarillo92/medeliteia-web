@@ -2,8 +2,8 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ProblemSection from './components/ProblemSection'
 import HowItWorksSection from './components/HowItWorksSection'
-import SolutionsSection from './components/SolutionsSection'
 import SectorsSection from './components/SectorsSection'
+import WebSection from './components/WebSection'
 import ProcessSection from './components/ProcessSection'
 import InvestmentSection from './components/InvestmentSection'
 import ContactSection from './components/ContactSection'
@@ -18,8 +18,8 @@ function App() {
         <Hero />
         <ProblemSection />
         <HowItWorksSection />
-        <SolutionsSection />
         <SectorsSection />
+        <WebSection />
         <ProcessSection />
         <InvestmentSection />
         <ContactSection />
