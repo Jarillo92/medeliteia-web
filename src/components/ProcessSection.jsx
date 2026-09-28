@@ -1,58 +1,89 @@
-import { Search, Settings2, Rocket, HeartHandshake } from 'lucide-react'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { CalendarCheck2, HeartHandshake, Rocket, Settings2 } from 'lucide-react'
+import SectionHeader from './ui/SectionHeader'
+
+const STEPS = [
+  {
+    icon: CalendarCheck2,
+    title: 'Demo gratuita',
+    text: 'En 30 minutos te enseñamos el asistente funcionando con casos de tu sector y vemos dónde se te escapan citas. Sin compromiso.',
+  },
+  {
+    icon: Settings2,
+    title: 'Configuración a medida',
+    text: 'Lo preparamos con tus servicios, precios, horarios y normas, y lo conectamos a tu agenda y a tu WhatsApp.',
+  },
+  {
+    icon: Rocket,
+    title: 'Puesta en marcha',
+    text: 'Lo probamos contigo antes de activarlo. Mientras tanto, tu equipo sigue trabajando como siempre.',
+  },
+  {
+    icon: HeartHandshake,
+    title: 'Seguimiento mensual',
+    text: 'Revisamos las conversaciones, ajustamos respuestas y actualizamos lo que cambie en tu negocio.',
+  },
+];
+
+// Cada paso se enciende cuando la línea de progreso llega a él
+function Step({ step, index, progress }) {
+  const Icon = step.icon;
+  const at = index / (STEPS.length - 1);
+  const lit = useTransform(progress, [Math.max(0, at - 0.08), at], [0, 1]);
+  const nodeOpacity = useTransform(lit, [0, 1], [0.35, 1]);
+  const glow = useTransform(lit, [0, 1], ['0 0 0 0 rgba(47,107,255,0)', '0 0 0 6px rgba(47,107,255,0.12), 0 0 24px rgba(91,140,255,0.55)']);
+  const textOpacity = useTransform(lit, [0, 1], [0.45, 1]);
+
+  return (
+    <li className="relative flex gap-5 lg:block">
+      <motion.div
+        style={{ opacity: nodeOpacity, boxShadow: glow }}
+        className="relative z-10 flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-accent/40 bg-[#0B1325] text-accent-bright"
+      >
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </motion.div>
+      <motion.div style={{ opacity: textOpacity }} className="pb-2 lg:mt-7 lg:pr-4">
+        <div className="text-[13px] font-semibold tabular-nums text-accent">Paso {index + 1}</div>
+        <h3 className="mt-2 text-xl font-semibold text-ink">{step.title}</h3>
+        <p className="mt-2 text-[15px] leading-relaxed text-muted">{step.text}</p>
+      </motion.div>
+    </li>
+  );
+}
 
 function ProcessSection() {
-  const steps = [
-    {
-      title: 'Demo y auditoría gratuita',
-      desc: 'Realizamos una auditoría en profundidad de tus flujos de atención y puntos de pérdida de pacientes para trazar el plan óptimo.',
-      icon: Search
-    },
-    {
-      title: 'Configuración a Medida',
-      desc: 'Entrenamos al agente de IA con las directrices de tu clínica e integramos la agenda médica con el número de WhatsApp oficial.',
-      icon: Settings2
-    },
-    {
-      title: 'Puesta en Marcha',
-      desc: 'Activamos la IA y la nueva web sin detener tu operativa diaria. Tu clínica sigue atendiendo pacientes mientras la tecnología se despliega.',
-      icon: Rocket
-    },
-    {
-      title: 'Mantenimiento y Soporte',
-      desc: 'Supervisamos las conversaciones de forma mensual, optimizamos respuestas y garantizamos soporte técnico continuo ante cualquier duda.',
-      icon: HeartHandshake
-    }
-  ];
+  const listRef = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 85%', 'end 55%'] });
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
+  // Con movimiento reducido, todo encendido desde el principio
+  const progress = useTransform(smooth, (v) => (reduce ? 1 : v));
 
   return (
     <section id="proceso" className="relative py-20 md:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow="Proceso"
+          title="De la demo a tu agenda llena,"
+          accent="en cuatro pasos"
+          lead="Nos encargamos de toda la parte técnica. Tú solo nos cuentas cómo trabajas."
+        />
 
-        <div className="max-w-3xl mb-12 md:mb-16">
-          <h2 className="text-3xl sm:text-[2.5rem] font-bold leading-[1.1] tracking-[-0.02em] text-ink">
-            Cómo transformamos la operativa de tu clínica en 4 pasos
-          </h2>
-          <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
-            Un despliegue rápido, transparente y estructurado para que no tengas que preocuparte de la parte técnica.
-          </p>
-        </div>
+        <ol ref={listRef} className="relative mt-14 md:mt-16 grid grid-cols-1 gap-10 lg:grid-cols-4 lg:gap-6">
+          {/* Raíl horizontal (escritorio) */}
+          <div className="pointer-events-none absolute left-6 right-[calc(25%-2.625rem)] top-6 hidden h-px bg-white/10 lg:block" aria-hidden="true">
+            <motion.div style={{ scaleX: progress }} className="h-full origin-left bg-gradient-to-r from-accent-solid via-accent to-accent-bright" />
+          </div>
+          {/* Raíl vertical (móvil) */}
+          <div className="pointer-events-none absolute bottom-10 left-6 top-6 w-px bg-white/10 lg:hidden" aria-hidden="true">
+            <motion.div style={{ scaleY: progress }} className="h-full w-full origin-top bg-gradient-to-b from-accent-solid via-accent to-accent-bright" />
+          </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
-          {steps.map((step, idx) => {
-            const Icon = step.icon;
-            return (
-              <li key={step.title} className="border-t-2 border-ink pt-6">
-                <div className="flex items-center justify-between">
-                  <Icon className="h-6 w-6 text-accent" />
-                  <span className="text-sm font-semibold text-subtle">Paso {idx + 1} de {steps.length}</span>
-                </div>
-                <h3 className="mt-5 text-xl font-semibold text-ink">{step.title}</h3>
-                <p className="mt-2 text-base leading-relaxed text-muted">{step.desc}</p>
-              </li>
-            );
-          })}
+          {STEPS.map((step, i) => (
+            <Step key={step.title} step={step} index={i} progress={progress} />
+          ))}
         </ol>
-
       </div>
     </section>
   )
