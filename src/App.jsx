@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ProblemSection from './components/ProblemSection'
+import HowItWorksSection from './components/HowItWorksSection'
 import SolutionsSection from './components/SolutionsSection'
 import SectorsSection from './components/SectorsSection'
 import ProcessSection from './components/ProcessSection'
@@ -16,6 +17,7 @@ function App() {
       <main>
         <Hero />
         <ProblemSection />
+        <HowItWorksSection />
         <SolutionsSection />
         <SectorsSection />
         <ProcessSection />
