@@ -80,6 +80,50 @@
       @apply border-subtle/60 bg-raised;
     }
   }
+
+  /* Tarjeta base: superficie oscura, borde fino y luz en el canto superior */
+  .panel {
+    @apply rounded-[22px] border border-white/[0.07] bg-gradient-to-b from-[#0C111B] to-[#080B12];
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 24px 48px -32px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Borde de luz y resplandor interior que siguen al cursor (SpotlightCard) */
+  .spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight::before,
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .spotlight::before {
+    padding: 1px;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 0%), rgba(124, 163, 255, 0.55), transparent 65%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .spotlight::after {
+    z-index: -1;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(47, 107, 255, 0.07), transparent 70%);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .spotlight:hover::before,
+    .spotlight:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* Separador entre secciones: línea de luz que se apaga hacia los lados */
+  .hairline {
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/[0.09] to-transparent;
+  }
 }
 
 /* Entrada del hero: subir y aparecer, escalonado */
