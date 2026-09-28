@@ -135,7 +135,7 @@ function HowItWorksSection() {
   const reduce = useReducedMotion();
 
   return (
-    <section id="como-funciona" className="relative py-24 md:py-32">
+    <section id="como-funciona" className="relative py-20 md:py-28">
       {/* Foco de luz bajo los pasos */}
       <div
         className="pointer-events-none absolute inset-x-0 top-1/3 h-[480px]"
