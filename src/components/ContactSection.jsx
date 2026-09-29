@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Check, Mail, Phone } from 'lucide-react'
-import { WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../config'
+import { CONTACT_EMAIL, WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../config'
 import SectionHeader from './ui/SectionHeader'
 import { Reveal } from './ui/Reveal'
 
@@ -28,7 +28,9 @@ function BookingCalendar() {
   }, []);
 
   return (
-    <div className="panel overflow-hidden p-2 sm:p-4">
+    // Marco oscuro sin borde; el recorte redondeado va en una capa propia para que el iframe no enseñe esquinas
+    <div className="rounded-[26px] bg-surface p-2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] sm:p-3">
+      <div className="isolate overflow-hidden rounded-[20px] bg-surface [transform:translateZ(0)]">
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
         style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
@@ -36,6 +38,7 @@ function BookingCalendar() {
         id="ZFBJGeef7qz5jyRrEyYa_1784279743535"
         title="Reserva tu demo gratuita"
       />
+      </div>
     </div>
   );
 }
@@ -95,8 +98,8 @@ function ContactSection() {
                 <div>
                   <dt className="text-sm text-subtle">Correo electrónico</dt>
                   <dd>
-                    <a href="mailto:medeliteia@gmail.com" className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
-                      medeliteia@gmail.com
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block py-1.5 text-lg font-semibold text-ink hover:text-accent-bright transition-colors duration-200">
+                      {CONTACT_EMAIL}
                     </a>
                   </dd>
                 </div>
@@ -106,6 +109,13 @@ function ContactSection() {
 
           <Reveal className="lg:col-span-7" delay={0.08}>
             <BookingCalendar />
+            <p className="mt-4 text-center text-[14px] text-subtle">
+              Al reservar aceptas la{' '}
+              <a href="/politica-privacidad" className="text-muted underline decoration-white/20 hover:text-ink hover:decoration-white/50 transition-colors duration-200">
+                política de privacidad
+              </a>
+              .
+            </p>
           </Reveal>
 
         </div>
