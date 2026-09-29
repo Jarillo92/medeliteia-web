@@ -8,11 +8,11 @@ function Navbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const menuItems = [
-    { name: 'Cómo funciona', href: '#como-funciona' },
-    { name: 'Sectores', href: '#sectores' },
-    { name: 'Proceso', href: '#proceso' },
-    { name: 'Inversión', href: '#inversion' },
-    { name: 'Preguntas', href: '#preguntas' },
+    { name: 'Cómo funciona', href: '/#como-funciona' },
+    { name: 'Sectores', href: '/#sectores' },
+    { name: 'Proceso', href: '/#proceso' },
+    { name: 'Inversión', href: '/#inversion' },
+    { name: 'Preguntas', href: '/#preguntas' },
   ];
 
   // Sección visible: se marca en el menú
@@ -37,7 +37,7 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
 
-          <a href="#" className="flex-shrink-0 flex items-center py-1.5" aria-label="MedElite IA, volver al inicio">
+          <a href="/" className="flex-shrink-0 flex items-center py-1.5" aria-label="MedElite IA, volver al inicio">
             <img
               src="/logo-dark.webp"
               alt="MedElite IA"
@@ -50,7 +50,7 @@ function Navbar() {
           {/* Navegación de escritorio */}
           <div className="hidden lg:flex items-center gap-1">
             {menuItems.map((item) => {
-              const isActive = item.href === `#${active}`;
+              const isActive = item.href === `/#${active}`;
               return (
                 <a
                   key={item.name}

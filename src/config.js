@@ -1,8 +1,10 @@
 // Datos de contacto y llamadas a la acción compartidos por toda la web
-export const DEMO_HREF = '#contacto';
+// Con barra delante para que funcione también desde las páginas legales
+export const DEMO_HREF = '/#contacto';
 export const DEMO_LABEL = 'Reservar demo gratuita';
 
 export const WHATSAPP_NUMBER_LABEL = '+34 694 26 24 25';
+export const CONTACT_EMAIL = 'info@medeliteia.com';
 export const WHATSAPP_URL = 'https://wa.me/34694262425';
 
 // Cambiar a true cuando el agente de IA atienda el número de WhatsApp de la web.
@@ -38,4 +40,29 @@ export const MOOV_CASE = {
   ],
   quote: null, // Frase de Álvaro, pendiente
   author: null, // p. ej. 'Álvaro, MOOV Huesca'
+};
+
+// Titular de la web (aviso legal y política de privacidad)
+export const OWNER = {
+  name: 'Rafael José Jarillo Espejo',
+  brand: 'MedElite IA',
+  nif: '03474697H',
+  address: 'Calle Angola 39, 45210 Yuncos (Toledo)',
+  email: 'info@medeliteia.com',
+  phone: '694 26 24 25',
+  website: 'medeliteia.com',
+};
+
+// Páginas legales
+export const LEGAL_LINKS = [
+  { name: 'Aviso legal', href: '/aviso-legal' },
+  { name: 'Política de privacidad', href: '/politica-privacidad' },
+  { name: 'Política de cookies', href: '/politica-cookies' },
+];
+
+// Chat de GoHighLevel (LeadConnector), atendido por un asistente de IA. Se carga cuando la página ya está lista.
+export const CHAT_WIDGET = {
+  src: 'https://widgets.leadconnectorhq.com/loader.js',
+  resourcesUrl: 'https://widgets.leadconnectorhq.com/chat-widget/loader.js',
+  widgetId: '6abb92c703da7099e05de395',
 };

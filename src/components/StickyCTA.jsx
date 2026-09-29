@@ -26,9 +26,10 @@ function StickyCTA() {
 
   const show = !heroVisible && !contactVisible;
 
+  // En móvil deja 88 px a la derecha para la burbuja del chat de GoHighLevel
   return (
     <div
-      className={`fixed inset-x-3 z-50 sm:inset-x-auto sm:left-1/2 sm:w-[420px] sm:-translate-x-1/2 lg:hidden transition-[opacity,transform] duration-300 ease-out ${
+      className={`fixed left-3 right-[88px] z-50 sm:right-auto sm:left-1/2 sm:w-[420px] sm:-translate-x-1/2 lg:hidden transition-[opacity,transform] duration-300 ease-out ${
         show ? 'opacity-100 translate-y-0' : 'pointer-events-none opacity-0 translate-y-4'
       }`}
       style={{ bottom: 'max(12px, env(safe-area-inset-bottom))' }}

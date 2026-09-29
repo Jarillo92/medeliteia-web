@@ -1,16 +1,17 @@
 import { Linkedin, Instagram, Mail, Phone, MapPin } from 'lucide-react'
+import { CONTACT_EMAIL, LEGAL_LINKS } from '../config'
 
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   const links = [
-    { name: 'Cómo funciona', href: '#como-funciona' },
-    { name: 'Sectores', href: '#sectores' },
-    { name: 'Webs a medida', href: '#webs' },
-    { name: 'Proceso', href: '#proceso' },
-    { name: 'Inversión', href: '#inversion' },
-    { name: 'Preguntas frecuentes', href: '#preguntas' },
-    { name: 'Reservar demo', href: '#contacto' },
+    { name: 'Cómo funciona', href: '/#como-funciona' },
+    { name: 'Sectores', href: '/#sectores' },
+    { name: 'Webs a medida', href: '/#webs' },
+    { name: 'Proceso', href: '/#proceso' },
+    { name: 'Inversión', href: '/#inversion' },
+    { name: 'Preguntas frecuentes', href: '/#preguntas' },
+    { name: 'Reservar demo', href: '/#contacto' },
   ];
 
   return (
@@ -78,9 +79,9 @@ function Footer() {
               <li className="flex items-start gap-3">
                 <Mail className="mt-1 h-4 w-4 flex-shrink-0 text-accent" />
                 <div className="text-[15px] leading-relaxed">
-                  <span className="block text-sm text-muted">Correo de soporte</span>
-                  <a href="mailto:medeliteia@gmail.com" className="inline-block py-2.5 text-ink hover:text-accent transition-colors duration-200">
-                    medeliteia@gmail.com
+                  <span className="block text-sm text-muted">Correo electrónico</span>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block py-2.5 text-ink hover:text-accent transition-colors duration-200">
+                    {CONTACT_EMAIL}
                   </a>
                 </div>
               </li>
@@ -117,8 +118,19 @@ function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-line text-sm text-muted">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-4 pt-8 border-t border-line text-sm text-muted">
           <div>&copy; {currentYear} MedElite IA. Todos los derechos reservados.</div>
+          <nav aria-label="Textos legales">
+            <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a href={link.href} className="inline-block py-2 hover:text-ink transition-colors duration-200">
+                    {link.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <div>Hecho en España</div>
         </div>
 

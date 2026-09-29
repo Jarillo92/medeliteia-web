@@ -120,6 +120,41 @@
     }
   }
 
+  /* Textos legales: lectura cómoda sobre fondo oscuro */
+  .legal {
+    @apply text-[16px] leading-[1.75] text-muted;
+  }
+  .legal h2 {
+    @apply text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-ink;
+  }
+  .legal h3 {
+    @apply mt-6 text-lg font-semibold text-ink-soft;
+  }
+  .legal p,
+  .legal ul,
+  .legal table {
+    @apply mt-4;
+  }
+  .legal ul {
+    @apply list-disc space-y-2 pl-5 marker:text-accent;
+  }
+  .legal strong {
+    @apply font-semibold text-ink-soft;
+  }
+  .legal a {
+    @apply text-accent-bright underline decoration-accent/40 hover:decoration-accent-bright;
+  }
+  .legal table {
+    @apply w-full border-collapse text-[14px];
+  }
+  .legal th,
+  .legal td {
+    @apply border-b border-white/[0.07] py-3 pr-4 text-left align-top;
+  }
+  .legal th {
+    @apply font-semibold text-ink-soft;
+  }
+
   /* Separador entre secciones: línea de luz que se apaga hacia los lados */
   .hairline {
     @apply h-px w-full bg-gradient-to-r from-transparent via-white/[0.09] to-transparent;
