@@ -30,10 +30,14 @@ function BookingCalendar() {
   return (
     // Marco oscuro sin borde; el recorte redondeado va en una capa propia para que el iframe no enseñe esquinas
     <div className="rounded-[26px] bg-surface p-2 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.9)] sm:p-3">
-      <div className="isolate overflow-hidden rounded-[20px] bg-surface [transform:translateZ(0)]">
+      {/* Recorta la línea fina de arriba (-2px) y la franja blanca de abajo (-16px) del calendario */}
+      <div
+        className="isolate overflow-hidden rounded-[20px] bg-[#0B0F19] [transform:translateZ(0)]"
+        style={{ height: `${iframeHeight - 16}px`, transition: 'height 0.3s ease' }}
+      >
       <iframe
         src="https://api.leadconnectorhq.com/widget/booking/ZFBJGeef7qz5jyRrEyYa"
-        style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, transition: 'height 0.3s ease' }}
+        style={{ width: '100%', border: 'none', overflow: 'hidden', height: `${iframeHeight}px`, marginTop: '-2px', display: 'block', background: '#0B0F19', transition: 'height 0.3s ease' }}
         scrolling="no"
         id="ZFBJGeef7qz5jyRrEyYa_1784279743535"
         title="Reserva tu demo gratuita"
