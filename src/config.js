@@ -15,31 +15,33 @@ export const ASSISTANT_URL = `${WHATSAPP_URL}?text=${encodeURIComponent('Hola, q
 // Caso real: MOOV Huesca (tenemos permiso para usar su nombre). Proyecto en curso por fases.
 // Sin cifras de resultados todavía. El testimonio solo se muestra cuando se rellenen quote y author.
 export const MOOV_CASE = {
-  name: 'MOOV Huesca',
-  place: 'Gimnasio de Pilates y entrenamiento de fuerza en Huesca',
+  name: 'MOOV Huesca · Pilates y entrenamiento de fuerza',
+  intro: 'Centro de Pilates y entrenamiento de fuerza en Huesca. Les acompañamos por fases para que captar y dar de alta a nuevos socios sea automático.',
+  url: 'https://moovhuesca.es',
+  linkLabel: 'Ver la web de MOOV Huesca',
   status: 'Cliente activo',
   phases: [
     {
       label: 'Fase 1',
       state: 'done', // done | current | next
       title: 'Web y reservas automáticas',
-      text: 'Web completa con reserva automatizada de clases de prueba gratis desde el calendario, control de plazas por clase, recordatorios automáticos y botón de WhatsApp.',
+      text: 'Web nueva con reserva online de clase de prueba, control de plazas por clase, recordatorios automáticos y contacto directo por WhatsApp.',
     },
     {
       label: 'Fase 2',
       state: 'current',
-      title: 'Alta de socios y pagos',
-      text: 'Alta de socios con formulario automatizado (aceptación de contrato y políticas), pago online y activación automática del bono comprado para que puedan reservar sus clases.',
+      title: 'Alta de socios automatizada',
+      text: 'Alta de socios 100% automatizada: el nuevo socio rellena un formulario a medida, enlazado desde la web, completa el pago y ya puede reservar sus clases, sin que el centro tenga que intervenir.',
     },
     {
       label: 'Fase 3',
       state: 'next',
       title: 'Asistentes de IA',
-      text: 'Asistentes de IA para atender y gestionar reservas.',
+      text: 'Asistentes de IA por WhatsApp y voz para resolver las dudas frecuentes.',
     },
   ],
-  quote: null, // Frase de Álvaro, pendiente
-  author: null, // p. ej. 'Álvaro, MOOV Huesca'
+  quote: '', // Testimonio pendiente de permiso: no se muestra nada mientras esté vacío
+  author: '', // p. ej. 'Álvaro, MOOV Huesca'
 };
 
 // Titular de la web (aviso legal y política de privacidad)
