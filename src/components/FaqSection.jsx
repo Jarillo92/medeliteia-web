@@ -20,7 +20,7 @@ const FAQS = [
   },
   {
     q: '¿Con qué agenda funciona?',
-    a: 'El asistente se conecta con GoHighLevel, Calendly o Make. En la demo vemos qué encaja mejor con cómo gestionas hoy tus citas.',
+    a: 'El asistente se conecta con GoHighLevel o Make. En la demo vemos qué encaja mejor con cómo gestionas hoy tus citas.',
   },
   {
     q: '¿Qué responde el asistente?',
@@ -28,7 +28,7 @@ const FAQS = [
   },
   {
     q: '¿Es solo para clínicas?',
-    a: 'No. Nuestra especialidad son las clínicas dentales, veterinarias y de estética, pero funciona en cualquier negocio que viva de su agenda, como el gimnasio MOOV Huesca.',
+    a: 'No. Nuestra especialidad son las clínicas dentales, veterinarias y de estética, pero funciona en cualquier negocio que viva de su agenda, como el centro de Pilates MOOV Huesca.',
   },
 ];
 

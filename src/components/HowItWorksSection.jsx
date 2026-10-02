@@ -113,7 +113,7 @@ const STEPS = [
   },
   {
     title: 'Le da cita en tu agenda',
-    text: 'Consulta los huecos libres reales y reserva sin duplicar citas. Se conecta con GoHighLevel, Calendly o Make.',
+    text: 'Consulta los huecos libres reales y reserva sin duplicar citas. Se conecta con GoHighLevel o Make.',
     Illustration: AgendaIllustration,
   },
   {
@@ -126,7 +126,7 @@ const STEPS = [
 const CAPABILITIES = [
   { icon: Clock, title: 'Responde a cualquier hora', text: 'Noches, festivos y fines de semana.' },
   { icon: BookOpen, title: 'Habla como tu clínica', text: 'Con tus tratamientos, horarios y normas.' },
-  { icon: CalendarCheck2, title: 'Conectado a tu agenda', text: 'GoHighLevel, Calendly o Make.' },
+  { icon: CalendarCheck2, title: 'Conectado a tu agenda', text: 'GoHighLevel o Make.' },
   { icon: BellRing, title: 'Recordatorios automáticos', text: 'Menos olvidos y menos huecos vacíos.' },
   { icon: RefreshCw, title: 'Reactiva a quien no vuelve', text: 'Avisos para revisiones y próximas sesiones.' },
 ];

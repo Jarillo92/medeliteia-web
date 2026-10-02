@@ -44,7 +44,7 @@ const ALSO_FOR = ['Gimnasios', 'Centros deportivos', 'Cualquier negocio con cita
 
 const PHASE_STYLES = {
   done: { tag: 'Hecha', tagClass: 'border-accent/30 bg-accent-soft text-accent-bright' },
-  current: { tag: 'En curso', tagClass: 'border-[#4ADE80]/30 bg-[#4ADE80]/10 text-[#86EFAC]' },
+  current: { tag: 'En marcha', tagClass: 'border-[#4ADE80]/30 bg-[#4ADE80]/10 text-[#86EFAC]' },
   next: { tag: 'Siguiente', tagClass: 'border-white/10 bg-white/[0.04] text-subtle' },
 };
 
@@ -91,7 +91,8 @@ function MoovCase() {
             </span>
           </div>
           <h3 className="mt-5 text-2xl sm:text-3xl font-semibold tracking-[-0.02em] text-ink">{MOOV_CASE.name}</h3>
-          <p className="mt-1.5 text-[16px] text-muted">{MOOV_CASE.place}</p>
+          <p className="mt-1.5 max-w-2xl text-[16px] text-muted">{MOOV_CASE.intro}</p>
+          <a href={MOOV_CASE.url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-[15px] font-semibold text-accent-bright underline-offset-4 hover:underline">{MOOV_CASE.linkLabel}</a>
         </div>
         <Dumbbell className="hidden h-6 w-6 text-subtle sm:block" aria-hidden="true" />
       </div>

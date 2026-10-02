@@ -13,7 +13,7 @@ const PLANS = [
     items: [
       'Demo y auditoría de cómo atiendes hoy',
       'Configuración con tus servicios, precios, horarios y normas',
-      'Conexión con tu agenda: GoHighLevel, Calendly o Make',
+      'Conexión con tu agenda: GoHighLevel o Make',
       'Pruebas contigo antes de activarlo',
       'Formación para tu equipo',
     ],
