@@ -45,7 +45,7 @@ function WebSection() {
               eyebrow="Webs a medida"
               title="Una web que lleva a reservar,"
               accent="no solo a mirar"
-              lead="Si tu web se ha quedado anticuada, la diseñamos a medida y pensada para que tus visitas reserven. Como la de MOOV Huesca, donde sus clientes reservan su clase de prueba gratis directamente desde el calendario."
+              lead="Si tu web se ha quedado anticuada, la diseñamos a medida y pensada para que tus visitas reserven. Como la de MOOV Huesca, donde sus clientes reservan su clase de prueba online, en dos clics."
             />
 
             <Stagger className="mt-10 space-y-6">
