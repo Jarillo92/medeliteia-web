@@ -24,6 +24,16 @@
 - Desplegada en Vercel, conectada a GitHub (Jarillo92/medeliteia-web). Un push a main publica en producción; cualquier otra rama genera una URL de preview.
 - Repo local: C:\Github\medeliteia-web. Uso GitHub Desktop.
 
+## SEO
+- Dominio canónico: https://www.medeliteia.com (https y con www). Cualquier URL absoluta (canonical, Open Graph, sitemap, JSON-LD) usa ese dominio.
+- Cualquier página nueva que deba indexarse hay que añadirla a public/sitemap.xml. Si es una ruta nueva, añadir también su rewrite en vercel.json.
+- public/robots.txt y public/sitemap.xml: el sitemap contiene solo la home. Las legales no van en el sitemap.
+- Páginas legales con noindex, follow mediante cabecera X-Robots-Tag en vercel.json (rutas con y sin barra final). Cada página tiene su canonical propio.
+- vercel.json: rewrites solo para / y las tres legales (con y sin barra final). El resto de rutas desconocidas devuelven la 404 real (public/404.html, estática, con noindex y logo-dark.webp).
+- Open Graph y Twitter Card completos en index.html (imagen dashboard-mockup.png en URL absoluta con www).
+- Textos SEO (PR 2): meta description de la home con "clínicas dentales, veterinarias y de estética"; subtítulo del hero con los tres sectores (el H1 y el <title> no se tocan); H2 de Sectores y títulos de tarjetas con "IA para ..." (el caso MOOV Huesca no se toca).
+- JSON-LD de empresa (ProfessionalService) en index.html: nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram). Sin dirección postal, NIF, precios ni ratings. Si cambian el teléfono, el email o las redes, actualizarlo también ahí.
+
 ## Reglas de trabajo
 - Nunca trabajes ni hagas push directamente en main. El rediseño va en la rama "rediseño".
 - Commits pequeños y descriptivos, uno por cambio lógico (ej. uno por sección).

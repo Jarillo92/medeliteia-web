@@ -96,7 +96,7 @@ function Hero() {
             </h1>
 
             <p className="rise-in mt-6 max-w-[37rem] text-lg sm:text-xl leading-relaxed text-muted" style={{ animationDelay: '70ms', textWrap: 'balance' }}>
-              Un asistente de IA en WhatsApp contesta a tus pacientes al momento, les da cita en tu agenda y les recuerda que vengan.
+              Un asistente de IA en WhatsApp para clínicas dentales, veterinarias y de estética contesta a tus pacientes al momento, les da cita en tu agenda y les recuerda que vengan.
             </p>
 
             <div className="rise-in mt-9 flex flex-col sm:flex-row gap-3" style={{ animationDelay: '140ms' }}>
