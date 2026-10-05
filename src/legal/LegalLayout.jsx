@@ -9,6 +9,12 @@ export function LegalLayout({ title, updated, children }) {
     window.scrollTo(0, 0);
   }, [title]);
 
+  // Canonical propio de cada página legal (index.html declara el de la home)
+  useEffect(() => {
+    const link = document.querySelector('link[rel="canonical"]') || document.head.appendChild(Object.assign(document.createElement('link'), { rel: 'canonical' }));
+    link.href = `https://www.medeliteia.com${window.location.pathname.replace(/\/+$/, '')}`;
+  }, []);
+
   return (
     <div className="relative min-h-screen">
       <Navbar />
