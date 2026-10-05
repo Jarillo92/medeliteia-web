@@ -152,7 +152,7 @@ function SectorsSection() {
           eyebrow="Especialidad"
           title="IA para clínicas dentales,"
           accent="veterinarias y centros de estética"
-          lead="Configuramos el asistente para tu sector: sabe lo que preguntan tus pacientes y cómo se reserva en tu clínica."
+          lead="Configuramos el asistente para tu sector: sabe lo que preguntan tus pacientes y cómo se reserva en tu clínica. Y también gimnasios, centros deportivos y cualquier negocio que viva de su agenda."
         />
 
         <Stagger gap={0.1} className="mt-14 md:mt-16 grid grid-cols-1 lg:grid-cols-3 gap-5">
