@@ -25,14 +25,25 @@
 - Repo local: C:\Github\medeliteia-web. Uso GitHub Desktop.
 
 ## SEO
-- Dominio canónico: https://www.medeliteia.com (https y con www). Cualquier URL absoluta (canonical, Open Graph, sitemap, JSON-LD) usa ese dominio.
-- Cualquier página nueva que deba indexarse hay que añadirla a public/sitemap.xml. Si es una ruta nueva, añadir también su rewrite en vercel.json.
-- public/robots.txt y public/sitemap.xml: el sitemap contiene solo la home. Las legales no van en el sitemap.
-- Páginas legales con noindex, follow mediante cabecera X-Robots-Tag en vercel.json (rutas con y sin barra final). Cada página tiene su canonical propio.
-- vercel.json: rewrites solo para / y las tres legales (con y sin barra final). El resto de rutas desconocidas devuelven la 404 real (public/404.html, estática, con noindex y logo-dark.webp).
-- Open Graph y Twitter Card completos en index.html (imagen dashboard-mockup.png en URL absoluta con www).
-- Textos SEO (PR 2): meta description de la home con "clínicas dentales, veterinarias y de estética"; subtítulo del hero con los tres sectores (el H1 y el <title> no se tocan); H2 de Sectores y títulos de tarjetas con "IA para ..." (el caso MOOV Huesca no se toca).
-- JSON-LD de empresa (ProfessionalService) en index.html: nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram). Sin dirección postal, NIF, precios ni ratings. Si cambian el teléfono, el email o las redes, actualizarlo también ahí.
+- Dominio canónico: https://www.medeliteia.com (https y con www). medeliteia.com (sin www) redirige con 308 desde Vercel. Todas las URL de canonical, Open Graph, sitemap y JSON-LD usan ese dominio.
+- **SEO técnico (PR #8, v2.4):** public/robots.txt; public/sitemap.xml con solo la home; 404 real (public/404.html, estática, noindex, logo-dark.webp); rewrites de vercel.json solo para /, /aviso-legal, /politica-privacidad y /politica-cookies (con y sin barra final); cabecera X-Robots-Tag "noindex, follow" en las tres legales (vercel.json); canonical de la home en index.html y canonical propio de cada legal en LegalLayout.jsx; Open Graph y Twitter Card completos (imagen dashboard-mockup.png en URL absoluta con www); sin meta keywords.
+- **SEO textos (v2.5):** meta description nueva de la home, subtítulo del hero con los tres sectores, H2 de Sectores y títulos de las tres tarjetas con "IA para ...", y JSON-LD de empresa (ProfessionalService) en index.html con nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram). El JSON-LD no incluye dirección postal, NIF, precios ni valoraciones. Si cambian teléfono, email o redes, actualizarlo también ahí.
+- Reglas: el H1 y el <title> de la home no se cambian sin consultar a Rafa.
+- **Otros negocios con agenda (v2.6):** la entradilla de la sección de sectores añade "Y también gimnasios, centros deportivos y cualquier negocio que viva de su agenda" como mención secundaria. El hero, el title y la meta description se mantienen centrados en clínicas dentales, veterinarias y de estética (la especialidad), sin diluirlos con otros sectores.
+- **Páginas nuevas indexables:** añadirlas a public/sitemap.xml y a los rewrites de vercel.json (con y sin barra final), y que lleven su title, meta description, H1 y canonical propios. Las páginas con noindex no van en el sitemap.
+- No tocar el registro TXT de verificación de Search Console: está en Cloudflare, no en el repo.
+- Las previews de Vercel añaden por sí solas X-Robots-Tag: noindex a todas las páginas. Ese noindex en una preview es normal y no es un fallo del repo.
+- Pendiente: landings por sector con prerenderizado (hoy la web se pinta solo con JavaScript); una landing para gimnasios y centros deportivos con MOOV Huesca como caso; el caso MOOV como página propia o sección retocada; el testimonio de Álvaro.
+
+## Versiones (tags en main)
+- v1.0: web original.
+- v2.0: rediseño.
+- v2.1: páginas legales y mejoras.
+- v2.2: arreglo de la franja del calendario.
+- v2.3: caso MOOV Huesca actualizado.
+- v2.4: SEO técnico (robots, sitemap, 404, noindex en legales, Open Graph, canonical).
+- v2.5: SEO textos y JSON-LD.
+- v2.6: frase de otros negocios con agenda en sectores.
 
 ## Reglas de trabajo
 - Nunca trabajes ni hagas push directamente en main. El rediseño va en la rama "rediseño".
