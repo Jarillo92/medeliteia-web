@@ -9,7 +9,7 @@ import { EASE_OUT } from './ui/motion'
 // Nuestra especialidad: cada sector con lo que preguntan sus clientes y lo que resuelve el asistente
 const SPECIALTIES = [
   {
-    name: 'Clínicas dentales',
+    name: 'IA para clínicas dentales',
     icon: Stethoscope,
     question: '¿Tenéis hueco para una limpieza esta semana?',
     uses: [
@@ -19,7 +19,7 @@ const SPECIALTIES = [
     ],
   },
   {
-    name: 'Clínicas veterinarias',
+    name: 'IA para clínicas veterinarias',
     icon: PawPrint,
     question: 'Hola, ¿puedo pedir cita para vacunar a mi perra?',
     uses: [
@@ -29,7 +29,7 @@ const SPECIALTIES = [
     ],
   },
   {
-    name: 'Estética y belleza',
+    name: 'IA para centros de estética y salones de belleza',
     icon: Sparkles,
     question: '¿Tenéis hueco para uñas el viernes por la tarde?',
     uses: [
@@ -150,8 +150,8 @@ function SectorsSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Especialidad"
-          title="Pensado para clínicas"
-          accent="que viven de su agenda"
+          title="IA para clínicas dentales,"
+          accent="veterinarias y centros de estética"
           lead="Configuramos el asistente para tu sector: sabe lo que preguntan tus pacientes y cómo se reserva en tu clínica."
         />
 
