@@ -1,8 +1,21 @@
 {
   "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/aviso-legal", "destination": "/index.html" },
+    { "source": "/aviso-legal/", "destination": "/index.html" },
+    { "source": "/politica-privacidad", "destination": "/index.html" },
+    { "source": "/politica-privacidad/", "destination": "/index.html" },
+    { "source": "/politica-cookies", "destination": "/index.html" },
+    { "source": "/politica-cookies/", "destination": "/index.html" }
+  ],
+  "headers": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/(aviso-legal|politica-privacidad|politica-cookies)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
+    },
+    {
+      "source": "/(aviso-legal|politica-privacidad|politica-cookies)/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
     }
   ]
 }
