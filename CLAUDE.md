@@ -8,7 +8,7 @@
 - Oferta: demo y auditoría gratuita y personalizada de 30 minutos, en la que enseño el agente funcionando para su sector. Después: puesta en marcha + cuota mensual, sin permanencia. Mercado: España.
 - Precio: a consultar. Nunca poner cifras en la web; se da en la demo según cada negocio.
 - No hay prueba gratuita. No usar "Pago Único de Setup" como gancho.
-- Integraciones que se mencionan: GoHighLevel y Make. No mencionar Calendly ni ninguna otra (Gesden, Clinic Cloud, etc.).
+- Integraciones que se mencionan: GoHighLevel, Make y n8n. No mencionar Calendly ni ninguna otra (Gesden, Clinic Cloud, etc.).
 - La web es mi principal herramienta de captación: su objetivo es que el visitante reserve la demo gratuita.
 - Acción principal de toda la web: "Reservar demo gratuita", que lleva al calendario de GoHighLevel. WhatsApp (+34 694 26 24 25) es la alternativa. Email de contacto: info@medeliteia.com (no usar el antiguo de Gmail). El botón "Pruébalo tú mismo: escríbele a nuestro asistente" está preparado pero oculto hasta que el agente atienda ese número.
 
@@ -30,6 +30,7 @@
 - **SEO textos (v2.5):** meta description nueva de la home, subtítulo del hero con los tres sectores, H2 de Sectores y títulos de las tres tarjetas con "IA para ...", y JSON-LD de empresa (ProfessionalService) en index.html con nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram). El JSON-LD no incluye dirección postal, NIF, precios ni valoraciones. Si cambian teléfono, email o redes, actualizarlo también ahí.
 - Reglas: el H1 y el <title> de la home no se cambian sin consultar a Rafa.
 - **Otros negocios con agenda (v2.6):** la entradilla de la sección de sectores añade "Y también gimnasios, centros deportivos y cualquier negocio que viva de su agenda" como mención secundaria. El hero, el title y la meta description se mantienen centrados en clínicas dentales, veterinarias y de estética (la especialidad), sin diluirlos con otros sectores.
+- **Herramientas y voz (rama anadir-n8n):** en los textos públicos (FAQ, Cómo funciona, Inversión, Aviso legal) "GoHighLevel o Make" pasa a "GoHighLevel, Make y n8n". El JSON-LD no menciona herramientas y no existe llms.txt. La web no mencionaba el asistente de voz (solo el caso MOOV, que no se toca): se añade una frase breve en la respuesta de la FAQ "¿Qué responde el asistente?": "También puede atender por teléfono: asistente de voz con IA, a medida." Sin precios, plazos ni demo de voz activa.
 - **Páginas nuevas indexables:** añadirlas a public/sitemap.xml y a los rewrites de vercel.json (con y sin barra final), y que lleven su title, meta description, H1 y canonical propios. Las páginas con noindex no van en el sitemap.
 - No tocar el registro TXT de verificación de Search Console: está en Cloudflare, no en el repo.
 - Las previews de Vercel añaden por sí solas X-Robots-Tag: noindex a todas las páginas. Ese noindex en una preview es normal y no es un fallo del repo.
