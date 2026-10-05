@@ -20,11 +20,11 @@ const FAQS = [
   },
   {
     q: '¿Con qué agenda funciona?',
-    a: 'El asistente se conecta con GoHighLevel o Make. En la demo vemos qué encaja mejor con cómo gestionas hoy tus citas.',
+    a: 'El asistente se conecta con GoHighLevel, Make y n8n. En la demo vemos qué encaja mejor con cómo gestionas hoy tus citas.',
   },
   {
     q: '¿Qué responde el asistente?',
-    a: 'Lo configuramos con tu información: servicios, precios, horarios y normas. Después revisamos las conversaciones cada mes y ajustamos sus respuestas.',
+    a: 'Lo configuramos con tu información: servicios, precios, horarios y normas. Después revisamos las conversaciones cada mes y ajustamos sus respuestas. También puede atender por teléfono: asistente de voz con IA, a medida.',
   },
   {
     q: '¿Es solo para clínicas?',

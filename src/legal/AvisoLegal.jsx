@@ -50,7 +50,7 @@ function AvisoLegal() {
           transformación sin autorización previa y por escrito, salvo para uso personal y privado.
         </p>
         <p>
-          Las marcas y nombres de terceros que aparecen en la web (por ejemplo, WhatsApp, GoHighLevel o Make) pertenecen a
+          Las marcas y nombres de terceros que aparecen en la web (por ejemplo, WhatsApp, GoHighLevel, Make y n8n) pertenecen a
           sus respectivos titulares y se citan solo con fines informativos.
         </p>
       </Section>
