@@ -20,6 +20,7 @@
 - Chat de GoHighLevel con asistente de IA en toda la web (src/chatWidget.js, datos en CHAT_WIDGET de config.js): se inyecta tras la carga, cuando el navegador está libre. Es la única burbuja flotante (no añadir botón flotante de WhatsApp); en móvil el botón fijo "Reservar demo gratuita" deja 88 px a la derecha para ella.
 - Páginas legales en src/legal/ (Aviso legal, Política de privacidad, Política de cookies), enrutadas en main.jsx por ruta (/aviso-legal, /politica-privacidad, /politica-cookies) y enlazadas en el pie. Datos del titular en OWNER (config.js). Si se añade analítica o publicidad, hay que actualizar la política de cookies y poner banner de consentimiento.
 - Enlaces del menú y del pie con "/#seccion" para que funcionen también desde las páginas legales.
+- Página de recurso /prompt-clientes (src/PromptClientes.jsx): es lo que se envía por Instagram a quien comenta CLIENTES en un reel. Prompt para pegar en Claude o ChatGPT con botón "Copiar prompt" (clipboard con alternativa) y botón secundario a DEMO_HREF. Es noindex (meta robots en la página y X-Robots-Tag en vercel.json), no va en el sitemap ni en el menú y su canonical es propio. El texto del prompt no se cambia sin consultar a Rafa. En vercel.json, los patrones de `source` de cabeceras no admiten `/?`: usar una entrada con barra final y otra sin ella.
 - Bloque "Sobre mí" (AboutSection.jsx) antes de Contacto, con la foto public/rafa.jpeg recortada a busto con object-position.
 - Desplegada en Vercel, conectada a GitHub (Jarillo92/medeliteia-web). Un push a main publica en producción; cualquier otra rama genera una URL de preview.
 - Repo local: C:\Github\medeliteia-web. Uso GitHub Desktop.
@@ -45,6 +46,9 @@
 - v2.4: SEO técnico (robots, sitemap, 404, noindex en legales, Open Graph, canonical).
 - v2.5: SEO textos y JSON-LD.
 - v2.6: frase de otros negocios con agenda en sectores.
+- v2.7: n8n junto a GoHighLevel y Make en los textos, y frase del asistente de voz en la FAQ.
+- v2.8: página /prompt-clientes (recurso de Instagram, noindex).
+- v2.9: CLAUDE.md al día con /prompt-clientes y las versiones (sin cambios en la web).
 
 ## Reglas de trabajo
 - Nunca trabajes ni hagas push directamente en main. El rediseño va en la rama "rediseño".
