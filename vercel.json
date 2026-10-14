@@ -6,7 +6,9 @@
     { "source": "/politica-privacidad", "destination": "/index.html" },
     { "source": "/politica-privacidad/", "destination": "/index.html" },
     { "source": "/politica-cookies", "destination": "/index.html" },
-    { "source": "/politica-cookies/", "destination": "/index.html" }
+    { "source": "/politica-cookies/", "destination": "/index.html" },
+    { "source": "/prompt-clientes", "destination": "/index.html" },
+    { "source": "/prompt-clientes/", "destination": "/index.html" }
   ],
   "headers": [
     {
@@ -16,6 +18,14 @@
     {
       "source": "/(aviso-legal|politica-privacidad|politica-cookies)/",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
+    },
+    {
+      "source": "/prompt-clientes",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/prompt-clientes/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ]
 }
