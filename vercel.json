@@ -20,7 +20,11 @@
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow" }]
     },
     {
-      "source": "/prompt-clientes/?",
+      "source": "/prompt-clientes",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/prompt-clientes/",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ]
