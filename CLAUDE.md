@@ -48,6 +48,7 @@
 - v2.6: frase de otros negocios con agenda en sectores.
 - v2.7: n8n junto a GoHighLevel y Make en los textos, y frase del asistente de voz en la FAQ.
 - v2.8: página /prompt-clientes (recurso de Instagram, noindex).
+- v2.9: CLAUDE.md al día con /prompt-clientes y las versiones (sin cambios en la web).
 
 ## Reglas de trabajo
 - Nunca trabajes ni hagas push directamente en main. El rediseño va en la rama "rediseño".
