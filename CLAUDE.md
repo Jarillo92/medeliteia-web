@@ -30,14 +30,14 @@
 ## SEO
 - Dominio canónico: https://www.medeliteia.com (https y con www). medeliteia.com (sin www) redirige con 308 desde Vercel. Todas las URL de canonical, Open Graph, sitemap y JSON-LD usan ese dominio.
 - **SEO técnico (PR #8, v2.4):** public/robots.txt; public/sitemap.xml con solo la home; 404 real (public/404.html, estática, noindex, logo-dark.webp); rewrites de vercel.json solo para /, /aviso-legal, /politica-privacidad y /politica-cookies (con y sin barra final); cabecera X-Robots-Tag "noindex, follow" en las tres legales (vercel.json); canonical de la home en index.html y canonical propio de cada legal en LegalLayout.jsx; Open Graph y Twitter Card completos (imagen dashboard-mockup.png en URL absoluta con www); sin meta keywords.
-- **SEO textos (v2.5):** meta description nueva de la home, subtítulo del hero con los tres sectores, H2 de Sectores y títulos de las tres tarjetas con "IA para ...", y JSON-LD de empresa (ProfessionalService) en index.html con nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram). El JSON-LD no incluye dirección postal, NIF, precios ni valoraciones. Si cambian teléfono, email o redes, actualizarlo también ahí.
+- **SEO textos (v2.5):** meta description nueva de la home, subtítulo del hero con los tres sectores, H2 de Sectores y títulos de las tres tarjetas con "IA para ...", y JSON-LD de empresa (ProfessionalService) en index.html con nombre, url, logo, email, teléfono, descripción y sameAs (LinkedIn e Instagram @rafajarillo, https://www.instagram.com/rafajarillo/; el mismo enlace está en el pie). El JSON-LD no incluye dirección postal, NIF, precios ni valoraciones. Si cambian teléfono, email o redes, actualizarlo también ahí.
 - Reglas: el H1 y el <title> de la home no se cambian sin consultar a Rafa.
 - **Otros negocios con agenda (v2.6):** la entradilla de la sección de sectores añade "Y también gimnasios, centros deportivos y cualquier negocio que viva de su agenda" como mención secundaria. El hero, el title y la meta description se mantienen centrados en clínicas dentales, veterinarias y de estética (la especialidad), sin diluirlos con otros sectores.
 - **Herramientas y voz (rama anadir-n8n):** en los textos públicos (FAQ, Cómo funciona, Inversión, Aviso legal) "GoHighLevel o Make" pasa a "GoHighLevel, Make y n8n". El JSON-LD no menciona herramientas y no existe llms.txt. La web no mencionaba el asistente de voz (solo el caso MOOV, que no se toca): se añade una frase breve en la respuesta de la FAQ "¿Qué responde el asistente?": "También puede atender por teléfono: asistente de voz con IA, a medida." Sin precios, plazos ni demo de voz activa.
 - **Páginas nuevas indexables:** añadirlas a public/sitemap.xml y a los rewrites de vercel.json (con y sin barra final), y que lleven su title, meta description, H1 y canonical propios. Las páginas con noindex no van en el sitemap.
 - No tocar el registro TXT de verificación de Search Console: está en Cloudflare, no en el repo.
 - Las previews de Vercel añaden por sí solas X-Robots-Tag: noindex a todas las páginas. Ese noindex en una preview es normal y no es un fallo del repo.
-- Pendiente: landings por sector con prerenderizado (hoy la web se pinta solo con JavaScript); una landing para gimnasios y centros deportivos con MOOV Huesca como caso; el caso MOOV como página propia o sección retocada; el testimonio de Álvaro.
+- Pendiente: landings por sector con prerenderizado; landing para gimnasios con MOOV como caso; caso MOOV como página propia; testimonio de Álvaro.
 
 ## Versiones (tags en main)
 - v1.0: web original.
@@ -51,6 +51,8 @@
 - v2.7: n8n junto a GoHighLevel y Make en los textos, y frase del asistente de voz en la FAQ.
 - v2.8: página /prompt-clientes (recurso de Instagram, noindex).
 - v2.9: CLAUDE.md al día con /prompt-clientes y las versiones (sin cambios en la web).
+- v2.10: certificado MKT Hackers en Sobre mí (tarjeta con modal) y fondo de partículas interactivo.
+- v2.11: Instagram enlazado a @rafajarillo y CLAUDE.md al día.
 
 ## Reglas de trabajo
 - Nunca trabajes ni hagas push directamente en main. El rediseño va en la rama "rediseño".
