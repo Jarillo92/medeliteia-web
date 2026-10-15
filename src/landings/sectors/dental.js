@@ -28,16 +28,24 @@ const dental = {
 
   hero: {
     label: 'IA para clínicas dentales',
-    // El H1 se compone de las dos partes: la primera se sustituye por el nombre en modo demo
+    // H1 en tres partes: la primera se sustituye por el nombre en modo demo y la segunda va en el color del sector
     titleLead: 'Tu clínica dental',
-    titleRest: ', atendida por WhatsApp a cualquier hora',
+    titleAccent: 'atendida por WhatsApp',
+    titleTail: 'a cualquier hora',
     subtitle:
       'Un asistente de IA responde a tus pacientes, les da cita y les hace seguimiento. Tu equipo se queda con lo que importa: el sillón.',
     secondaryCta: 'Pruébalo tú mismo',
+    // Tarjetas flotantes alrededor del teléfono (ejemplos de lo que hace el asistente)
+    floating: [
+      { kind: 'message', title: 'Nuevo mensaje', text: '¿Tenéis hueco esta semana?', meta: '22:41' },
+      { kind: 'booking', title: 'Cita confirmada', text: 'Viernes, 10:00' },
+      { kind: 'reminder', title: 'Recordatorio enviado', text: 'Cita de mañana a las 10:00' },
+    ],
   },
 
   leaks: {
-    title: 'Dónde se escapan pacientes',
+    label: 'Dónde se escapan pacientes',
+    title: 'Cuatro momentos en los que una clínica pierde pacientes sin darse cuenta',
     items: [
       { tag: '22:00', text: 'El paciente que escribe a las 22:00 y no recibe respuesta hasta mañana.' },
       { tag: 'Presupuesto', text: 'El presupuesto de ortodoncia o implantes que nadie vuelve a mencionar.' },
@@ -85,6 +93,41 @@ const dental = {
     ],
   },
 
+  // Mockups de producto: agenda que se llena al hacer scroll y panel de métricas. Todo son datos de ejemplo.
+  product: {
+    label: 'El asistente, por dentro',
+    title: 'Tu agenda se llena mientras atiendes',
+    lead: 'Cada conversación que termina en cita aparece en la agenda. Baja despacio y mira cómo se ocupan los huecos.',
+    agendaTitleFallback: 'Agenda de tu clínica',
+    day: 'Jueves',
+    rooms: ['Gabinete 1', 'Gabinete 2'],
+    times: ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30'],
+    // Huecos que se ocupan, en orden de llenado: [fila, gabinete, tratamiento]
+    bookings: [
+      [0, 0, 'Revisión'],
+      [2, 1, 'Limpieza'],
+      [1, 0, 'Valoración de ortodoncia'],
+      [4, 1, 'Paciente nuevo'],
+      [3, 0, 'Limpieza'],
+      [6, 0, 'Revisión de implante'],
+      [5, 1, 'Blanqueamiento: 1.ª visita'],
+      [7, 1, 'Limpieza'],
+      [6, 1, 'Revisión'],
+      [0, 1, 'Paciente nuevo'],
+      [4, 0, 'Seguimiento de presupuesto'],
+    ],
+    via: 'por WhatsApp',
+    free: 'Libre',
+    metricsTitle: 'Esta semana',
+    metrics: [
+      { id: 'conversations', label: 'Conversaciones atendidas', value: 26 },
+      { id: 'bookings', label: 'Citas agendadas', value: 11 },
+      { id: 'followups', label: 'Seguimientos enviados', value: 8 },
+    ],
+    exampleTag: 'Ejemplo',
+    note: 'Datos de ejemplo para enseñar cómo se ve. No son resultados de ninguna clínica.',
+  },
+
   calculator: {
     label: 'Calculadora',
     title: '¿Cuántos pacientes se te escapan?',
@@ -105,11 +148,11 @@ const dental = {
     label: 'Un día en tu clínica',
     title: 'Lo que hace el asistente mientras tu equipo atiende',
     items: [
-      { time: '22:40', text: 'Un paciente nuevo pregunta el precio. El asistente le responde y le propone un hueco.' },
-      { time: '23:05', text: 'La cita queda en la agenda, sin que nadie de la clínica toque el móvil.' },
-      { time: 'El día anterior', text: 'El paciente recibe un recordatorio para confirmar que viene.' },
-      { time: 'Tras un presupuesto', text: 'A los pocos días, un seguimiento amable por si le quedan dudas.' },
-      { time: 'A los 6 meses', text: 'Quien se hizo una limpieza recibe el aviso para su revisión.' },
+      { icon: 'message', time: '22:40', text: 'Un paciente nuevo pregunta el precio. El asistente le responde y le propone un hueco.' },
+      { icon: 'calendar', time: '23:05', text: 'La cita queda en la agenda, sin que nadie de la clínica toque el móvil.' },
+      { icon: 'bell', time: 'El día anterior', text: 'El paciente recibe un recordatorio para confirmar que viene.' },
+      { icon: 'file', time: 'Tras un presupuesto', text: 'A los pocos días, un seguimiento amable por si le quedan dudas.' },
+      { icon: 'repeat', time: 'A los 6 meses', text: 'Quien se hizo una limpieza recibe el aviso para su revisión.' },
     ],
     note: 'La integración con tu agenda depende del software de tu clínica.',
   },
@@ -158,6 +201,13 @@ const dental = {
         a: 'El precio es a consultar: depende de tu agenda y de los canales que quieras conectar. En la demo te lo concretamos, junto con los plazos.',
       },
     ],
+  },
+
+  // Franja final: la propia página como ejemplo de lo que se construye
+  example: {
+    title: 'Esta página también es un ejemplo.',
+    text: 'El asistente, la calculadora y la agenda que acabas de ver son el tipo de web interactiva que montamos para cada clínica, con sus tratamientos y su forma de hablar.',
+    link: 'Te la enseñamos en la demo',
   },
 
   booking: {
