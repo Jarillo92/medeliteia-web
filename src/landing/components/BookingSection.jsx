@@ -1,12 +1,12 @@
 import { Check, Mail, Phone } from 'lucide-react'
 import { CONTACT_EMAIL, WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../../config'
 import BookingCalendar from './BookingCalendar'
-import SectionLabel from './SectionLabel'
+import SectionHeading from './SectionHeading'
 
 function BookingSection({ sector }) {
   const { booking } = sector;
   return (
-    <section id="reserva" className="relative py-20 md:py-28">
+    <section id="reserva" className="relative bg-ground py-20 md:py-28">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[520px]"
         style={{ background: 'radial-gradient(45% 60% at 70% 30%, rgb(var(--sector) / 0.10), transparent 70%)' }}
@@ -14,13 +14,11 @@ function BookingSection({ sector }) {
       />
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-start gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
         <div className="lg:sticky lg:top-28 lg:col-span-5">
-          <SectionLabel>{booking.label}</SectionLabel>
-          <h2 className="mt-4 text-[2rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[2.6rem]">{booking.title}</h2>
-          <p className="mt-4 max-w-[34rem] text-lg leading-relaxed text-muted">{booking.lead}</p>
+          <SectionHeading label={booking.label} title={booking.title} lead={booking.lead} />
 
           <ul className="mt-8 space-y-3">
             {booking.points.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-[16px] text-ink-soft">
+              <li key={point} className="flex items-start gap-3 text-[17px] text-ink-soft">
                 <Check className="mt-1 h-4 w-4 flex-shrink-0 text-sector" aria-hidden="true" />
                 <span>{point}</span>
               </li>
