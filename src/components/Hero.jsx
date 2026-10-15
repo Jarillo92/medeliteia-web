@@ -73,7 +73,7 @@ function Hero() {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-20">
+    <section id="hero" ref={sectionRef} className="relative overflow-hidden pt-28 pb-12 md:pt-32 md:pb-20">
       {/* Una sola fuente de luz: foco azul detrás del objeto y luz cenital suave */}
       <div
         className="pointer-events-none absolute inset-0"

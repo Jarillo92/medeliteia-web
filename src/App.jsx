@@ -12,6 +12,7 @@ import AboutSection from './components/AboutSection'
 import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 import StickyCTA from './components/StickyCTA'
+import ParticlesLoader from './components/ParticlesLoader'
 
 function App() {
   // Al llegar desde otra página con un ancla (p. ej. /#contacto), saltar a esa sección
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <div className="relative min-h-screen">
+      <ParticlesLoader />
       <Navbar />
       <main>
         <Hero />

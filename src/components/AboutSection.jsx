@@ -1,4 +1,5 @@
 import { Reveal } from './ui/Reveal'
+import CertificateCard from './CertificateCard'
 
 // Quién está detrás: la foto es de cuerpo entero y se recorta a busto con object-position
 // (el recorte deja fuera la esquina inferior derecha de la imagen original)
@@ -33,6 +34,7 @@ function AboutSection() {
                 Soy Rafa, fundador de MedElite IA. Configuro y mantengo personalmente cada asistente, así que hablas siempre con la misma persona, que conoce tu negocio.
               </p>
               <p className="mt-4 text-[15px] text-subtle">Rafa · Fundador de MedElite IA</p>
+              <CertificateCard />
             </div>
           </div>
         </Reveal>
