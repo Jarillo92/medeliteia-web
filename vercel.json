@@ -8,7 +8,9 @@
     { "source": "/politica-cookies", "destination": "/index.html" },
     { "source": "/politica-cookies/", "destination": "/index.html" },
     { "source": "/prompt-clientes", "destination": "/index.html" },
-    { "source": "/prompt-clientes/", "destination": "/index.html" }
+    { "source": "/prompt-clientes/", "destination": "/index.html" },
+    { "source": "/clinicas-dentales", "destination": "/clinicas-dentales/index.html" },
+    { "source": "/clinicas-dentales/", "destination": "/clinicas-dentales/index.html" }
   ],
   "headers": [
     {
