@@ -3,6 +3,9 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    // Las landings tienen su propio CSS (tailwind.landing.config.js): así el de la home no cambia
+    "!./src/landing/**",
+    "!./src/landings/**",
   ],
   theme: {
     extend: {

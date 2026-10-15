@@ -1,0 +1,172 @@
+/* Estilos propios de las landings por sector (la home no carga este archivo).
+   Animación: solo transform y opacity, menos de 300 ms en lo que responde al usuario,
+   curva de salida (nunca ease-in). La flotación de las tarjetas del hero es ambiental y muy leve. */
+
+:root {
+  --lp-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Entrada del hero al cargar: CSS puro, el contenido ya está en el HTML y acaba visible aunque no haya JavaScript */
+@keyframes lp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.lp-rise {
+  animation: lp-rise 280ms var(--lp-ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Tarjetas flotantes del hero: aparecen escalonadas (60 ms) desde un poco más pequeñas, nunca desde 0 */
+@keyframes lp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.lp-pop {
+  animation: lp-pop 280ms var(--lp-ease-out) both;
+  animation-delay: calc(120ms + var(--i, 0) * 60ms);
+}
+
+/* Flotación muy leve (4 px), lenta y continua */
+@keyframes lp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.lp-float {
+  animation: lp-float 5.2s ease-in-out infinite;
+}
+
+/* Mensajes del chat: nacen desde su esquina, nunca desde escala 0 */
+@keyframes lp-msg {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.lp-msg {
+  animation: lp-msg 240ms var(--lp-ease-out) both;
+}
+
+/* Puntos de "escribiendo" */
+@keyframes lp-typing {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+.lp-typing-dot {
+  animation: lp-typing 900ms ease-in-out infinite;
+}
+
+/* Chips y enlaces pulsables: respuesta táctil */
+.lp-chip {
+  transition: transform 160ms var(--lp-ease-out), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+.lp-chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-chip:hover:not(:disabled) {
+    border-color: rgb(var(--sector) / 0.55);
+    background-color: rgb(var(--sector) / 0.08);
+  }
+  .group:hover .lp-nudge {
+    transform: translateX(3px);
+  }
+}
+.lp-nudge {
+  transition: transform 200ms var(--lp-ease-out);
+}
+
+/* Huecos de la agenda: libre y ocupado se cruzan */
+.lp-slot {
+  transition: opacity 260ms var(--lp-ease-out), transform 260ms var(--lp-ease-out);
+}
+
+/* Nodos de la línea de tiempo */
+.lp-node {
+  transition: transform 240ms var(--lp-ease-out), background-color 200ms ease, border-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+
+/* Acordeón de preguntas: el icono gira y la respuesta entra con un fundido corto */
+.lp-faq-icon {
+  transition: transform 220ms var(--lp-ease-out), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+.lp-faq[open] .lp-faq-icon {
+  transform: rotate(45deg);
+}
+.lp-faq summary:active .lp-faq-icon {
+  transform: scale(0.94);
+}
+.lp-faq[open] summary:active .lp-faq-icon {
+  transform: rotate(45deg) scale(0.94);
+}
+.lp-faq[open] .lp-faq-answer {
+  animation: lp-rise 220ms var(--lp-ease-out) both;
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-faq summary:hover h3 {
+    color: theme('colors.ink.DEFAULT');
+  }
+}
+
+/* Deslizadores de la calculadora en el color del sector */
+.lp-range {
+  accent-color: rgb(var(--sector));
+  height: 1.75rem;
+  cursor: pointer;
+}
+
+/* Números con ancho fijo para que no bailen al animarse */
+.lp-num {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-rise,
+  .lp-pop,
+  .lp-msg,
+  .lp-faq[open] .lp-faq-answer {
+    animation: fade-in 160ms ease both;
+  }
+  .lp-float,
+  .lp-typing-dot {
+    animation: none;
+  }
+  .lp-typing-dot {
+    opacity: 0.7;
+  }
+  .lp-chip:active:not(:disabled) {
+    transform: none;
+  }
+  .lp-slot,
+  .lp-node,
+  .lp-nudge {
+    transition: none;
+  }
+}
