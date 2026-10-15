@@ -58,7 +58,7 @@ function CertificateCard() {
             src="/certificado-mkthackers-thumb.webp"
             alt="Certificado de MKT Hackers que acredita a Rafa como experto en creación e implementación de agentes de IA"
             width="320"
-            height="226"
+            height="229"
             loading="lazy"
             className="block h-auto w-full sm:w-[200px]"
           />
@@ -102,7 +102,7 @@ function CertificateCard() {
               src="/certificado-mkthackers.webp"
               alt="Certificado de MKT Hackers: experto en creación e implementación de agentes de IA, formación «Crea tu propia Agencia de IA»"
               width="1600"
-              height="1131"
+              height="1143"
               className="mx-auto max-h-[88vh] w-auto max-w-full rounded-xl bg-white object-contain"
             />
           </div>
