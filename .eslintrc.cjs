@@ -7,7 +7,7 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', 'node_modules', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.ssr-landing', 'node_modules', '.eslintrc.cjs'],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
@@ -24,6 +24,11 @@ module.exports = {
       // Escenas de React Three Fiber: sus props (metalness, intensity...) son de Three.js, no del DOM
       files: ['src/components/hero/*Scene.jsx', 'src/components/hero/Globe.jsx'],
       rules: { 'react/no-unknown-property': 'off' },
+    },
+    {
+      // Entradas de las landings: no son componentes, exportan render() y los datos para el prerender
+      files: ['src/landing/entry-*.jsx'],
+      rules: { 'react-refresh/only-export-components': 'off' },
     },
   ],
 }
