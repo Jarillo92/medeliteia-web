@@ -1,0 +1,124 @@
+/* Estilos propios de las landings por sector (la home no carga este archivo).
+   Animación: solo transform y opacity, menos de 300 ms y curva de salida (nunca ease-in). */
+
+:root {
+  --lp-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Entrada del hero al cargar: CSS puro, el contenido ya está en el HTML y acaba visible aunque no haya JavaScript */
+@keyframes lp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.lp-rise {
+  animation: lp-rise 280ms var(--lp-ease-out) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Aparición al hacer scroll: solo se ocultan, tras montar, los bloques que aún están por debajo de la pantalla */
+[data-reveal='pending'] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+[data-reveal='in'] {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 280ms var(--lp-ease-out), transform 280ms var(--lp-ease-out);
+  transition-delay: calc(var(--i, 0) * 50ms);
+}
+
+/* Mensajes del chat: nacen desde su esquina, nunca desde escala 0 */
+@keyframes lp-msg {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.lp-msg {
+  animation: lp-msg 240ms var(--lp-ease-out) both;
+}
+
+/* Puntos de "escribiendo" */
+@keyframes lp-typing {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+.lp-typing-dot {
+  animation: lp-typing 900ms ease-in-out infinite;
+}
+
+/* Chips del chat: botones con respuesta táctil */
+.lp-chip {
+  transition: transform 160ms var(--lp-ease-out), border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+.lp-chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-chip:hover:not(:disabled) {
+    border-color: rgb(var(--sector) / 0.55);
+    background-color: rgb(var(--sector) / 0.08);
+  }
+}
+
+/* Línea de tiempo: el relleno crece con transform, no con height */
+.lp-line-fill {
+  transform-origin: top;
+  transition: transform 280ms var(--lp-ease-out);
+}
+.lp-dot {
+  transition: transform 240ms var(--lp-ease-out), opacity 240ms ease;
+}
+
+/* Deslizadores de la calculadora en el color del sector */
+.lp-range {
+  accent-color: rgb(var(--sector));
+  height: 1.75rem;
+  cursor: pointer;
+}
+
+/* Números con ancho fijo para que no bailen al animarse */
+.lp-num {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-rise,
+  .lp-msg {
+    animation: fade-in 160ms ease both;
+  }
+  [data-reveal='pending'],
+  [data-reveal='in'] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .lp-typing-dot {
+    animation: none;
+    opacity: 0.7;
+  }
+  .lp-chip:active:not(:disabled) {
+    transform: none;
+  }
+  .lp-line-fill,
+  .lp-dot {
+    transition: none;
+  }
+}
