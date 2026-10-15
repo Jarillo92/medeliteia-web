@@ -44,7 +44,7 @@ function Footer() {
                 <Linkedin className="h-4 w-4" />
               </a>
               <a
-                href="https://www.instagram.com/medelite.ia/"
+                href="https://www.instagram.com/rafajarillo/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-muted hover:border-accent hover:text-accent transition-colors duration-200"
