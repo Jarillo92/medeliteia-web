@@ -1,36 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useMotionValueEvent, useScroll } from 'framer-motion'
 
 export function prefersReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-/**
- * Aparición al hacer scroll para los elementos con data-reveal dentro de rootRef.
- * Tras montar, solo se ocultan los que todavía están por debajo de la pantalla; los visibles no parpadean.
- * Sin JavaScript o con movimiento reducido, todo se queda visible.
- */
-export function useReveal(rootRef) {
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root || prefersReducedMotion() || !('IntersectionObserver' in window)) return undefined;
-
-    const items = Array.from(root.querySelectorAll('[data-reveal]'));
-    const below = items.filter((el) => el.getBoundingClientRect().top > window.innerHeight * 0.92);
-    below.forEach((el) => el.setAttribute('data-reveal', 'pending'));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.setAttribute('data-reveal', 'in');
-          observer.unobserve(entry.target);
-        });
-      },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.15 }
-    );
-    below.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [rootRef]);
+// Ratón de verdad: el efecto 3D del hero solo sigue al puntero en escritorio
+export function hasFinePointer() {
+  return typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 }
 
 /** Valor que solo existe en el navegador (p. ej. ?c=): null en el servidor y hasta que monta el cliente. */
@@ -49,17 +26,28 @@ const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayout
 /**
  * Número animado: React pinta el valor final y aquí se anima el mismo nodo de texto,
  * sin re-render por fotograma. El HTML del servidor ya trae el valor final formateado.
+ * Con `pulse`, el número además da un pequeño salto (transform/opacity) al cambiar.
  */
-export function useCountUp(value, format, duration = 260) {
+export function useCountUp(value, format, { duration = 260, pulse = false } = {}) {
   const ref = useRef(null);
   const shown = useRef(value);
 
   useIsoLayoutEffect(() => {
-    const text = ref.current?.firstChild;
+    const el = ref.current;
+    const text = el?.firstChild;
     const from = shown.current;
     if (!text || from === value || prefersReducedMotion()) {
       shown.current = value;
       return undefined;
+    }
+    if (pulse && el.animate) {
+      el.animate(
+        [
+          { transform: 'translateY(6px)', opacity: 0.55 },
+          { transform: 'translateY(0)', opacity: 1 },
+        ],
+        { duration: 240, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' }
+      );
     }
     let frame;
     const start = performance.now();
@@ -78,7 +66,34 @@ export function useCountUp(value, format, duration = 260) {
       // Si se interrumpe, React vuelve a pintar el valor final en el siguiente render
       text.nodeValue = format(value);
     };
-  }, [value, format, duration]);
+  }, [value, format, duration, pulse]);
 
   return ref;
+}
+
+/**
+ * Paso (0..steps) ligado al scroll de un bloque, para mockups que "se rellenan" al bajar (useScroll de framer-motion).
+ * En el servidor y sin JavaScript vale `steps` (bloque completo). Tras montar, si el bloque aún no ha
+ * llegado a la pantalla, empieza vacío y avanza con el scroll. Solo hay render cuando cambia el paso.
+ * También devuelve el progreso continuo (motion value) para rellenos que no necesitan pasos.
+ */
+const FILL_OFFSET = ['start 85%', 'end 45%'];
+
+export function useScrollFill(ref, { steps, offset = FILL_OFFSET }) {
+  const [step, setStep] = useState(steps);
+  const { scrollYProgress } = useScroll({ target: ref, offset });
+  const active = useRef(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || prefersReducedMotion()) return;
+    active.current = true;
+    if (el.getBoundingClientRect().top > window.innerHeight * 0.85) setStep(0);
+  }, [ref]);
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (active.current) setStep(Math.round(v * steps));
+  });
+
+  return { step, progress: scrollYProgress, active };
 }
