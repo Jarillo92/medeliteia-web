@@ -1,7 +1,8 @@
 import { useId, useState } from 'react'
 import { formatEuros, formatNumber } from '../format'
 import { useCountUp } from '../hooks'
-import SectionLabel from './SectionLabel'
+import { Reveal } from '../motion'
+import SectionHeading from './SectionHeading'
 
 const WEEKS_PER_MONTH = 4.33;
 
@@ -20,13 +21,13 @@ function Field({ field, value, onChange }) {
   };
 
   return (
-    <div className="border-t border-white/[0.07] pt-5 first:border-t-0 first:pt-0">
+    <div className="border-t border-white/[0.07] pt-6 first:border-t-0 first:pt-0">
       <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-        <label id={`${id}-label`} htmlFor={`${id}-range`} className="text-[15.5px] font-medium text-ink-soft">
+        <label id={`${id}-label`} htmlFor={`${id}-range`} className="text-[17px] font-medium text-ink-soft">
           {field.label}
           {field.unit && <span className="text-subtle"> ({field.unit})</span>}
         </label>
-        {field.hint && <span className="font-mono text-[11.5px] uppercase tracking-[0.12em] text-subtle">{field.hint}</span>}
+        {field.hint && <span className="rounded-full bg-white/[0.05] px-2.5 py-0.5 text-[13px] text-muted">{field.hint}</span>}
       </div>
       <div className="mt-3 flex items-center gap-4">
         <input
@@ -67,21 +68,16 @@ function LossCalculator({ sector }) {
   const appointments = Math.round(values.messages * WEEKS_PER_MONTH * (values.late / 100) * (values.booked / 10));
   const money = appointments * values.value;
 
-  const appointmentsRef = useCountUp(appointments, formatNumber);
-  const moneyRef = useCountUp(money, formatEuros);
+  const appointmentsRef = useCountUp(appointments, formatNumber, { pulse: true });
+  const moneyRef = useCountUp(money, formatEuros, { pulse: true });
 
   return (
-    <section id="calculadora" className="relative py-20 md:py-28">
-      <div className="hairline absolute inset-x-0 top-0" aria-hidden="true" />
+    <section id="calculadora" className="relative bg-ground py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl" data-reveal>
-          <SectionLabel>{calculator.label}</SectionLabel>
-          <h2 className="mt-4 text-[2rem] font-semibold leading-[1.08] tracking-[-0.03em] text-ink sm:text-[2.6rem]">{calculator.title}</h2>
-          <p className="mt-4 max-w-[38rem] text-lg leading-relaxed text-muted">{calculator.lead}</p>
-        </div>
+        <SectionHeading label={calculator.label} title={calculator.title} lead={calculator.lead} />
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
-          <div className="panel space-y-5 p-5 sm:p-8 lg:col-span-7" data-reveal>
+          <Reveal className="panel space-y-6 p-5 sm:p-8 lg:col-span-6">
             {calculator.fields.map((field) => (
               <Field
                 key={field.id}
@@ -90,41 +86,42 @@ function LossCalculator({ sector }) {
                 onChange={(n) => setValues((prev) => ({ ...prev, [field.id]: n }))}
               />
             ))}
-          </div>
+          </Reveal>
 
-          <div
-            className="relative flex flex-col justify-between overflow-hidden rounded-[22px] border border-sector/25 bg-accent-deep p-6 sm:p-8 lg:col-span-5"
-            style={{ '--i': 1 }}
-            data-reveal
+          <Reveal
+            index={1}
+            className="relative flex flex-col overflow-hidden rounded-[22px] border border-sector/25 bg-accent-deep p-6 shadow-lift sm:p-8 lg:col-span-6"
           >
             <div
-              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
-              style={{ background: 'radial-gradient(closest-side, rgb(var(--sector) / 0.28), transparent)' }}
+              className="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full"
+              style={{ background: 'radial-gradient(closest-side, rgb(var(--sector) / 0.30), transparent)' }}
               aria-hidden="true"
             />
-            <div className="relative space-y-8" aria-hidden="true">
-              <div>
-                <p className="text-[15px] text-ink-soft">{calculator.resultAppointments}</p>
-                <p ref={appointmentsRef} className="lp-num mt-2 text-[3.5rem] font-semibold leading-none tracking-[-0.03em] text-white sm:text-[4.25rem]">
+            <div className="relative" aria-hidden="true">
+              <p className="text-[17px] text-ink-soft">{calculator.resultMoney}</p>
+              {/* Cifra de pérdida mensual: enorme, con salto suave al cambiar */}
+              <p
+                ref={moneyRef}
+                className="lp-num mt-3 whitespace-nowrap text-[clamp(3.25rem,9vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white"
+              >
+                {formatEuros(money)}
+              </p>
+              <div className="mt-8 flex items-baseline gap-3 border-t border-white/10 pt-6">
+                <span ref={appointmentsRef} className="lp-num text-[2.5rem] font-semibold leading-none tracking-[-0.03em] text-sector">
                   {formatNumber(appointments)}
-                </p>
-              </div>
-              <div className="border-t border-white/10 pt-8">
-                <p className="text-[15px] text-ink-soft">{calculator.resultMoney}</p>
-                <p ref={moneyRef} className="lp-num mt-2 text-[2.5rem] font-semibold leading-none tracking-[-0.03em] text-sector sm:text-[3rem]">
-                  {formatEuros(money)}
-                </p>
+                </span>
+                <span className="text-[16px] text-ink-soft">{calculator.resultAppointments.toLowerCase()}</span>
               </div>
             </div>
             {/* Resultado para lectores de pantalla, sin los pasos intermedios de la animación */}
             <p className="sr-only" aria-live="polite">
-              {calculator.resultAppointments}: {formatNumber(appointments)}. {calculator.resultMoney}: {formatEuros(money)}.
+              {calculator.resultMoney}: {formatEuros(money)}. {calculator.resultAppointments}: {formatNumber(appointments)}.
             </p>
-            <div className="relative mt-10 space-y-2 text-[13px] leading-relaxed text-[#AFC0DE]">
+            <div className="relative mt-auto space-y-2 pt-10 text-[14px] leading-relaxed text-[#AFC0DE]">
               <p>{calculator.formula}</p>
-              <p className="text-ink-soft">{calculator.disclaimer}</p>
+              <p className="font-medium text-ink-soft">{calculator.disclaimer}</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
