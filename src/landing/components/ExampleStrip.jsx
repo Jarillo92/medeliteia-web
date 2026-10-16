@@ -1,11 +1,11 @@
 import { ArrowRight, Calculator, CalendarDays, MessageCircle } from 'lucide-react'
 import { Reveal } from '../motion'
 
-// Piezas de esta misma página que sirven de ejemplo, con enlace a cada una
-const PIECES = [
+// Piezas de esta misma página que sirven de ejemplo, con enlace a cada una (la agenda puede llamarse de otra forma por sector)
+const pieces = (sector) => [
   { href: '#prueba', label: 'Asistente', Icon: MessageCircle },
   { href: '#calculadora', label: 'Calculadora', Icon: Calculator },
-  { href: '#agenda', label: 'Agenda', Icon: CalendarDays },
+  { href: '#agenda', label: sector.example.agendaLabel || 'Agenda', Icon: CalendarDays },
 ];
 
 function ExampleStrip({ sector }) {
@@ -30,7 +30,7 @@ function ExampleStrip({ sector }) {
           </a>
         </Reveal>
         <Reveal as="ul" index={1} className="flex flex-wrap gap-2.5 lg:col-span-4 lg:justify-end">
-          {PIECES.map(({ href, label, Icon }) => (
+          {pieces(sector).map(({ href, label, Icon }) => (
             <li key={href}>
               <a href={href} className="lp-chip inline-flex items-center gap-2 rounded-full border border-white/10 bg-surface px-4 py-2.5 text-[15px] font-medium text-ink-soft">
                 <Icon className="h-4 w-4 text-sector" aria-hidden="true" />

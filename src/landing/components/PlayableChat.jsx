@@ -126,7 +126,7 @@ function PlayableChat({ sector, clinic }) {
             {/* Mensajes de pacientes: chips como botones */}
             <div className="order-2 border-t border-white/[0.07] p-4 sm:p-5 md:order-1 md:border-r md:border-t-0">
               <p id="chat-chips" className="px-1 text-[15px] font-semibold text-ink">
-                Mensajes de pacientes
+                {chat.chipsTitle}
               </p>
               <p className="mt-1 px-1 text-[14px] text-subtle">Toca uno para enviarlo.</p>
               <ul className="mt-4 space-y-2" role="group" aria-labelledby="chat-chips">
@@ -148,7 +148,7 @@ function PlayableChat({ sector, clinic }) {
                           }`}
                           aria-hidden="true"
                         >
-                          {done ? <Check className="h-4 w-4" /> : 'P'}
+                          {done ? <Check className="h-4 w-4" /> : chat.userInitial}
                         </span>
                         <span className={`text-[15.5px] leading-snug ${done ? 'text-subtle' : 'text-ink-soft'}`}>
                           {scenario.question}
@@ -192,14 +192,14 @@ function PlayableChat({ sector, clinic }) {
                 <div className="mb-1 mt-auto self-center rounded-md bg-[#101826] px-2 py-0.5 text-[11px] text-[#8A96AB]">Hoy</div>
                 {messages.length === 0 && (
                   <p className="mx-auto mb-auto mt-6 max-w-[16rem] text-center text-[14px] leading-relaxed text-[#8A96AB]">
-                    Elige un mensaje de paciente <span className="md:hidden">(debajo) </span>para empezar la conversación.
+                    {chat.emptyHint.before} <span className="md:hidden">(debajo) </span>{chat.emptyHint.after}
                   </p>
                 )}
                 {messages.map((msg) =>
                   msg.booking ? (
                     <BookingCard key={msg.key} booking={msg.booking} />
                   ) : (
-                    <Bubble key={msg.key} from={msg.from}>
+                    <Bubble key={msg.key} from={msg.from} userLabel={chat.userLabel}>
                       {fillClinic(msg.text, clinicName)}
                     </Bubble>
                   )

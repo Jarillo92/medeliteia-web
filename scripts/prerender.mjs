@@ -6,7 +6,13 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 // Rutas que se prerenderizan (lista fija). Cada una necesita su archivo en src/landings/sectors/.
-const ROUTES = ['clinicas-dentales'];
+const ROUTES = [
+  'clinicas-dentales',
+  'clinicas-veterinarias',
+  'centros-de-estetica',
+  'salones-de-belleza',
+  'gimnasios-y-centros-deportivos',
+];
 
 const SITE = 'https://www.medeliteia.com';
 const OG_IMAGE = `${SITE}/dashboard-mockup.png`;

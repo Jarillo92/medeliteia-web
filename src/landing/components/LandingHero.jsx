@@ -105,7 +105,7 @@ function HeroPhone({ sector, clinic }) {
       <ChatHeader title={title} typing={typing} />
       <div className="flex min-h-0 flex-1 flex-col justify-end gap-2 overflow-hidden px-3 py-3.5" aria-label="Conversación de ejemplo por WhatsApp" role="img">
         {messages.map((msg) => (
-          <Bubble key={msg.key} from={msg.from}>
+          <Bubble key={msg.key} from={msg.from} userLabel={sector.chat.userLabel}>
             {fillClinic(msg.text, clinicName)}
           </Bubble>
         ))}

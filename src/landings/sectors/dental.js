@@ -4,8 +4,26 @@
 
 const dental = {
   slug: 'clinicas-dentales',
-  // Acento del sector en canales RGB (variable CSS --sector). Dental usa el azul de la web.
-  accent: '91 140 255',
+  // Colores del sector en canales RGB (variables CSS --sector-*), todos con contraste AA:
+  // accent = texto e iconos sobre fondo oscuro; solid/on = botones y burbujas (fondo y texto); deep = campo de color; ink = texto sobre la sección clara.
+  // Dental usa el azul de la web.
+  colors: {
+    accent: '91 140 255',
+    solid: '47 107 255',
+    on: '255 255 255',
+    deep: '10 22 51',
+    ink: '37 84 214',
+    // Detalles que dental conserva tal como estaban en main (#1D4ED8, #2F6BFF, #7FA8FF...)
+    solidHover: '74 125 255',
+    bubble: '29 78 216',
+    bubbleOn: '255 255 255',
+    check: '191 209 255',
+    chrome: '127 168 255',
+    avatarFrom: '47 107 255',
+    avatarTo: '26 63 168',
+    slot: '15 28 56',
+    node: '12 26 54',
+  },
 
   meta: {
     title: 'IA para clínicas dentales: citas por WhatsApp | MedElite IA',
@@ -61,6 +79,10 @@ const dental = {
     note: 'Conversación de ejemplo con respuestas preparadas. El asistente real se adapta a tu clínica.',
     // Primera frase del asistente en cualquier conversación: siempre se presenta como IA
     intro: 'Hola, soy el asistente de {clinica} (una IA).',
+    chipsTitle: 'Mensajes de pacientes',
+    userInitial: 'P',
+    userLabel: 'Paciente',
+    emptyHint: { before: 'Elige un mensaje de paciente', after: 'para empezar la conversación.' },
     scenarios: [
       {
         id: 'limpieza',
@@ -100,7 +122,8 @@ const dental = {
     lead: 'Cada conversación que termina en cita aparece en la agenda. Baja despacio y mira cómo se ocupan los huecos.',
     agendaTitleFallback: 'Agenda de tu clínica',
     day: 'Jueves',
-    rooms: ['Gabinete 1', 'Gabinete 2'],
+    columns: ['Gabinete 1', 'Gabinete 2'],
+    counterLabel: 'huecos ocupados',
     times: ['9:00', '9:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30'],
     // Huecos que se ocupan, en orden de llenado: [fila, gabinete, tratamiento]
     bookings: [

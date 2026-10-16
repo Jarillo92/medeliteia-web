@@ -90,7 +90,7 @@ function LossCalculator({ sector }) {
 
           <Reveal
             index={1}
-            className="relative flex flex-col overflow-hidden rounded-[22px] border border-sector/25 bg-accent-deep p-6 shadow-lift sm:p-8 lg:col-span-6"
+            className="relative flex flex-col overflow-hidden rounded-[22px] border border-sector/25 bg-sector-deep p-6 shadow-lift sm:p-8 lg:col-span-6"
           >
             <div
               className="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full"

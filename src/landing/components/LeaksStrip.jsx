@@ -1,9 +1,10 @@
-import { CalendarX2, FileText, MessageCircleOff, RotateCcw } from 'lucide-react'
+import { CalendarX2, FileText, MessageCircleOff, PawPrint, RotateCcw, Sparkles, UserMinus, Users } from 'lucide-react'
 import { Reveal } from '../motion'
 import SectionHeading from './SectionHeading'
 
-// Un icono por fuga, en el mismo orden que leaks.items del sector
-const LEAK_ICONS = [MessageCircleOff, FileText, RotateCcw, CalendarX2];
+// Iconos por nombre (item.icon). Sin nombre, se usan en este orden.
+const LEAK_ICONS = { night: MessageCircleOff, quote: FileText, revisit: RotateCcw, cancel: CalendarX2, paw: PawPrint, sparkles: Sparkles, lapsed: UserMinus, group: Users };
+const LEAK_ORDER = ['night', 'quote', 'revisit', 'cancel'];
 
 // Franja "Dónde se escapan pacientes": cuatro columnas separadas por líneas finas, sin tarjetas
 function LeaksStrip({ sector }) {
@@ -14,7 +15,7 @@ function LeaksStrip({ sector }) {
         <SectionHeading label={leaks.label} title={leaks.title} titleClassName="lg:text-[2.75rem]" />
         <ul className="mt-14 grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {leaks.items.map((item, i) => {
-            const Icon = LEAK_ICONS[i % LEAK_ICONS.length];
+            const Icon = LEAK_ICONS[item.icon || LEAK_ORDER[i % LEAK_ORDER.length]];
             return (
               <Reveal as="li" key={item.tag} index={i} className="relative border-t border-white/[0.08] pt-6">
                 <span className="absolute -top-px left-0 h-px w-12 bg-sector/70" aria-hidden="true" />
