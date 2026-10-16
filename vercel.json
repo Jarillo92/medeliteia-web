@@ -10,7 +10,15 @@
     { "source": "/prompt-clientes", "destination": "/index.html" },
     { "source": "/prompt-clientes/", "destination": "/index.html" },
     { "source": "/clinicas-dentales", "destination": "/clinicas-dentales/index.html" },
-    { "source": "/clinicas-dentales/", "destination": "/clinicas-dentales/index.html" }
+    { "source": "/clinicas-dentales/", "destination": "/clinicas-dentales/index.html" },
+    { "source": "/clinicas-veterinarias", "destination": "/clinicas-veterinarias/index.html" },
+    { "source": "/clinicas-veterinarias/", "destination": "/clinicas-veterinarias/index.html" },
+    { "source": "/centros-de-estetica", "destination": "/centros-de-estetica/index.html" },
+    { "source": "/centros-de-estetica/", "destination": "/centros-de-estetica/index.html" },
+    { "source": "/salones-de-belleza", "destination": "/salones-de-belleza/index.html" },
+    { "source": "/salones-de-belleza/", "destination": "/salones-de-belleza/index.html" },
+    { "source": "/gimnasios-y-centros-deportivos", "destination": "/gimnasios-y-centros-deportivos/index.html" },
+    { "source": "/gimnasios-y-centros-deportivos/", "destination": "/gimnasios-y-centros-deportivos/index.html" }
   ],
   "headers": [
     {
