@@ -1,7 +1,10 @@
 import { CONTACT_EMAIL, LEGAL_LINKS, WHATSAPP_NUMBER_LABEL, WHATSAPP_URL } from '../../config'
+import { SECTORS } from '../../landings/sectors'
 
 // Pie ligero de las landings: el de la home enlaza a secciones de la home (/#...), este solo a la home y a las legales
-function LandingFooter() {
+function LandingFooter({ current }) {
+  // Enlaces cruzados a las demás landings (todas existen: salen del registro de sectores)
+  const others = Object.values(SECTORS).filter((s) => s.slug !== current);
   return (
     <footer className="relative border-t border-white/[0.06] bg-[#04060A] pt-14 pb-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -14,6 +17,18 @@ function LandingFooter() {
               Agencia española de automatización con IA. Asistentes en WhatsApp que atienden, dan cita y recuerdan.
             </p>
           </div>
+          <nav aria-label="Otros sectores">
+            <p className="text-[14px] font-semibold text-ink">Otros sectores</p>
+            <ul className="mt-2 space-y-1 text-[15px]">
+              {others.map((s) => (
+                <li key={s.slug}>
+                  <a href={`/${s.slug}`} className="inline-block py-1.5 text-muted transition-colors duration-200 hover:text-ink">
+                    {s.meta.breadcrumb}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <ul className="space-y-1 text-[15px]">
             <li>
               <a href="/" className="inline-block py-2 text-muted transition-colors duration-200 hover:text-ink">
