@@ -7,7 +7,23 @@ const dental = {
   // Colores del sector en canales RGB (variables CSS --sector-*), todos con contraste AA:
   // accent = texto e iconos sobre fondo oscuro; solid/on = botones y burbujas (fondo y texto); deep = campo de color; ink = texto sobre la sección clara.
   // Dental usa el azul de la web.
-  colors: { accent: '91 140 255', solid: '47 107 255', on: '255 255 255', deep: '10 22 51', ink: '37 84 214' },
+  colors: {
+    accent: '91 140 255',
+    solid: '47 107 255',
+    on: '255 255 255',
+    deep: '10 22 51',
+    ink: '37 84 214',
+    // Detalles que dental conserva tal como estaban en main (#1D4ED8, #2F6BFF, #7FA8FF...)
+    solidHover: '74 125 255',
+    bubble: '29 78 216',
+    bubbleOn: '255 255 255',
+    check: '191 209 255',
+    chrome: '127 168 255',
+    avatarFrom: '47 107 255',
+    avatarTo: '26 63 168',
+    slot: '15 28 56',
+    node: '12 26 54',
+  },
 
   meta: {
     title: 'IA para clínicas dentales: citas por WhatsApp | MedElite IA',

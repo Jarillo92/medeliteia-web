@@ -41,12 +41,12 @@ export function Bubble({ from, userLabel = 'Cliente', children }) {
       <div
         className={`px-3 pt-2 pb-2 text-[14.5px] leading-[1.4] ${
           isPatient
-            ? 'rounded-2xl rounded-br-md bg-sector-solid text-sector-on shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]'
+            ? 'rounded-2xl rounded-br-md bg-sector-bubble text-sector-bubble-on shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]'
             : 'rounded-2xl rounded-bl-md bg-[#1A2334] text-[#E9EEF6]'
         }`}
       >
         {children}
-        {isPatient && <Check className="ml-1.5 inline h-3 w-3 opacity-70" aria-hidden="true" />}
+        {isPatient && <Check className="ml-1.5 inline h-3 w-3 text-sector-check" aria-hidden="true" />}
       </div>
     </div>
   );
@@ -56,16 +56,16 @@ export function Bubble({ from, userLabel = 'Cliente', children }) {
 export function ChatHeader({ title, typing }) {
   return (
     <div className="flex items-center gap-2.5 border-b border-white/[0.06] bg-[#0B111B] px-3 py-2.5">
-      <ChevronLeft className="h-5 w-5 flex-shrink-0 text-sector" aria-hidden="true" />
-      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-sector-solid text-[12px] font-bold text-sector-on shadow-[inset_0_-8px_12px_rgba(0,0,0,0.18)]" aria-hidden="true">
+      <ChevronLeft className="h-5 w-5 flex-shrink-0 text-sector-chrome" aria-hidden="true" />
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sector-avatar-from to-sector-avatar-to text-[12px] font-bold text-sector-on" aria-hidden="true">
         {initials(title)}
       </div>
       <div className="min-w-0 flex-1">
         <div className="truncate text-[15px] font-semibold leading-tight text-[#EDF1F7]">{title}</div>
-        <div className="text-[11.5px] leading-tight text-sector">{typing ? 'escribiendo…' : 'asistente de IA · en línea'}</div>
+        <div className="text-[11.5px] leading-tight text-sector-chrome">{typing ? 'escribiendo…' : 'asistente de IA · en línea'}</div>
       </div>
-      <Video className="h-[18px] w-[18px] flex-shrink-0 text-sector" aria-hidden="true" />
-      <PhoneIcon className="h-4 w-4 flex-shrink-0 text-sector" aria-hidden="true" />
+      <Video className="h-[18px] w-[18px] flex-shrink-0 text-sector-chrome" aria-hidden="true" />
+      <PhoneIcon className="h-4 w-4 flex-shrink-0 text-sector-chrome" aria-hidden="true" />
     </div>
   );
 }

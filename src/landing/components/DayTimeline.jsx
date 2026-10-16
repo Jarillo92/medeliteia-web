@@ -68,7 +68,7 @@ function DayTimeline({ sector }) {
                 <span
                   className={`lp-node absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-2xl border ${
                     on
-                      ? 'scale-100 border-sector/50 bg-sector-deep text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]'
+                      ? 'scale-100 border-sector/50 bg-sector-node text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]'
                       : 'scale-90 border-white/10 bg-surface text-subtle'
                   }`}
                   aria-hidden="true"

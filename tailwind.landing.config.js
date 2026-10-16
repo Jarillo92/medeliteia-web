@@ -19,6 +19,15 @@ export default {
           on: 'rgb(var(--sector-on) / <alpha-value>)',
           deep: 'rgb(var(--sector-deep) / <alpha-value>)',
           ink: 'rgb(var(--sector-ink) / <alpha-value>)',
+          // Detalles del teléfono y la agenda (por sector; si faltan en los datos, salen del color principal)
+          bubble: 'rgb(var(--sector-bubble) / <alpha-value>)',
+          'bubble-on': 'rgb(var(--sector-bubble-on) / <alpha-value>)',
+          check: 'rgb(var(--sector-check) / <alpha-value>)',
+          chrome: 'rgb(var(--sector-chrome) / <alpha-value>)',
+          'avatar-from': 'rgb(var(--sector-avatar-from) / <alpha-value>)',
+          'avatar-to': 'rgb(var(--sector-avatar-to) / <alpha-value>)',
+          slot: 'rgb(var(--sector-slot) / <alpha-value>)',
+          node: 'rgb(var(--sector-node) / <alpha-value>)',
         },
         // Sección clara de cada landing (cómo funciona y preguntas)
         paper: {

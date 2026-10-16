@@ -25,7 +25,7 @@ function Slot({ booking, detail, booked, free, via }) {
       </div>
       {booking && (
         <div
-          className={`lp-slot absolute inset-0 flex flex-col justify-center rounded-xl border border-sector/35 bg-sector-deep px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${
+          className={`lp-slot absolute inset-0 flex flex-col justify-center rounded-xl border border-sector/35 bg-sector-slot px-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] ${
             booked ? 'scale-100 opacity-100' : 'scale-[0.96] opacity-0'
           }`}
           aria-hidden={!booked}
