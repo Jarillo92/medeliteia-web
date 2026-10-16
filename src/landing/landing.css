@@ -6,6 +6,19 @@
   --lp-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* Botón principal en el color del sector (las variables --sector-* las pone cada landing en su contenedor) */
+.btn-primary {
+  background-color: rgb(var(--sector-solid));
+  color: rgb(var(--sector-on));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -8px rgb(var(--sector-solid) / 0.5);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    background-color: rgb(var(--sector-solid) / 0.88);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px -8px rgb(var(--sector-solid) / 0.7);
+  }
+}
+
 /* Entrada del hero al cargar: CSS puro, el contenido ya está en el HTML y acaba visible aunque no haya JavaScript */
 @keyframes lp-rise {
   from {
@@ -103,6 +116,16 @@
   transition: transform 200ms var(--lp-ease-out);
 }
 
+/* Agenda por columnas (consultas, profesionales...): hora + N columnas iguales */
+.lp-agenda-grid {
+  grid-template-columns: 44px repeat(var(--cols, 2), minmax(0, 1fr));
+}
+@media (min-width: 640px) {
+  .lp-agenda-grid {
+    grid-template-columns: 56px repeat(var(--cols, 2), minmax(0, 1fr));
+  }
+}
+
 /* Huecos de la agenda: libre y ocupado se cruzan */
 .lp-slot {
   transition: opacity 260ms var(--lp-ease-out), transform 260ms var(--lp-ease-out);
@@ -132,6 +155,9 @@
 @media (hover: hover) and (pointer: fine) {
   .lp-faq summary:hover h3 {
     color: theme('colors.ink.DEFAULT');
+  }
+  .lp-faq-light summary:hover h3 {
+    color: theme('colors.paper.ink');
   }
 }
 

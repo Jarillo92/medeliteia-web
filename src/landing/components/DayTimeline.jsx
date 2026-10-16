@@ -1,11 +1,22 @@
 import { useEffect, useRef } from 'react'
-import { BellRing, CalendarCheck2, FileText, MessageCircle, Repeat } from 'lucide-react'
+import { BellRing, CalendarCheck2, Dumbbell, FileText, MessageCircle, PawPrint, Repeat, Scissors, Sparkles, UserPlus } from 'lucide-react'
 import { useMotionValueEvent } from 'framer-motion'
 import { useScrollFill } from '../hooks'
 import { Reveal } from '../motion'
 import SectionHeading from './SectionHeading'
 
-const ICONS = { message: MessageCircle, calendar: CalendarCheck2, bell: BellRing, file: FileText, repeat: Repeat };
+const ICONS = {
+  message: MessageCircle,
+  calendar: CalendarCheck2,
+  bell: BellRing,
+  file: FileText,
+  repeat: Repeat,
+  paw: PawPrint,
+  sparkles: Sparkles,
+  scissors: Scissors,
+  dumbbell: Dumbbell,
+  userPlus: UserPlus,
+};
 const OFFSET = ['start 70%', 'end 55%'];
 
 /**
@@ -57,7 +68,7 @@ function DayTimeline({ sector }) {
                 <span
                   className={`lp-node absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-2xl border ${
                     on
-                      ? 'scale-100 border-sector/50 bg-[#0C1A36] text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]'
+                      ? 'scale-100 border-sector/50 bg-sector-deep text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]'
                       : 'scale-90 border-white/10 bg-surface text-subtle'
                   }`}
                   aria-hidden="true"

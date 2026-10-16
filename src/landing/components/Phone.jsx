@@ -33,20 +33,20 @@ export function BookingCard({ booking, title = 'Cita reservada' }) {
 }
 
 // Burbuja de WhatsApp (paciente a la derecha en azul, asistente a la izquierda)
-export function Bubble({ from, children }) {
+export function Bubble({ from, userLabel = 'Cliente', children }) {
   const isPatient = from === 'patient';
   return (
     <div className={`lp-msg max-w-[86%] ${isPatient ? 'origin-bottom-right self-end' : 'origin-bottom-left self-start'}`}>
-      <span className="sr-only">{isPatient ? 'Paciente: ' : 'Asistente: '}</span>
+      <span className="sr-only">{isPatient ? `${userLabel}: ` : 'Asistente: '}</span>
       <div
         className={`px-3 pt-2 pb-2 text-[14.5px] leading-[1.4] ${
           isPatient
-            ? 'rounded-2xl rounded-br-md bg-[#1D4ED8] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]'
+            ? 'rounded-2xl rounded-br-md bg-sector-solid text-sector-on shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]'
             : 'rounded-2xl rounded-bl-md bg-[#1A2334] text-[#E9EEF6]'
         }`}
       >
         {children}
-        {isPatient && <Check className="ml-1.5 inline h-3 w-3 text-[#BFD1FF]" aria-hidden="true" />}
+        {isPatient && <Check className="ml-1.5 inline h-3 w-3 opacity-70" aria-hidden="true" />}
       </div>
     </div>
   );
@@ -56,16 +56,16 @@ export function Bubble({ from, children }) {
 export function ChatHeader({ title, typing }) {
   return (
     <div className="flex items-center gap-2.5 border-b border-white/[0.06] bg-[#0B111B] px-3 py-2.5">
-      <ChevronLeft className="h-5 w-5 flex-shrink-0 text-[#7FA8FF]" aria-hidden="true" />
-      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#2F6BFF] to-[#1a3fa8] text-[12px] font-bold text-white" aria-hidden="true">
+      <ChevronLeft className="h-5 w-5 flex-shrink-0 text-sector" aria-hidden="true" />
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-sector-solid text-[12px] font-bold text-sector-on shadow-[inset_0_-8px_12px_rgba(0,0,0,0.18)]" aria-hidden="true">
         {initials(title)}
       </div>
       <div className="min-w-0 flex-1">
         <div className="truncate text-[15px] font-semibold leading-tight text-[#EDF1F7]">{title}</div>
-        <div className="text-[11.5px] leading-tight text-[#7FA8FF]">{typing ? 'escribiendo…' : 'asistente de IA · en línea'}</div>
+        <div className="text-[11.5px] leading-tight text-sector">{typing ? 'escribiendo…' : 'asistente de IA · en línea'}</div>
       </div>
-      <Video className="h-[18px] w-[18px] flex-shrink-0 text-[#7FA8FF]" aria-hidden="true" />
-      <PhoneIcon className="h-4 w-4 flex-shrink-0 text-[#7FA8FF]" aria-hidden="true" />
+      <Video className="h-[18px] w-[18px] flex-shrink-0 text-sector" aria-hidden="true" />
+      <PhoneIcon className="h-4 w-4 flex-shrink-0 text-sector" aria-hidden="true" />
     </div>
   );
 }
@@ -75,7 +75,7 @@ export function ComposerBar() {
   return (
     <div className="flex items-center gap-2 px-2.5 pb-5 pt-2" aria-hidden="true">
       <div className="flex-1 rounded-full bg-[#121A27] px-4 py-2.5 text-[12.5px] text-[#6E7A8F]">Mensaje</div>
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#2F6BFF] text-white">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-sector-solid text-sector-on">
         <Mic className="h-4 w-4" />
       </div>
     </div>
