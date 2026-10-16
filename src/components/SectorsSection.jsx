@@ -10,6 +10,7 @@ import { EASE_OUT } from './ui/motion'
 const SPECIALTIES = [
   {
     name: 'IA para clínicas dentales',
+    href: '/clinicas-dentales',
     icon: Stethoscope,
     question: '¿Tenéis hueco para una limpieza esta semana?',
     uses: [
@@ -20,6 +21,7 @@ const SPECIALTIES = [
   },
   {
     name: 'IA para clínicas veterinarias',
+    href: '/clinicas-veterinarias',
     icon: PawPrint,
     question: 'Hola, ¿puedo pedir cita para vacunar a mi perra?',
     uses: [
@@ -30,6 +32,8 @@ const SPECIALTIES = [
   },
   {
     name: 'IA para centros de estética y salones de belleza',
+    // Una sola tarjeta para dos landings: enlaza a estética (la de salones no tiene tarjeta propia)
+    href: '/centros-de-estetica',
     icon: Sparkles,
     question: '¿Tenéis hueco para uñas el viernes por la tarde?',
     uses: [
@@ -39,6 +43,14 @@ const SPECIALTIES = [
     ],
   },
 ];
+
+// Tarjeta enlazada: toda la superficie es un <a>. Hover solo con ratón, solo transform;
+// :active a 0.97; sin movimiento con prefers-reduced-motion. El foco visible es el global.
+const LINK_CARD =
+  'transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97] [@media(hover:hover)]:hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:transform-none';
+
+// Landing de gimnasios, enlazada desde el bloque "También para"
+const GYM_HREF = '/gimnasios-y-centros-deportivos';
 
 const ALSO_FOR = ['Gimnasios', 'Centros deportivos', 'Cualquier negocio con cita previa'];
 
@@ -160,7 +172,11 @@ function SectorsSection() {
             const Icon = sector.icon;
             return (
               <StaggerItem key={sector.name} className="h-full">
-                <SpotlightCard className="panel flex h-full flex-col p-6 sm:p-7">
+                <SpotlightCard
+                  as={sector.href ? 'a' : 'div'}
+                  href={sector.href}
+                  className={`panel flex h-full flex-col p-6 sm:p-7 ${sector.href ? LINK_CARD : ''}`}
+                >
                   <div className="flex items-center gap-3">
                     <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent-soft text-accent-bright shadow-[inset_0_0_0_1px_rgba(91,140,255,0.22)]">
                       <Icon className="h-5 w-5" aria-hidden="true" />
@@ -188,23 +204,28 @@ function SectorsSection() {
         </Stagger>
 
         {/* Más allá de las clínicas */}
-        <Reveal className="panel mt-5 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center p-6 sm:p-8 lg:p-10">
-          <div className="lg:col-span-7">
-            <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-accent">También para</div>
-            <h3 className="mt-4 text-2xl sm:text-3xl font-semibold leading-tight tracking-[-0.02em] text-ink">
-              Gimnasios y cualquier negocio que viva de su agenda
-            </h3>
-            <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted">
-              Si tus clientes piden cita, preguntan horarios o se olvidan de venir, el asistente funciona igual: responde, reserva y recuerda.
-            </p>
-          </div>
-          <ul className="lg:col-span-5 flex flex-wrap gap-2 lg:justify-end">
-            {ALSO_FOR.map((item) => (
-              <li key={item} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[14px] text-ink-soft">
-                {item}
-              </li>
-            ))}
-          </ul>
+        <Reveal className="mt-5">
+          <a
+            href={GYM_HREF}
+            className={`panel grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center p-6 sm:p-8 lg:p-10 ${LINK_CARD}`}
+          >
+            <div className="lg:col-span-7">
+              <div className="text-[13px] font-semibold uppercase tracking-[0.14em] text-accent">También para</div>
+              <h3 className="mt-4 text-2xl sm:text-3xl font-semibold leading-tight tracking-[-0.02em] text-ink">
+                Gimnasios y cualquier negocio que viva de su agenda
+              </h3>
+              <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-muted">
+                Si tus clientes piden cita, preguntan horarios o se olvidan de venir, el asistente funciona igual: responde, reserva y recuerda.
+              </p>
+            </div>
+            <ul className="lg:col-span-5 flex flex-wrap gap-2 lg:justify-end">
+              {ALSO_FOR.map((item) => (
+                <li key={item} className="rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[14px] text-ink-soft">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </a>
         </Reveal>
 
         <Reveal className="mt-5" delay={0.05}>
