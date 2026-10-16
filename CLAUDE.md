@@ -61,7 +61,8 @@
 - No tocar el registro TXT de verificación de Search Console: está en Cloudflare, no en el repo.
 - Las previews de Vercel añaden por sí solas X-Robots-Tag: noindex a todas las páginas. Ese noindex en una preview es normal y no es un fallo del repo.
 - **Landings por sector:** las cinco rutas (dental, veterinarias, estética, salones, gimnasios) prerenderizadas (title, description, canonical, Open Graph, JSON-LD Service + BreadcrumbList), en el sitemap y con rewrites con y sin barra final.
-- Pendiente: enlaces desde las tarjetas de la home a las landings (PR B aparte); caso MOOV como página propia; testimonio de Álvaro.
+- **Enlaces de la home a las landings (PR B):** en SectorsSection.jsx cada tarjeta de sector es un `<a>` completo (enlace interno normal, sin target="_blank") a su landing: dental → /clinicas-dentales, veterinarias → /clinicas-veterinarias, la tarjeta "estética y salones" → /centros-de-estetica, y el bloque "También para" (Gimnasios) → /gimnasios-y-centros-deportivos. El `href` va en cada elemento de SPECIALTIES; sin `href`, la tarjeta sigue siendo un div sin enlace. Estilo común en la constante LINK_CARD: hover solo con (hover:hover) y solo translateY, :active scale(0.97), 200 ms con la curva EASE_OUT, sin movimiento con prefers-reduced-motion; el foco visible es el global. En el bloque de gimnasios el `<a>` va dentro del `<Reveal>` (framer escribe el transform en el Reveal y pisaría el hover). Los textos y el diseño de las tarjetas no cambian. Salones de belleza no tiene tarjeta propia en la home (comparte la de estética): su landing solo se enlaza desde el pie de las landings.
+- Pendiente: enlace a /salones-de-belleza desde la home (hace falta decidir si se separa la tarjeta de estética y salones); caso MOOV como página propia; testimonio de Álvaro.
 
 ## Versiones (tags en main)
 - v1.0: web original.
