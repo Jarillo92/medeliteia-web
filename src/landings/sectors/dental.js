@@ -55,6 +55,8 @@ const dental = {
     subtitle:
       'Un asistente de IA responde a tus pacientes, les da cita y les hace seguimiento. Tu equipo se queda con lo que importa: el sillón.',
     secondaryCta: 'Pruébalo tú mismo',
+    // Visual del hero: 'tooth' = DentalHero (diente wireframe en SVG/CSS detrás del teléfono). Sin `visual`, hero de siempre.
+    visual: 'tooth',
     // Tarjetas flotantes alrededor del teléfono (ejemplos de lo que hace el asistente)
     floating: [
       { kind: 'message', title: 'Nuevo mensaje', text: '¿Tenéis hueco esta semana?', meta: '22:41' },

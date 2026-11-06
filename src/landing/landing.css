@@ -189,6 +189,91 @@
   }
 }
 
+/* Hero de dental: diente en malla de alambre (SVG) detrás del teléfono. Solo transform y opacity.
+   Por defecto (móvil, movimiento reducido) está estático y completo; las animaciones solo desde sm y sin movimiento reducido. */
+.lp-tooth {
+  fill: none;
+  stroke: rgb(var(--sector));
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+.lp-tooth-node {
+  fill: rgb(var(--sector));
+  stroke: none;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.lp-tooth-sway {
+  transform-origin: center;
+}
+@media (max-width: 639px) {
+  /* Móvil: versión simple, solo contorno y los nodos del contorno */
+  .lp-tooth-mesh,
+  .lp-tooth-node:nth-child(n + 8) {
+    display: none;
+  }
+  .lp-tooth {
+    opacity: 0.7;
+  }
+  /* El chat del teléfono asoma desde arriba: la conversación empieza en la cabecera */
+  .lp-dh-stage [role='img'] {
+    justify-content: flex-start;
+  }
+}
+@keyframes lp-tooth-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes lp-tooth-sway {
+  from {
+    transform: rotateY(-14deg);
+  }
+  to {
+    transform: rotateY(14deg);
+  }
+}
+@keyframes lp-tooth-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.7);
+  }
+}
+@media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
+  .lp-tooth-g1 {
+    animation: lp-tooth-in 500ms var(--lp-ease-out) 100ms both;
+  }
+  .lp-tooth-g2 {
+    animation: lp-tooth-in 600ms var(--lp-ease-out) 450ms both;
+  }
+  .lp-tooth-g3 {
+    animation: lp-tooth-in 600ms var(--lp-ease-out) 800ms both;
+  }
+  .lp-tooth-g4 {
+    animation: lp-tooth-in 500ms var(--lp-ease-out) 1100ms both;
+  }
+  .lp-tooth-sway {
+    animation: lp-tooth-sway 18s ease-in-out infinite alternate;
+  }
+  .lp-tooth-node {
+    animation: lp-tooth-pulse 3s ease-in-out infinite;
+    animation-delay: calc(1.6s + var(--n, 0) * -0.4s);
+  }
+}
+/* Se pausa todo lo ambiental del hero cuando sale de pantalla (DentalHero pone data-paused) */
+.lp-dh[data-paused='true'] :is(.lp-tooth-sway, .lp-tooth-node, .lp-float) {
+  animation-play-state: paused;
+}
+
 /* Deslizadores de la calculadora en el color del sector */
 .lp-range {
   accent-color: rgb(var(--sector));

@@ -25,7 +25,9 @@ const CARD_SLOTS = [
  * El teléfono sigue suavemente al ratón (solo con ratón de verdad y sin movimiento reducido).
  * Se escribe el transform directamente en el nodo con requestAnimationFrame: sin re-render de React.
  */
-function useTilt(areaRef, tiltRef) {
+// Se exporta para que lo reutilice el hero de dental (dental/DentalHero.jsx)
+// eslint-disable-next-line react-refresh/only-export-components
+export function useTilt(areaRef, tiltRef) {
   useEffect(() => {
     const area = areaRef.current;
     const tilt = tiltRef.current;
@@ -94,7 +96,7 @@ function useHeroConversation(scenario, intro) {
   return { messages, typing: step === 2, booking: step >= 4 ? followUp.booking : null };
 }
 
-function HeroPhone({ sector, clinic }) {
+export function HeroPhone({ sector, clinic }) {
   const scenario = sector.chat.scenarios.find((s) => s.followUp) || sector.chat.scenarios[0];
   const { messages, typing, booking } = useHeroConversation(scenario, sector.chat.intro);
   const clinicName = clinic || sector.clinicFallback;
@@ -117,7 +119,7 @@ function HeroPhone({ sector, clinic }) {
   );
 }
 
-function FloatingCard({ card, slot, index }) {
+export function FloatingCard({ card, slot, index }) {
   const Icon = CARD_ICONS[card.kind] || MessageCircle;
   return (
     <div className={`absolute ${slot}`} style={{ transform: 'translateZ(var(--z))' }} aria-hidden="true">

@@ -1,6 +1,7 @@
 import { LazyMotion } from 'framer-motion'
 import LandingNav from './components/LandingNav'
 import LandingHero from './components/LandingHero'
+import DentalHero from './components/dental/DentalHero'
 import LeaksStrip from './components/LeaksStrip'
 import PlayableChat from './components/PlayableChat'
 import ProductPreview from './components/ProductPreview'
@@ -46,6 +47,8 @@ const loadMotionFeatures = () => import('./motionFeatures').then((mod) => mod.de
 function LandingPage({ sector }) {
   // Modo demo: ?c=Nombre. En el servidor y hasta montar no hay nombre ("tu clínica").
   const clinic = useClientValue(readFromUrl);
+  // Hero propio solo para los sectores que lo piden (hoy, dental); el resto usa el de siempre
+  const Hero = sector.hero.visual === 'tooth' ? DentalHero : LandingHero;
 
   return (
     // LazyMotion con domAnimation: solo la parte de framer-motion que usan las entradas, cargada en diferido
@@ -53,7 +56,7 @@ function LandingPage({ sector }) {
       <div className="relative min-h-screen" style={sectorVars(sector.colors)} data-theme={sector.theme}>
         <LandingNav />
         <main>
-          <LandingHero sector={sector} clinic={clinic} />
+          <Hero sector={sector} clinic={clinic} />
           <LeaksStrip sector={sector} />
           <PlayableChat sector={sector} clinic={clinic} />
           <ProductPreview sector={sector} clinic={clinic} />
