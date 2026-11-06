@@ -161,6 +161,34 @@
   }
 }
 
+/* Landing dental (data-theme="warm"): crema + cobre. Foco y selección en cobre; el foco azul global no se ve sobre crema. */
+[data-theme='warm'] :focus-visible {
+  outline-color: rgb(var(--sector-ink));
+}
+[data-theme='warm'] ::selection {
+  background-color: rgb(var(--sector) / 0.35);
+  color: #fff;
+}
+/* Dentro de los paneles oscuros el foco claro sí se ve */
+[data-theme='warm'] .panel :focus-visible,
+[data-theme='warm'] [role='log'] :focus-visible {
+  outline-color: rgb(var(--sector));
+}
+/* Icono de las fugas: pequeño salto al pasar por la fila (solo con ratón, solo transform) */
+.lp-chip-pop {
+  transition: transform 200ms var(--lp-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .lp-chip-pop {
+    transform: translateY(-3px);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .lp-faq-warm summary:hover h3 {
+    color: theme('colors.cream.ink');
+  }
+}
+
 /* Deslizadores de la calculadora en el color del sector */
 .lp-range {
   accent-color: rgb(var(--sector));
@@ -192,7 +220,11 @@
   }
   .lp-slot,
   .lp-node,
-  .lp-nudge {
+  .lp-nudge,
+  .lp-chip-pop {
     transition: none;
+  }
+  .group:hover .lp-chip-pop {
+    transform: none;
   }
 }

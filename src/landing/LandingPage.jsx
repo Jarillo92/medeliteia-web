@@ -50,7 +50,7 @@ function LandingPage({ sector }) {
   return (
     // LazyMotion con domAnimation: solo la parte de framer-motion que usan las entradas, cargada en diferido
     <LazyMotion features={loadMotionFeatures} strict>
-      <div className="relative min-h-screen" style={sectorVars(sector.colors)}>
+      <div className="relative min-h-screen" style={sectorVars(sector.colors)} data-theme={sector.theme}>
         <LandingNav />
         <main>
           <LandingHero sector={sector} clinic={clinic} />
