@@ -2,7 +2,14 @@ import { useId, useState } from 'react'
 import { formatEuros, formatNumber } from '../format'
 import { useCountUp } from '../hooks'
 import { Reveal } from '../motion'
+import { pickTone } from '../tone'
 import SectionHeading from './SectionHeading'
+
+// Campos y resultado son paneles oscuros también sobre la sección crema; solo cambian el fondo y el título
+const TONE = {
+  dark: { section: 'relative bg-ground py-20 md:py-28', heading: 'dark' },
+  warm: { section: 'relative border-y border-cream-line bg-cream-deep py-20 md:py-28', heading: 'warm' },
+};
 
 const WEEKS_PER_MONTH = 4.33;
 
@@ -62,6 +69,7 @@ function Field({ field, value, onChange }) {
 
 function LossCalculator({ sector }) {
   const { calculator } = sector;
+  const t = pickTone(sector, TONE);
   const [values, setValues] = useState(() => Object.fromEntries(calculator.fields.map((f) => [f.id, f.value])));
 
   // Citas perdidas al mes = mensajes × 4,33 × (% / 100) × (reservas / 10); euros = citas × valor
@@ -72,9 +80,9 @@ function LossCalculator({ sector }) {
   const moneyRef = useCountUp(money, formatEuros, { pulse: true });
 
   return (
-    <section id="calculadora" className="relative bg-ground py-20 md:py-28">
+    <section id="calculadora" className={t.section}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading label={calculator.label} title={calculator.title} lead={calculator.lead} />
+        <SectionHeading label={calculator.label} title={calculator.title} lead={calculator.lead} tone={t.heading} />
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
           <Reveal className="panel space-y-6 p-5 sm:p-8 lg:col-span-6">

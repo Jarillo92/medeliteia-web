@@ -4,25 +4,27 @@
 
 const dental = {
   slug: 'clinicas-dentales',
+  // Tema visual: 'warm' = hero y paneles oscuros, resto de secciones en crema cálido con acento cobre.
+  // Sin `theme`, una landing usa el tema oscuro de siempre (los demás sectores).
+  theme: 'warm',
   // Colores del sector en canales RGB (variables CSS --sector-*), todos con contraste AA:
-  // accent = texto e iconos sobre fondo oscuro; solid/on = botones y burbujas (fondo y texto); deep = campo de color; ink = texto sobre la sección clara.
-  // Dental usa el azul de la web.
+  // accent = texto e iconos sobre fondo oscuro; solid/on = botones y burbujas (fondo y texto); deep = campo de color; ink = texto de acento sobre la sección crema.
+  // Dental usa cobre (antes, el azul de la web).
   colors: {
-    accent: '91 140 255',
-    solid: '47 107 255',
+    accent: '232 154 110',
+    solid: '176 80 38',
     on: '255 255 255',
-    deep: '10 22 51',
-    ink: '37 84 214',
-    // Detalles que dental conserva tal como estaban en main (#1D4ED8, #2F6BFF, #7FA8FF...)
-    solidHover: '74 125 255',
-    bubble: '29 78 216',
+    deep: '43 26 17',
+    ink: '138 56 20',
+    solidHover: '196 98 54',
+    bubble: '150 66 28',
     bubbleOn: '255 255 255',
-    check: '191 209 255',
-    chrome: '127 168 255',
-    avatarFrom: '47 107 255',
-    avatarTo: '26 63 168',
-    slot: '15 28 56',
-    node: '12 26 54',
+    check: '255 226 205',
+    chrome: '232 170 130',
+    avatarFrom: '176 80 38',
+    avatarTo: '110 46 18',
+    slot: '52 32 22',
+    node: '44 28 20',
   },
 
   meta: {
@@ -178,6 +180,20 @@ const dental = {
       { icon: 'repeat', time: 'A los 6 meses', text: 'Quien se hizo una limpieza recibe el aviso para su revisión.' },
     ],
     note: 'La integración con tu agenda depende del software de tu clínica.',
+  },
+
+  // Prueba social: el caso real es MOOV Huesca (centro de Pilates, no una clínica dental). Los datos salen de MOOV_CASE
+  // y el hueco para el testimonio de una clínica dental, de DENTAL_PROOF (ambos en src/config.js; vacío = no se muestra).
+  case: {
+    label: 'Prueba real',
+    title: 'Ya funciona en un negocio de verdad',
+    proof: 'dental',
+    point: {
+      icon: 'userPlus',
+      title: 'Altas automatizadas, sin que el equipo intervenga',
+      text: 'En MOOV, el nuevo socio se da de alta desde la web del centro y ya puede reservar sus clases, sin que el equipo tenga que hacer nada.',
+    },
+    note: 'MOOV es un centro de Pilates, no una clínica dental. Lo contamos porque es nuestro primer cliente real y el método es el mismo: automatizar lo repetitivo para que el equipo se centre en las personas.',
   },
 
   steps: {

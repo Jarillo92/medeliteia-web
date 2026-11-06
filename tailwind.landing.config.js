@@ -37,6 +37,16 @@ export default {
           ink: '#0B1220',
           muted: '#475066',
         },
+        // Crema cálido de la landing dental (theme 'warm'): secciones claras con texto marrón oscuro y acento cobre
+        cream: {
+          DEFAULT: '#F6EFE4',
+          deep: '#EFE5D6',
+          card: '#FFFBF5',
+          line: '#DDCFBA',
+          ink: '#2B1D14',
+          muted: '#5C4C40',
+          subtle: '#6B5A4D',
+        },
       },
     },
   },

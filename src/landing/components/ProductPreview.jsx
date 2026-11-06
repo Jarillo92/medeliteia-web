@@ -3,7 +3,14 @@ import { CalendarDays, Dumbbell, MessageCircle } from 'lucide-react'
 import { formatNumber } from '../format'
 import { useCountUp, useScrollFill } from '../hooks'
 import { Reveal } from '../motion'
+import { pickTone } from '../tone'
 import SectionHeading from './SectionHeading'
+
+// Agenda y métricas son paneles oscuros también sobre la sección crema; solo cambian el fondo y el título
+const TONE = {
+  dark: { section: 'relative border-y border-line bg-surface py-20 md:py-28', heading: 'dark' },
+  warm: { section: 'relative border-y border-cream-line bg-cream py-20 md:py-28', heading: 'warm' },
+};
 
 function ExampleTag({ children }) {
   return (
@@ -85,6 +92,7 @@ function Metric({ label, value, live, liveLabel = 'según la agenda' }) {
  */
 function ProductPreview({ sector, clinic }) {
   const { product } = sector;
+  const t = pickTone(sector, TONE);
   const agendaRef = useRef(null);
   const isClasses = product.kind === 'classes';
   const total = product.bookings.length;
@@ -102,9 +110,9 @@ function ProductPreview({ sector, clinic }) {
   const HeaderIcon = isClasses ? Dumbbell : CalendarDays;
 
   return (
-    <section id="agenda" className="relative border-y border-line bg-surface py-20 md:py-28">
+    <section id="agenda" className={t.section}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading label={product.label} title={product.title} lead={product.lead} />
+        <SectionHeading label={product.label} title={product.title} lead={product.lead} tone={t.heading} />
 
         <div className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
           {/* Agenda o parrilla */}

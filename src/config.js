@@ -44,6 +44,15 @@ export const MOOV_CASE = {
   author: '', // p. ej. 'Álvaro, MOOV Huesca'
 };
 
+// Hueco de prueba social para la landing de clínicas dentales (/clinicas-dentales).
+// Se muestra solo cuando haya permiso de una clínica real y name y quote tengan texto. Nunca inventar testimonios ni cifras.
+export const DENTAL_PROOF = {
+  name: '', // p. ej. 'Clínica Dental Sol'
+  quote: '',
+  author: '', // p. ej. 'Dra. Ana Pérez, directora'
+  url: '', // opcional
+};
+
 // Titular de la web (aviso legal y política de privacidad)
 export const OWNER = {
   name: 'Rafael José Jarillo Espejo',
