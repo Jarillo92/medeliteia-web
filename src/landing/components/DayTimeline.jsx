@@ -3,7 +3,37 @@ import { BellRing, CalendarCheck2, Dumbbell, FileText, MessageCircle, PawPrint, 
 import { useMotionValueEvent } from 'framer-motion'
 import { useScrollFill } from '../hooks'
 import { Reveal } from '../motion'
+import { pickTone } from '../tone'
 import SectionHeading from './SectionHeading'
+
+const TONE = {
+  dark: {
+    section: 'relative border-y border-line bg-surface py-20 md:py-28',
+    heading: 'dark',
+    note: 'mt-6 max-w-[30rem] text-[15px] leading-relaxed text-subtle',
+    rail: 'absolute bottom-7 left-[27px] top-7 w-[2px] rounded-full bg-white/[0.07]',
+    fill: 'absolute bottom-7 left-[27px] top-7 w-[2px] origin-top rounded-full bg-gradient-to-b from-sector to-sector/60',
+    nodeOn: 'scale-100 border-sector/50 bg-sector-node text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]',
+    nodeOff: 'scale-90 border-white/10 bg-surface text-subtle',
+    timeOn: 'text-sector',
+    timeOff: 'text-subtle',
+    textOn: 'text-ink',
+    textOff: 'text-muted',
+  },
+  warm: {
+    section: 'relative border-y border-cream-line bg-cream py-20 md:py-28',
+    heading: 'warm',
+    note: 'mt-6 max-w-[30rem] text-[15px] leading-relaxed text-cream-subtle',
+    rail: 'absolute bottom-7 left-[27px] top-7 w-[2px] rounded-full bg-cream-line',
+    fill: 'absolute bottom-7 left-[27px] top-7 w-[2px] origin-top rounded-full bg-gradient-to-b from-sector-ink to-sector-ink/60',
+    nodeOn: 'scale-100 border-sector-ink/50 bg-cream-card text-sector-ink shadow-[0_0_0_6px_rgb(var(--sector-ink)/0.10)]',
+    nodeOff: 'scale-90 border-cream-line bg-cream-card text-cream-subtle',
+    timeOn: 'text-sector-ink',
+    timeOff: 'text-cream-subtle',
+    textOn: 'text-cream-ink',
+    textOff: 'text-cream-muted',
+  },
+};
 
 const ICONS = {
   message: MessageCircle,
@@ -25,6 +55,7 @@ const OFFSET = ['start 70%', 'end 55%'];
  */
 function DayTimeline({ sector }) {
   const { day } = sector;
+  const t = pickTone(sector, TONE);
   const listRef = useRef(null);
   const fillRef = useRef(null);
   const steps = day.items.length;
@@ -40,12 +71,12 @@ function DayTimeline({ sector }) {
   });
 
   return (
-    <section id="un-dia" className="relative border-y border-line bg-surface py-20 md:py-28">
+    <section id="un-dia" className={t.section}>
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-4 sm:px-6 lg:grid-cols-12 lg:gap-16 lg:px-8">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-32">
-            <SectionHeading label={day.label} title={day.title} />
-            <Reveal as="p" index={2} className="mt-6 max-w-[30rem] text-[15px] leading-relaxed text-subtle">
+            <SectionHeading label={day.label} title={day.title} tone={t.heading} />
+            <Reveal as="p" index={2} className={t.note}>
               {day.note}
             </Reveal>
           </div>
@@ -53,10 +84,10 @@ function DayTimeline({ sector }) {
 
         <ol ref={listRef} className="relative lg:col-span-7">
           {/* Raíl y relleno: el relleno escala en vertical con el progreso del scroll */}
-          <span className="absolute bottom-7 left-[27px] top-7 w-[2px] rounded-full bg-white/[0.07]" aria-hidden="true" />
+          <span className={t.rail} aria-hidden="true" />
           <span
             ref={fillRef}
-            className="absolute bottom-7 left-[27px] top-7 w-[2px] origin-top rounded-full bg-gradient-to-b from-sector to-sector/60"
+            className={t.fill}
             style={{ transform: 'scaleY(1)' }}
             aria-hidden="true"
           />
@@ -67,16 +98,14 @@ function DayTimeline({ sector }) {
               <li key={item.time} className="relative pb-12 pl-[84px] last:pb-0">
                 <span
                   className={`lp-node absolute left-0 top-0 flex h-14 w-14 items-center justify-center rounded-2xl border ${
-                    on
-                      ? 'scale-100 border-sector/50 bg-sector-node text-sector shadow-[0_0_0_6px_rgb(var(--sector)/0.08)]'
-                      : 'scale-90 border-white/10 bg-surface text-subtle'
+                    on ? t.nodeOn : t.nodeOff
                   }`}
                   aria-hidden="true"
                 >
                   <Icon className="h-6 w-6" />
                 </span>
-                <p className={`pt-1 text-[15px] font-semibold transition-colors duration-200 ${on ? 'text-sector' : 'text-subtle'}`}>{item.time}</p>
-                <p className={`mt-2 max-w-[34rem] text-[19px] leading-relaxed transition-colors duration-200 sm:text-[21px] ${on ? 'text-ink' : 'text-muted'}`}>
+                <p className={`pt-1 text-[15px] font-semibold transition-colors duration-200 ${on ? t.timeOn : t.timeOff}`}>{item.time}</p>
+                <p className={`mt-2 max-w-[34rem] text-[19px] leading-relaxed transition-colors duration-200 sm:text-[21px] ${on ? t.textOn : t.textOff}`}>
                   {item.text}
                 </p>
               </li>

@@ -4,7 +4,24 @@ import { fillClinic } from '../clinicName'
 import { prefersReducedMotion } from '../hooks'
 import { Reveal } from '../motion'
 import { BookingCard, Bubble, ChatHeader, ComposerBar, TypingBubble } from './Phone'
+import { pickTone } from '../tone'
 import SectionHeading from './SectionHeading'
+
+// El chat es un objeto oscuro (un móvil) también sobre la sección crema; solo cambian el fondo, el título y la nota
+const TONE = {
+  dark: {
+    section: 'relative overflow-x-clip bg-ground py-20 md:py-28',
+    heading: 'dark',
+    card: 'relative grid grid-cols-1 overflow-hidden rounded-[26px] border border-white/[0.08] bg-surface shadow-lift md:grid-cols-[minmax(0,340px)_minmax(0,1fr)]',
+    note: 'mt-5 text-center text-[14px] leading-relaxed text-subtle',
+  },
+  warm: {
+    section: 'relative overflow-x-clip border-y border-cream-line bg-cream-deep py-20 md:py-28',
+    heading: 'warm',
+    card: 'relative grid grid-cols-1 overflow-hidden rounded-[26px] border border-white/[0.08] bg-surface shadow-[0_30px_60px_-30px_rgba(43,29,20,0.5)] md:grid-cols-[minmax(0,340px)_minmax(0,1fr)]',
+    note: 'mt-5 text-center text-[14px] leading-relaxed text-cream-subtle',
+  },
+};
 
 // Tiempo que el asistente "escribe" antes de contestar
 const TYPING_MS = 1100;
@@ -110,11 +127,12 @@ function PlayableChat({ sector, clinic }) {
   };
 
   const offered = chat.scenarios.find((s) => s.id === offer);
+  const t = pickTone(sector, TONE);
 
   return (
-    <section id="prueba" className="relative overflow-x-clip bg-ground py-20 md:py-28">
+    <section id="prueba" className={t.section}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading label={chat.label} title={chat.title} lead={chat.lead} />
+        <SectionHeading label={chat.label} title={chat.title} lead={chat.lead} tone={t.heading} />
 
         <Reveal index={1} className="relative mt-12">
           <div
@@ -122,7 +140,7 @@ function PlayableChat({ sector, clinic }) {
             style={{ background: 'radial-gradient(50% 60% at 65% 50%, rgb(var(--sector) / 0.14), transparent 70%)' }}
             aria-hidden="true"
           />
-          <div className="relative grid grid-cols-1 overflow-hidden rounded-[26px] border border-white/[0.08] bg-surface shadow-lift md:grid-cols-[minmax(0,340px)_minmax(0,1fr)]">
+          <div className={t.card}>
             {/* Mensajes de pacientes: chips como botones */}
             <div className="order-2 border-t border-white/[0.07] p-4 sm:p-5 md:order-1 md:border-r md:border-t-0">
               <p id="chat-chips" className="px-1 text-[15px] font-semibold text-ink">
@@ -224,7 +242,7 @@ function PlayableChat({ sector, clinic }) {
             </div>
           </div>
         </Reveal>
-        <p className="mt-5 text-center text-[14px] leading-relaxed text-subtle">{chat.note}</p>
+        <p className={t.note}>{chat.note}</p>
       </div>
     </section>
   );
