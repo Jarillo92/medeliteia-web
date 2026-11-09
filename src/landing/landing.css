@@ -252,6 +252,19 @@
     transform: scale(1.7);
   }
 }
+@media (min-width: 640px) {
+  /* Escritorio: trazo a opacidad 1 y grosor constante en píxeles aunque el SVG esté muy ampliado */
+  .lp-tooth {
+    opacity: 1;
+  }
+  .lp-tooth path {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 2.5px;
+  }
+  .lp-tooth-mesh path {
+    stroke-width: 1.2px;
+  }
+}
 @media (min-width: 640px) and (prefers-reduced-motion: no-preference) {
   .lp-tooth-g1 {
     animation: lp-tooth-in 500ms var(--lp-ease-out) 100ms both;

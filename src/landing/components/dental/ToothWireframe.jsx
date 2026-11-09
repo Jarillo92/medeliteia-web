@@ -25,11 +25,12 @@ const NODES = [
   [234, 384], [180, 196], [110, 150], [250, 150], [140, 236], [220, 236],
 ];
 
-function ToothWireframe({ className = '' }) {
+// clipId distinto por instancia: hay una para móvil (dentro del escenario inclinado) y otra para sm+ (fuera de él)
+function ToothWireframe({ className = '', clipId = 'lp-tooth-clip' }) {
   return (
     <svg className={`lp-tooth ${className}`} width="360" height="420" viewBox="0 0 360 420" aria-hidden="true" focusable="false">
       <defs>
-        <clipPath id="lp-tooth-clip">
+        <clipPath id={clipId}>
           <path d={OUTLINE} />
         </clipPath>
       </defs>
@@ -38,7 +39,7 @@ function ToothWireframe({ className = '' }) {
         <path d={OUTLINE} strokeWidth="2" />
       </g>
       {/* 2. Paralelos y 3. meridianos: la malla solo se dibuja desde sm (en móvil, versión simple) */}
-      <g clipPath="url(#lp-tooth-clip)" strokeWidth="1" strokeOpacity="0.55" className="lp-tooth-mesh">
+      <g clipPath={`url(#${clipId})`} strokeWidth="1" strokeOpacity="0.55" className="lp-tooth-mesh">
         <g className="lp-tooth-g lp-tooth-g2">
           {PARALLELS.map((d) => (
             <path key={d} d={d} />

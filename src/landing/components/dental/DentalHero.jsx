@@ -73,15 +73,26 @@ function DentalHero({ sector, clinic }) {
             style={{ background: 'radial-gradient(closest-side, rgb(var(--sector) / 0.38), rgb(var(--sector) / 0.10) 55%, transparent)', filter: 'blur(36px)' }}
             aria-hidden="true"
           />
+          {/* sm+: el diente va FUERA del contenedor inclinado (la inclinación lo desplazaría a la derecha, detrás del teléfono),
+              centrado en el escenario y más grande que el teléfono: cúspides arriba, raíces abajo. Primero en el DOM = detrás. */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/2 hidden sm:block sm:-ml-[373px] sm:-mt-[476px] sm:w-[746px]"
+            style={{ perspective: '1600px' }}
+            aria-hidden="true"
+          >
+            <div className="lp-tooth-sway lp-tooth-sway-lg">
+              <ToothWireframe className="block h-auto w-full" clipId="lp-tooth-clip-lg" />
+            </div>
+          </div>
           <div className="lp-rise" style={{ '--i': 2, perspective: '1600px' }}>
             <div
               ref={tiltRef}
               className="lp-dh-tilt relative"
               style={{ transformStyle: 'preserve-3d', transform: `rotateX(${BASE.x}deg) rotateY(${BASE.y}deg)` }}
             >
-              {/* Capa más profunda: el diente, detrás del teléfono */}
+              {/* Móvil: el diente va como capa más profunda del escenario (sin inclinación, ver landing.css) */}
               <div
-                className="pointer-events-none absolute left-1/2 top-[211px] -ml-[351px] -mt-[410px] w-[702px] sm:top-1/2 sm:-ml-[220px] sm:-mt-[257px] sm:w-[440px] lg:-ml-[260px] lg:-mt-[303px] lg:w-[520px]"
+                className="pointer-events-none absolute left-1/2 top-[211px] -ml-[351px] -mt-[410px] w-[702px] sm:hidden"
                 style={{ transform: 'translateZ(-140px)', transformStyle: 'preserve-3d' }}
                 aria-hidden="true"
               >
