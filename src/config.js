@@ -23,19 +23,19 @@ export const MOOV_CASE = {
   phases: [
     {
       label: 'Fase 1',
-      state: 'done', // done | current | next
+      state: 'done', // done | current | soon
       title: 'Web y reservas automáticas',
       text: 'Web nueva con reserva online de clase de prueba, control de plazas por clase, recordatorios automáticos y contacto directo por WhatsApp.',
     },
     {
       label: 'Fase 2',
-      state: 'current',
+      state: 'done',
       title: 'Alta de socios automatizada',
       text: 'Alta de socios 100% automatizada: el nuevo socio rellena un formulario a medida, enlazado desde la web, completa el pago y ya puede reservar sus clases, sin que el centro tenga que intervenir.',
     },
     {
       label: 'Fase 3',
-      state: 'next',
+      state: 'soon',
       title: 'Asistentes de IA',
       text: 'Asistentes de IA por WhatsApp y voz para resolver las dudas frecuentes.',
     },
