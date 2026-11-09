@@ -57,7 +57,7 @@ const ALSO_FOR = ['Gimnasios', 'Centros deportivos', 'Cualquier negocio con cita
 const PHASE_STYLES = {
   done: { tag: 'Hecha', tagClass: 'border-accent/30 bg-accent-soft text-accent-bright' },
   current: { tag: 'En marcha', tagClass: 'border-[#4ADE80]/30 bg-[#4ADE80]/10 text-[#86EFAC]' },
-  next: { tag: 'Siguiente', tagClass: 'border-white/10 bg-white/[0.04] text-subtle' },
+  soon: { tag: 'Próximamente', tagClass: 'border-white/[0.08] bg-transparent text-subtle/80' },
 };
 
 function PhaseNode({ state }) {
@@ -68,24 +68,21 @@ function PhaseNode({ state }) {
       </span>
     );
   }
-  if (state === 'current') {
-    return (
-      <span className="relative z-10 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#4ADE80]/60 bg-ground">
-        <span className="absolute inset-0 animate-ping rounded-full bg-[#4ADE80]/25 [animation-duration:2.2s]" aria-hidden="true" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#4ADE80]" />
-      </span>
-    );
-  }
-  return <span className="relative z-10 block h-7 w-7 flex-shrink-0 rounded-full border border-white/20 bg-ground" />;
+  // current y soon: punto verde que late (solo transform y opacity; quieto con movimiento reducido)
+  return (
+    <span className="relative z-10 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#4ADE80]/60 bg-ground">
+      <span className="absolute inset-0 animate-ping rounded-full bg-[#4ADE80]/25 [animation-duration:2.2s] motion-reduce:animate-none" aria-hidden="true" />
+      <span className="h-2.5 w-2.5 rounded-full bg-[#4ADE80]" />
+    </span>
+  );
 }
 
 // Caso real por fases: línea de progreso horizontal en escritorio y vertical en móvil
 function MoovCase() {
   const reduce = useReducedMotion();
   const { phases } = MOOV_CASE;
-  // La línea se llena hasta la fase en curso
-  const currentIndex = Math.max(0, phases.findIndex((p) => p.state === 'current'));
-  const fill = currentIndex / (phases.length - 1);
+  // La línea se llena hasta la última fase (la que viene a continuación, con el punto que late)
+  const fill = 1;
 
   return (
     <SpotlightCard className="panel relative overflow-hidden p-6 sm:p-8 lg:p-10">
@@ -136,7 +133,7 @@ function MoovCase() {
                   <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-subtle">{phase.label}</span>
                   <span className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold ${style.tagClass}`}>{style.tag}</span>
                 </div>
-                <div className={`mt-2 text-lg font-semibold ${phase.state === 'next' ? 'text-ink-soft' : 'text-ink'}`}>{phase.title}</div>
+                <div className={`mt-2 text-lg font-semibold ${phase.state === 'soon' ? 'text-ink-soft' : 'text-ink'}`}>{phase.title}</div>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{phase.text}</p>
               </div>
             </li>
