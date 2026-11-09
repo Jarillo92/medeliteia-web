@@ -214,9 +214,13 @@
     display: none;
   }
   .lp-tooth {
-    opacity: 0.7;
+    opacity: 1;
   }
-  /* El chat del teléfono asoma desde arriba: la conversación empieza en la cabecera */
+  /* Sin inclinación en móvil: el diente grande queda centrado detrás del teléfono */
+  .lp-dh-tilt {
+    transform: none !important;
+  }
+  /* Conversación desde arriba: el primer mensaje cae en el primer pantallazo */
   .lp-dh-stage [role='img'] {
     justify-content: flex-start;
   }

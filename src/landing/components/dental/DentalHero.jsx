@@ -17,7 +17,7 @@ const CARD_SLOTS = [
 /**
  * Hero de dental: mismo escenario 3D con perspectiva que el genérico, con un diente en malla de alambre
  * (SVG, color cobre) como capa más profunda (translateZ negativo) y el teléfono delante.
- * Móvil: texto compacto y el teléfono asoma debajo, recortado, con un degradado inferior (el chat se ve sin hacer scroll).
+ * Móvil: texto compacto y el teléfono entero debajo (sin recorte): el primer pantallazo llega al primer mensaje y el resto aparece al bajar.
  * Las animaciones del diente se pausan cuando el hero sale de pantalla (data-paused, sin re-render).
  */
 function DentalHero({ sector, clinic }) {
@@ -37,7 +37,7 @@ function DentalHero({ sector, clinic }) {
   }, []);
 
   return (
-    <section ref={areaRef} className="lp-dh relative overflow-hidden bg-ground pt-24 sm:pt-32 sm:pb-20 lg:pb-28">
+    <section ref={areaRef} className="lp-dh relative overflow-hidden bg-ground pt-24 pb-16 sm:pt-32 sm:pb-20 lg:pb-28">
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-[720px]"
         style={{ background: 'radial-gradient(45% 50% at 15% 20%, rgb(var(--sector) / 0.12), transparent 70%)' }}
@@ -66,8 +66,8 @@ function DentalHero({ sector, clinic }) {
           </div>
         </div>
 
-        {/* Escenario 3D. En móvil se recorta a 290 px y un degradado funde el teléfono con el fondo */}
-        <div className="lp-dh-stage relative flex h-[290px] justify-center overflow-hidden sm:h-auto sm:overflow-visible lg:col-span-5">
+        {/* Escenario 3D (el teléfono se ve entero también en móvil) */}
+        <div className="lp-dh-stage relative flex justify-center py-14 sm:py-0 lg:col-span-5">
           <div
             className="pointer-events-none absolute left-1/2 top-1/2 h-[85%] w-[95%] -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{ background: 'radial-gradient(closest-side, rgb(var(--sector) / 0.38), rgb(var(--sector) / 0.10) 55%, transparent)', filter: 'blur(36px)' }}
@@ -76,12 +76,12 @@ function DentalHero({ sector, clinic }) {
           <div className="lp-rise" style={{ '--i': 2, perspective: '1600px' }}>
             <div
               ref={tiltRef}
-              className="relative"
+              className="lp-dh-tilt relative"
               style={{ transformStyle: 'preserve-3d', transform: `rotateX(${BASE.x}deg) rotateY(${BASE.y}deg)` }}
             >
               {/* Capa más profunda: el diente, detrás del teléfono */}
               <div
-                className="pointer-events-none absolute left-1/2 top-[42%] -ml-[180px] -mt-[210px] w-[360px] sm:top-1/2 sm:-ml-[220px] sm:-mt-[257px] sm:w-[440px] lg:-ml-[260px] lg:-mt-[303px] lg:w-[520px]"
+                className="pointer-events-none absolute left-1/2 top-[211px] -ml-[351px] -mt-[410px] w-[702px] sm:top-1/2 sm:-ml-[220px] sm:-mt-[257px] sm:w-[440px] lg:-ml-[260px] lg:-mt-[303px] lg:w-[520px]"
                 style={{ transform: 'translateZ(-140px)', transformStyle: 'preserve-3d' }}
                 aria-hidden="true"
               >
@@ -95,7 +95,6 @@ function DentalHero({ sector, clinic }) {
               ))}
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ground via-ground/80 to-transparent sm:hidden" aria-hidden="true" />
         </div>
       </div>
     </section>
