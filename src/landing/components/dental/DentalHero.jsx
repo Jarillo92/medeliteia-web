@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { DEMO_LABEL } from '../../../config'
 import { FloatingCard, HeroPhone, useTilt } from '../LandingHero'
+import Tooth3DLoader from './Tooth3DLoader'
 import ToothWireframe from './ToothWireframe'
 
 // Inclinación de reposo (la misma que el hero de siempre)
@@ -25,6 +26,9 @@ function DentalHero({ sector, clinic }) {
   const areaRef = useRef(null);
   const tiltRef = useRef(null);
   useTilt(areaRef, tiltRef);
+  // Escritorio: cuando el diente 3D pinta su primer fotograma, el SVG se funde y queda como respaldo
+  const [tooth3d, setTooth3d] = useState(false);
+  const onTooth3dReady = useCallback(() => setTooth3d(true), []);
 
   useEffect(() => {
     const node = areaRef.current;
@@ -76,13 +80,20 @@ function DentalHero({ sector, clinic }) {
           {/* sm+: el diente va FUERA del contenedor inclinado (la inclinación lo desplazaría a la derecha, detrás del teléfono),
               centrado en el escenario y más grande que el teléfono: cúspides arriba, raíces abajo. Primero en el DOM = detrás. */}
           <div
-            className="pointer-events-none absolute left-1/2 top-1/2 hidden sm:block sm:-ml-[373px] sm:-mt-[476px] sm:w-[746px]"
+            className={`pointer-events-none absolute left-1/2 top-1/2 hidden transition-opacity duration-500 sm:block sm:-ml-[373px] sm:-mt-[476px] sm:w-[746px] ${tooth3d ? 'lg:opacity-0' : ''}`}
             style={{ perspective: '1600px' }}
             aria-hidden="true"
           >
             <div className="lp-tooth-sway lp-tooth-sway-lg">
               <ToothWireframe className="block h-auto w-full" clipId="lp-tooth-clip-lg" />
             </div>
+          </div>
+          {/* Escritorio (≥1024 px, puntero fino, WebGL, sin movimiento reducido): diente 3D real, misma caja que el SVG */}
+          <div
+            className={`pointer-events-none absolute left-1/2 top-1/2 -ml-[373px] -mt-[476px] hidden h-[870px] w-[746px] transition-opacity duration-700 lg:block ${tooth3d ? 'opacity-100' : 'opacity-0'}`}
+            aria-hidden="true"
+          >
+            <Tooth3DLoader color={sector.colors.accent} onReady={onTooth3dReady} />
           </div>
           <div className="lp-rise" style={{ '--i': 2, perspective: '1600px' }}>
             <div
