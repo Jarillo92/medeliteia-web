@@ -8,11 +8,12 @@ import ToothWireframe from './ToothWireframe'
 // Inclinación de reposo (la misma que el hero de siempre)
 const BASE = { x: 5, y: -14 };
 
-// Mismas posiciones que el hero genérico; la tercera tarjeta queda fuera del recorte del móvil
+// Mismas posiciones que el hero genérico hasta lg. En escritorio (lg) las tarjetas salen de la zona central del diente:
+// "Nuevo mensaje" a la izquierda, junto a la raíz, y "Cita confirmada" abajo a la derecha; "Recordatorio enviado" se oculta.
 const CARD_SLOTS = [
-  'left-[-18%] top-[-3%] sm:left-[-44%] sm:top-[4%] [--z:70px]',
-  'right-[-50%] top-[52%] hidden sm:block [--z:110px]',
-  'bottom-[1%] left-[-16%] hidden sm:bottom-[6%] sm:left-[-40%] sm:block [--z:45px]',
+  'left-[-18%] top-[-3%] sm:left-[-44%] sm:top-[4%] lg:left-[-66%] lg:top-[60%] [--z:70px]',
+  'right-[-50%] top-[52%] hidden sm:block lg:right-[-36%] lg:top-[86%] [--z:110px]',
+  'bottom-[1%] left-[-16%] hidden sm:bottom-[6%] sm:left-[-40%] sm:block lg:hidden [--z:45px]',
 ];
 
 /**
@@ -95,26 +96,30 @@ function DentalHero({ sector, clinic }) {
           >
             <Tooth3DLoader color={sector.colors.accent} onReady={onTooth3dReady} />
           </div>
-          <div className="lp-rise" style={{ '--i': 2, perspective: '1600px' }}>
-            <div
-              ref={tiltRef}
-              className="lp-dh-tilt relative"
-              style={{ transformStyle: 'preserve-3d', transform: `rotateX(${BASE.x}deg) rotateY(${BASE.y}deg)` }}
-            >
-              {/* Móvil: el diente va como capa más profunda del escenario (sin inclinación, ver landing.css) */}
+          {/* Escritorio: teléfono un 12 % más pequeño y algo a la derecha, para que el diente se vea por la izquierda.
+              Envoltorio propio: lp-rise anima el transform del de dentro */}
+          <div className="lg:translate-x-14 lg:scale-[0.88]">
+            <div className="lp-rise" style={{ '--i': 2, perspective: '1600px' }}>
               <div
-                className="pointer-events-none absolute left-1/2 top-[211px] -ml-[351px] -mt-[410px] w-[702px] sm:hidden"
-                style={{ transform: 'translateZ(-140px)', transformStyle: 'preserve-3d' }}
-                aria-hidden="true"
+                ref={tiltRef}
+                className="lp-dh-tilt relative"
+                style={{ transformStyle: 'preserve-3d', transform: `rotateX(${BASE.x}deg) rotateY(${BASE.y}deg)` }}
               >
-                <div className="lp-tooth-sway">
-                  <ToothWireframe className="block h-auto w-full" />
+                {/* Móvil: el diente va como capa más profunda del escenario (sin inclinación, ver landing.css) */}
+                <div
+                  className="pointer-events-none absolute left-1/2 top-[211px] -ml-[351px] -mt-[410px] w-[702px] sm:hidden"
+                  style={{ transform: 'translateZ(-140px)', transformStyle: 'preserve-3d' }}
+                  aria-hidden="true"
+                >
+                  <div className="lp-tooth-sway">
+                    <ToothWireframe className="block h-auto w-full" />
+                  </div>
                 </div>
+                <HeroPhone sector={sector} clinic={clinic} />
+                {hero.floating.map((card, i) => (
+                  <FloatingCard key={card.kind} card={card} slot={CARD_SLOTS[i]} index={4 + i} />
+                ))}
               </div>
-              <HeroPhone sector={sector} clinic={clinic} />
-              {hero.floating.map((card, i) => (
-                <FloatingCard key={card.kind} card={card} slot={CARD_SLOTS[i]} index={4 + i} />
-              ))}
             </div>
           </div>
         </div>

@@ -57,8 +57,8 @@ function Tooth3D({ color, onReady }) {
 
     const scene = new Scene();
     const camera = new PerspectiveCamera(30, 1, 0.1, 50);
-    camera.position.set(0, 0.55, 5.2);
-    camera.lookAt(0, 0.17, 0);
+    camera.position.set(0, 0.55, 5.65);
+    camera.lookAt(0, 0.08, 0);
 
     const { parts, nodeGeo } = buildTooth();
     const fillMat = new ShaderMaterial({
