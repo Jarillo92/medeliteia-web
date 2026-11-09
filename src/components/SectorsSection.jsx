@@ -68,24 +68,21 @@ function PhaseNode({ state }) {
       </span>
     );
   }
-  if (state === 'current') {
-    return (
-      <span className="relative z-10 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#4ADE80]/60 bg-ground">
-        <span className="absolute inset-0 animate-ping rounded-full bg-[#4ADE80]/25 [animation-duration:2.2s]" aria-hidden="true" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#4ADE80]" />
-      </span>
-    );
-  }
-  return <span className="relative z-10 block h-7 w-7 flex-shrink-0 rounded-full border border-dashed border-white/15 bg-ground" />;
+  // current y soon: punto verde que late (solo transform y opacity; quieto con movimiento reducido)
+  return (
+    <span className="relative z-10 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-[#4ADE80]/60 bg-ground">
+      <span className="absolute inset-0 animate-ping rounded-full bg-[#4ADE80]/25 [animation-duration:2.2s] motion-reduce:animate-none" aria-hidden="true" />
+      <span className="h-2.5 w-2.5 rounded-full bg-[#4ADE80]" />
+    </span>
+  );
 }
 
 // Caso real por fases: línea de progreso horizontal en escritorio y vertical en móvil
 function MoovCase() {
   const reduce = useReducedMotion();
   const { phases } = MOOV_CASE;
-  // La línea se llena hasta la fase en curso
-  const progressIndex = Math.max(0, phases.reduce((last, p, i) => (p.state === 'done' || p.state === 'current' ? i : last), 0));
-  const fill = progressIndex / (phases.length - 1);
+  // La línea se llena hasta la última fase (la que viene a continuación, con el punto que late)
+  const fill = 1;
 
   return (
     <SpotlightCard className="panel relative overflow-hidden p-6 sm:p-8 lg:p-10">
@@ -113,7 +110,7 @@ function MoovCase() {
         {/* Raíl horizontal (escritorio) */}
         <div className="pointer-events-none absolute left-3.5 right-[calc(33.33%-2.208rem)] top-3.5 hidden h-px bg-white/10 lg:block" aria-hidden="true">
           <motion.div
-            className="h-full origin-left bg-gradient-to-r from-accent-solid to-accent"
+            className="h-full origin-left bg-gradient-to-r from-accent-solid via-accent to-[#4ADE80]"
             style={{ width: `${fill * 100}%` }}
             initial={{ scaleX: reduce ? 1 : 0 }}
             whileInView={{ scaleX: 1 }}
@@ -123,7 +120,7 @@ function MoovCase() {
         </div>
         {/* Raíl vertical (móvil) */}
         <div className="pointer-events-none absolute bottom-6 left-3.5 top-3.5 w-px bg-white/10 lg:hidden" aria-hidden="true">
-          <div className="w-full bg-gradient-to-b from-accent-solid to-accent" style={{ height: `${fill * 100}%` }} />
+          <div className="w-full bg-gradient-to-b from-accent-solid to-[#4ADE80]" style={{ height: `${fill * 100}%` }} />
         </div>
 
         {phases.map((phase) => {
@@ -136,7 +133,7 @@ function MoovCase() {
                   <span className="text-[13px] font-semibold uppercase tracking-[0.12em] text-subtle">{phase.label}</span>
                   <span className={`rounded-full border px-2 py-0.5 text-[11.5px] font-semibold ${style.tagClass}`}>{style.tag}</span>
                 </div>
-                <div className={`mt-2 text-lg font-semibold ${phase.state === 'soon' ? 'text-ink-soft/70' : 'text-ink'}`}>{phase.title}</div>
+                <div className={`mt-2 text-lg font-semibold ${phase.state === 'soon' ? 'text-ink-soft' : 'text-ink'}`}>{phase.title}</div>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{phase.text}</p>
               </div>
             </li>
