@@ -1,4 +1,4 @@
-// Diente 3D del hero de dental (solo escritorio). Chunk aparte, cargado en diferido por Tooth3DLoader.
+// Diente 3D del hero de dental (todos los anchos, con salvaguardas). Chunk aparte, cargado en diferido por Tooth3DLoader.
 // Solo three (sin r3f ni drei): importando clase a clase, el bundler deja fuera lo que no se usa.
 import { useEffect, useRef } from 'react'
 import {
@@ -51,7 +51,9 @@ function Tooth3D({ color, onReady }) {
 
     const copper = toColor(color);
     const renderer = new WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'low-power' });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    // Pixel ratio: máx. 1 en pantallas pequeñas (móvil y tablet), máx. 1,5 en escritorio
+    const small = window.matchMedia('(max-width: 1023px)').matches;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, small ? 1 : 1.5));
     renderer.setClearColor(0x000000, 0);
     host.appendChild(renderer.domElement);
 
@@ -103,14 +105,15 @@ function Tooth3D({ color, onReady }) {
     const ro = new ResizeObserver(resize);
     ro.observe(host);
 
-    // Paralaje con el ratón (el loader solo monta esto con puntero fino)
+    // Paralaje con el ratón, solo con puntero fino
     const target = { x: 0, y: 0 };
     const tilt = { x: 0, y: 0 };
     const onMove = (e) => {
       target.y = (e.clientX / window.innerWidth - 0.5) * 0.5;
       target.x = (e.clientY / window.innerHeight - 0.5) * 0.25;
     };
-    window.addEventListener('pointermove', onMove, { passive: true });
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (finePointer) window.addEventListener('pointermove', onMove, { passive: true });
 
     // Bucle: solo corre con el hero en pantalla y la pestaña visible
     let frame = 0;
