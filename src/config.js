@@ -40,8 +40,10 @@ export const MOOV_CASE = {
       text: 'Asistentes de IA por WhatsApp y voz para resolver las dudas frecuentes.',
     },
   ],
-  quote: '', // Testimonio pendiente de permiso: no se muestra nada mientras esté vacío
-  author: '', // p. ej. 'Álvaro, MOOV Huesca'
+  // Testimonio real (reseña de Google), literal: no corregir ni recortar.
+  quote: 'Somos una nueva empresa y estamos súper agradecidos, tanto del trato, el compromiso, lo profesionales y resolutivos que han sido con nosotros, la automatización de las cosas y la inmensa carga de trabajo que nos ha quitado, siempre encima sin necesidad de que les llames, antes de que le comentes un problema que te surja ya te han ofrecido una solución, personalmente creemos que hace falta más profesionales como estos, 100% recomendable, ya seas nuevo o lleves muchos años lo recomendamos, la mejor decisión que pudimos tomar fue contactar con ellos!!!!',
+  author: 'Lucas y Álvaro · MOOV Huesca',
+  source: 'Reseña en Google · 5 estrellas', // sin enlace: no hay URL pública de la reseña
 };
 
 // Hueco de prueba social para la landing de clínicas dentales (/clinicas-dentales).

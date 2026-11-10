@@ -146,7 +146,12 @@ function MoovCase() {
         <figure className="relative mt-10 border-t border-white/[0.06] pt-8">
           <Quote className="h-5 w-5 text-accent" aria-hidden="true" />
           <blockquote className="mt-3 max-w-3xl text-lg leading-relaxed text-ink-soft">{MOOV_CASE.quote}</blockquote>
-          {MOOV_CASE.author && <figcaption className="mt-3 text-[15px] text-subtle">{MOOV_CASE.author}</figcaption>}
+          {MOOV_CASE.author && (
+            <figcaption className="mt-3 text-[15px] text-subtle">
+              <span className="font-semibold text-ink-soft">{MOOV_CASE.author}</span>
+              {MOOV_CASE.source && <span className="block sm:inline sm:before:content-['_—_']">{MOOV_CASE.source}</span>}
+            </figcaption>
+          )}
         </figure>
       )}
     </SpotlightCard>
