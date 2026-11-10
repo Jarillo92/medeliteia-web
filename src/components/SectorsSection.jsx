@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { Check, Dumbbell, PawPrint, Quote, Sparkles, Stethoscope } from 'lucide-react'
+import { Check, Dumbbell, PawPrint, Quote, Sparkles, Star, Stethoscope } from 'lucide-react'
 import { MOOV_CASE } from '../config'
 import SectionHeader from './ui/SectionHeader'
 import SpotlightCard from './ui/SpotlightCard'
@@ -149,7 +149,28 @@ function MoovCase() {
           {MOOV_CASE.author && (
             <figcaption className="mt-3 text-[15px] text-subtle">
               <span className="font-semibold text-ink-soft">{MOOV_CASE.author}</span>
-              {MOOV_CASE.source && <span className="block sm:inline sm:before:content-['_—_']">{MOOV_CASE.source}</span>}
+              {MOOV_CASE.source && (
+                <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+                  <span className="flex gap-0.5 text-amber-400" role="img" aria-label="5 estrellas sobre 5">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <Star key={i} className="h-4 w-4 fill-current" aria-hidden="true" />
+                    ))}
+                  </span>
+                  {MOOV_CASE.sourceUrl ? (
+                    <a
+                      href={MOOV_CASE.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${MOOV_CASE.source} (se abre en una pestaña nueva): deja tu reseña`}
+                      className="underline-offset-4 hover:underline"
+                    >
+                      {MOOV_CASE.source}
+                    </a>
+                  ) : (
+                    <span>{MOOV_CASE.source}</span>
+                  )}
+                </span>
+              )}
             </figcaption>
           )}
         </figure>
