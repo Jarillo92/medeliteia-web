@@ -28,10 +28,13 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 function Header() {
   return (
     <header className="border-b border-white/10">
-      <div className="mx-auto flex max-w-5xl items-center px-4 py-4 sm:px-6">
+      <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
         <span className="text-lg font-extrabold tracking-tight text-white">
           Rafa Jarillo <span className="text-[#22D3EE]">·</span> Recursos
         </span>
+        <a href="/" aria-label="MedElite IA, ir a la web" className="shrink-0">
+          <img src="/logo-dark.webp" alt="MedElite IA" width="640" height="167" className="h-8 w-auto sm:h-9" />
+        </a>
       </div>
     </header>
   )
