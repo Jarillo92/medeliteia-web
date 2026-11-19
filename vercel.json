@@ -9,6 +9,8 @@
     { "source": "/politica-cookies/", "destination": "/index.html" },
     { "source": "/prompt-clientes", "destination": "/index.html" },
     { "source": "/prompt-clientes/", "destination": "/index.html" },
+    { "source": "/recursos", "destination": "/index.html" },
+    { "source": "/recursos/", "destination": "/index.html" },
     { "source": "/clinicas-dentales", "destination": "/clinicas-dentales/index.html" },
     { "source": "/clinicas-dentales/", "destination": "/clinicas-dentales/index.html" },
     { "source": "/clinicas-veterinarias", "destination": "/clinicas-veterinarias/index.html" },
@@ -35,6 +37,14 @@
     },
     {
       "source": "/prompt-clientes/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/recursos",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/recursos/",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ]
