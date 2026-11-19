@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react'
-import { ArrowUpRight, Instagram, Lock, MessageCircle } from 'lucide-react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  ArrowUpRight, CalendarCheck, CalendarDays, ClipboardList, Globe, Instagram, LayoutDashboard, Lock,
+  MessageCircle, MessagesSquare, Sparkles, Target, Zap,
+} from 'lucide-react'
+import Particles from './Particles'
+import './recursos.css'
 import { WHATSAPP_URL } from '../config'
 import { BUSINESS_TYPES, INSTAGRAM_URL, SORTED_RESOURCES } from './resources'
 import { ORIGEN, hasAccess, saveAccess, submitLead } from './form'
@@ -22,7 +28,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 function Header() {
   return (
     <header className="border-b border-white/10">
-      <div className="mx-auto flex max-w-3xl items-center px-4 py-4 sm:px-6">
+      <div className="mx-auto flex max-w-5xl items-center px-4 py-4 sm:px-6">
         <span className="text-lg font-extrabold tracking-tight text-white">
           Rafa Jarillo <span className="text-[#22D3EE]">·</span> Recursos
         </span>
@@ -175,25 +181,127 @@ function AccessForm({ onUnlock }) {
   )
 }
 
-function ResourceCard({ r }) {
-  const external = r.enlace.startsWith('http')
+const ICONS = { CalendarCheck, CalendarDays, ClipboardList, Globe, LayoutDashboard, MessageCircle, MessagesSquare, Sparkles, Target, Zap }
+const HUES = [
+  'linear-gradient(135deg,#0B2A4A,#0A1124 70%)',
+  'linear-gradient(135deg,#083344,#0A1124 70%)',
+  'linear-gradient(135deg,#12305F,#0A1124 70%)',
+  'linear-gradient(135deg,#0B3B46,#0A1124 70%)',
+]
+
+// Portada generada: cuadrícula, icono con brillo y la palabra del reel
+function Cover({ r, index = 0, small = false }) {
+  const Icon = ICONS[r.icono] || Sparkles
   return (
-    <li className="flex flex-col rounded-2xl border border-white/10 bg-[#0A1124] p-5 sm:p-6">
-      <div className="flex items-start justify-between gap-3">
-        <h3 className="text-xl font-extrabold leading-tight tracking-tight text-white text-balance">{r.nombre}</h3>
-        {r.nuevo && (
-          <span className="shrink-0 rounded-full bg-[#22D3EE] px-2.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#04101C]">Nuevo</span>
-        )}
+    <div
+      className={`rc-cover relative overflow-hidden ${small ? 'h-24 rounded-xl' : 'h-40 rounded-t-2xl'}`}
+      style={{ '--rc-bg': HUES[index % HUES.length] }}
+      aria-hidden="true"
+    >
+      <Icon className="absolute -right-4 -top-4 text-[#22D3EE]/10" size={small ? 90 : 150} strokeWidth={1.2} />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="rc-float flex items-center justify-center rounded-2xl border border-[#22D3EE]/40 bg-[#22D3EE]/15 shadow-[0_0_40px_rgba(34,211,238,0.35)]" style={{ width: small ? 44 : 68, height: small ? 44 : 68 }}>
+          <Icon className="text-[#67E8F9]" size={small ? 24 : 34} strokeWidth={2} />
+        </div>
       </div>
-      <p className="mt-2 text-[15px] leading-relaxed text-white/65">{r.descripcion}</p>
-      <a
-        href={r.enlace}
-        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className={`${CYAN_BTN} mt-5 w-full`}
-      >
-        Abrir recurso <ArrowUpRight size={18} aria-hidden="true" />
-      </a>
-    </li>
+      {!small && (
+        <span className="absolute left-3 top-3 rounded-full border border-white/15 bg-black/30 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white/80 backdrop-blur-sm">
+          {r.tipo}
+        </span>
+      )}
+      {!small && r.palabra && (
+        <span className="absolute bottom-3 left-3 rounded-full bg-[#050A18]/70 px-3 py-1 text-xs font-extrabold tracking-wider text-[#22D3EE] backdrop-blur-sm">
+          {r.palabra}
+        </span>
+      )}
+    </div>
+  )
+}
+
+function ResourceCard({ r, index }) {
+  const ref = useRef(null)
+  const external = r.enlace.startsWith('http')
+  const onMove = (e) => {
+    if (e.pointerType !== 'mouse' || !ref.current) return
+    const b = ref.current.getBoundingClientRect()
+    ref.current.style.setProperty('--mx', `${e.clientX - b.left}px`)
+    ref.current.style.setProperty('--my', `${e.clientY - b.top}px`)
+  }
+  return (
+    <motion.li
+      layout
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0, transition: { delay: Math.min(index, 8) * 0.05, duration: 0.45, ease: [0.23, 1, 0.32, 1] } }}
+      exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.15 } }}
+    >
+      <div ref={ref} onPointerMove={onMove} className="rc-card flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0A1124]/90 backdrop-blur-sm">
+        <div className="relative">
+          <Cover r={r} index={index} />
+          {r.nuevo && (
+            <span className="absolute right-3 top-3 rounded-full bg-[#22D3EE] px-2.5 py-1 text-xs font-extrabold uppercase tracking-wide text-[#04101C] shadow-[0_0_20px_rgba(34,211,238,0.6)]">Nuevo</span>
+          )}
+        </div>
+        <div className="flex flex-1 flex-col p-5">
+          <h3 className="text-xl font-extrabold leading-tight tracking-tight text-white text-balance">{r.nombre}</h3>
+          <p className="mt-2 flex-1 text-[15px] leading-relaxed text-white/65">{r.descripcion}</p>
+          <a href={r.enlace} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} className={`${CYAN_BTN} mt-5 w-full`}>
+            Abrir recurso <ArrowUpRight size={18} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+    </motion.li>
+  )
+}
+
+// Átomo decorativo que gira despacio detrás del título
+function Atom({ className = '' }) {
+  return (
+    <div className={`pointer-events-none ${className}`} aria-hidden="true">
+      <div className="rc-spin h-full w-full">
+        <svg viewBox="-100 -100 200 200" className="h-full w-full" fill="none" stroke="#22D3EE" strokeWidth="0.7">
+          {[0, 60, 120].map((a) => (
+            <g key={a} transform={`rotate(${a})`}>
+              <ellipse rx="92" ry="34" opacity="0.5" />
+              <circle cx="92" cy="0" r="4" fill="#67E8F9" stroke="none" />
+            </g>
+          ))}
+          <circle r="9" fill="#22D3EE" stroke="none" opacity="0.9" />
+          <circle r="18" opacity="0.3" />
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function Library() {
+  const tipos = useMemo(() => ['Todos', ...new Set(SORTED_RESOURCES.map((r) => r.tipo))], [])
+  const [tipo, setTipo] = useState('Todos')
+  const list = SORTED_RESOURCES.filter((r) => tipo === 'Todos' || r.tipo === tipo)
+  return (
+    <>
+      <div className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="Filtrar por tipo">
+        {tipos.map((t) => (
+          <button
+            key={t}
+            type="button"
+            aria-pressed={tipo === t}
+            onClick={() => setTipo(t)}
+            className={`shrink-0 rounded-full border px-4 py-2 text-sm font-extrabold transition-[transform,background-color,color] duration-200 active:scale-[0.97] ${
+              tipo === t ? 'border-[#22D3EE] bg-[#22D3EE] text-[#04101C]' : 'border-white/20 bg-white/5 text-white [@media(hover:hover)]:hover:bg-white/10'
+            }`}
+          >
+            {t === 'Todos' ? `Todos · ${SORTED_RESOURCES.length}` : t}
+          </button>
+        ))}
+      </div>
+      <ul className="mt-6 grid gap-5 sm:grid-cols-2">
+        <AnimatePresence mode="popLayout">
+          {list.map((r, i) => (
+            <ResourceCard key={r.id} r={r} index={i} />
+          ))}
+        </AnimatePresence>
+      </ul>
+    </>
   )
 }
 
@@ -217,66 +325,89 @@ function Recursos() {
   }
 
   return (
-    <div className={`${NAVY} min-h-screen text-white`}>
-      <Header />
-      <main className="mx-auto max-w-3xl px-4 pb-16 pt-10 sm:px-6 sm:pt-14">
-        <h1 className="text-[2.4rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-balance sm:text-6xl">
-          Mis recursos <span className="text-[#22D3EE]">gratuitos</span>
-        </h1>
+    <div className={`${NAVY} relative min-h-screen overflow-x-clip text-white`}>
+      <Particles />
+      {/* Brillos de fondo */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[640px]" aria-hidden="true">
+        <div className="rc-drift absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#22D3EE]/20 blur-[90px]" />
+        <div className="rc-drift absolute -right-20 top-40 h-80 w-80 rounded-full bg-[#2F6BFF]/25 blur-[100px]" style={{ animationDelay: '-4s' }} />
+      </div>
 
-        {unlocked ? (
-          <>
-            <p className="mt-4 text-lg leading-relaxed text-white/70">
-              Prompts, plantillas y guías para tu negocio. Los más nuevos, primero.
-            </p>
-            <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-              {SORTED_RESOURCES.map((r) => (
-                <ResourceCard key={r.id} r={r} />
-              ))}
-            </ul>
-
-            <section className="mt-14 rounded-2xl border border-[#22D3EE]/40 bg-[#22D3EE]/10 p-6 sm:p-8">
-              <h2 className="text-2xl font-extrabold leading-tight tracking-tight text-balance sm:text-3xl">
-                ¿Tienes un negocio con citas? Escribe <span className="text-[#22D3EE]">PRUEBA</span> y te monto el asistente de WhatsApp gratis 14 días
-              </h2>
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className={`${CYAN_BTN} sm:flex-1`}>
-                  <Instagram size={20} aria-hidden="true" /> Instagram @rafajarillo
-                </a>
-                <a
-                  href={`${WHATSAPP_URL}?text=${encodeURIComponent('PRUEBA')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`${GHOST_BTN} sm:flex-1`}
-                >
-                  <MessageCircle size={20} aria-hidden="true" /> Escríbeme por WhatsApp
-                </a>
-              </div>
-            </section>
-          </>
-        ) : (
-          <>
-            <p className="mt-4 text-lg leading-relaxed text-white/70">
-              Déjame tus datos y accede a toda la biblioteca: prompts, plantillas y guías para tu negocio.
-            </p>
-            <div className="mt-8">
-              <p className="mb-3 flex items-center gap-2 text-sm font-bold text-[#22D3EE]">
-                <Lock size={16} aria-hidden="true" /> {SORTED_RESOURCES.length} recursos gratis
+      <div className="relative z-10">
+        <Header />
+        <main className="mx-auto max-w-5xl px-4 pb-16 pt-10 sm:px-6 sm:pt-16">
+          <div className="relative">
+            <Atom className="absolute -right-24 -top-16 h-[300px] w-[300px] opacity-40 sm:opacity-70 sm:-right-10 sm:-top-24 sm:h-[460px] sm:w-[460px]" />
+            <div className="relative max-w-2xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#22D3EE]/40 bg-[#22D3EE]/10 px-3.5 py-1.5 text-sm font-extrabold text-[#67E8F9]">
+                <Sparkles size={15} aria-hidden="true" /> {SORTED_RESOURCES.length} recursos · 100 % gratis
+              </span>
+              <h1 className="mt-5 text-[2.9rem] font-extrabold leading-[1] tracking-[-0.035em] text-balance sm:text-7xl">
+                Mis recursos <span className="bg-gradient-to-r from-[#22D3EE] to-[#93C5FD] bg-clip-text text-transparent">gratuitos</span>
+              </h1>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/70 sm:text-xl">
+                {unlocked
+                  ? 'Prompts, plantillas y guías para tu negocio. Los más nuevos, primero.'
+                  : 'Prompts, plantillas y guías para que tu negocio atienda y venda más. Déjame tus datos y entras a toda la biblioteca.'}
               </p>
-              <AccessForm onUnlock={handleUnlock} />
             </div>
-          </>
-        )}
-      </main>
+          </div>
 
-      <footer className="border-t border-white/10">
-        <div className="mx-auto flex max-w-3xl flex-wrap gap-x-5 gap-y-2 px-4 py-6 text-sm text-white/50 sm:px-6">
-          <span>© MedElite IA</span>
-          <a href="/aviso-legal" className="underline-offset-2 hover:text-white hover:underline">Aviso legal</a>
-          <a href="/politica-privacidad" className="underline-offset-2 hover:text-white hover:underline">Privacidad</a>
-          <a href="/politica-cookies" className="underline-offset-2 hover:text-white hover:underline">Cookies</a>
-        </div>
-      </footer>
+          {unlocked ? (
+            <>
+              <Library />
+              <section className="relative mt-16 overflow-hidden rounded-3xl border border-[#22D3EE]/40 bg-gradient-to-br from-[#22D3EE]/15 to-[#2F6BFF]/10 p-6 sm:p-10">
+                <Atom className="absolute -right-16 -top-16 h-56 w-56 opacity-40" />
+                <h2 className="relative max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-balance sm:text-4xl">
+                  ¿Tienes un negocio con citas? Escribe <span className="text-[#22D3EE]">PRUEBA</span> y te monto el asistente de WhatsApp gratis 14 días
+                </h2>
+                <div className="relative mt-7 flex flex-col gap-3 sm:flex-row">
+                  <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className={`${CYAN_BTN} sm:min-w-[260px]`}>
+                    <Instagram size={20} aria-hidden="true" /> Instagram @rafajarillo
+                  </a>
+                  <a href={`${WHATSAPP_URL}?text=${encodeURIComponent('PRUEBA')}`} target="_blank" rel="noopener noreferrer" className={`${GHOST_BTN} sm:min-w-[260px]`}>
+                    <MessageCircle size={20} aria-hidden="true" /> Escríbeme por WhatsApp
+                  </a>
+                </div>
+              </section>
+            </>
+          ) : (
+            <div className="mt-10 grid items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-12">
+              {/* Vista previa bloqueada de los recursos */}
+              <div className="relative order-2 lg:order-1" aria-hidden="true">
+                <div className="grid grid-cols-3 gap-3 blur-[3px] sm:gap-4 lg:grid-cols-2">
+                  {SORTED_RESOURCES.slice(0, 6).map((r, i) => (
+                    <div key={r.id} className="rc-in overflow-hidden rounded-xl border border-white/10 bg-[#0A1124]" style={{ animationDelay: `${i * 80}ms` }}>
+                      <Cover r={r} index={i} small />
+                      <div className="p-2.5 sm:p-3">
+                        <div className="h-2 w-4/5 rounded bg-white/25" />
+                        <div className="mt-2 h-2 w-3/5 rounded bg-white/10" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="flex items-center gap-2 rounded-full border border-[#22D3EE]/50 bg-[#050A18]/85 px-5 py-3 text-sm font-extrabold text-[#67E8F9] shadow-[0_0_40px_rgba(34,211,238,0.35)]">
+                    <Lock size={16} /> Desbloquea los {SORTED_RESOURCES.length} recursos
+                  </span>
+                </div>
+              </div>
+              <div className="order-1 lg:order-2">
+                <AccessForm onUnlock={handleUnlock} />
+              </div>
+            </div>
+          )}
+        </main>
+
+        <footer className="border-t border-white/10">
+          <div className="mx-auto flex max-w-5xl flex-wrap gap-x-5 gap-y-2 px-4 py-6 text-sm text-white/50 sm:px-6">
+            <span>© MedElite IA</span>
+            <a href="/aviso-legal" className="underline-offset-2 hover:text-white hover:underline">Aviso legal</a>
+            <a href="/politica-privacidad" className="underline-offset-2 hover:text-white hover:underline">Privacidad</a>
+            <a href="/politica-cookies" className="underline-offset-2 hover:text-white hover:underline">Cookies</a>
+          </div>
+        </footer>
+      </div>
     </div>
   )
 }
