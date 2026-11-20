@@ -127,6 +127,17 @@ function ProblemSection() {
             );
           })}
         </Stagger>
+
+        {/* Enlace a la calculadora: pone cifras al problema que acaba de leer el visitante */}
+        <div className="mt-10 flex flex-col items-start gap-4 rounded-[22px] border border-white/[0.07] bg-surface/60 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          <p className="max-w-xl text-[17px] leading-snug text-ink-soft">
+            <span className="font-semibold text-ink">¿Cuántos clientes se te escapan al mes?</span> Pon tus números y mira la estimación.
+          </p>
+          <a href="/calculadora" className="btn-ghost w-full flex-shrink-0 px-6 py-3.5 text-[16px] sm:w-auto">
+            Calcular lo que pierdo
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </section>
   )

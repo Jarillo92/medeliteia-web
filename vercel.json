@@ -18,7 +18,9 @@
     { "source": "/salones-de-belleza", "destination": "/salones-de-belleza/index.html" },
     { "source": "/salones-de-belleza/", "destination": "/salones-de-belleza/index.html" },
     { "source": "/gimnasios-y-centros-deportivos", "destination": "/gimnasios-y-centros-deportivos/index.html" },
-    { "source": "/gimnasios-y-centros-deportivos/", "destination": "/gimnasios-y-centros-deportivos/index.html" }
+    { "source": "/gimnasios-y-centros-deportivos/", "destination": "/gimnasios-y-centros-deportivos/index.html" },
+    { "source": "/calculadora", "destination": "/calculadora/index.html" },
+    { "source": "/calculadora/", "destination": "/calculadora/index.html" }
   ],
   "headers": [
     {

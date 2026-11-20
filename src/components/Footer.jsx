@@ -11,6 +11,7 @@ function Footer() {
     { name: 'Proceso', href: '/#proceso' },
     { name: 'Inversión', href: '/#inversion' },
     { name: 'Preguntas frecuentes', href: '/#preguntas' },
+    { name: 'Calculadora de clientes perdidos', href: '/calculadora' },
     { name: 'Reservar demo', href: '/#contacto' },
   ];
 
