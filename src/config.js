@@ -80,3 +80,7 @@ export const CHAT_WIDGET = {
   resourcesUrl: 'https://widgets.leadconnectorhq.com/chat-widget/loader.js',
   widgetId: '6abb92c703da7099e05de395',
 };
+
+// Envío opcional del resultado de la calculadora (/calculadora): URL del formulario o webhook (GoHighLevel, Make, n8n).
+// Vacío = el formulario no se muestra. Antes de rellenarlo: la política de privacidad debe recoger este tratamiento.
+export const FORM_ENDPOINT = '';

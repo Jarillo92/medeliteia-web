@@ -1,7 +1,9 @@
 import { StrictMode } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import LandingPage from './LandingPage'
+import CalculatorPage from './calculator/CalculatorPage'
 import { SECTORS } from '../landings/sectors'
+import calculadora from '../landings/pages/calculadora'
 import { loadChatWidget } from '../chatWidget'
 import '@fontsource-variable/bricolage-grotesque/opsz.css'
 import '../index.css'
@@ -11,7 +13,14 @@ import './landing.css'
 const slug = window.location.pathname.replace(/^\/+|\/+$/g, '');
 const sector = SECTORS[slug];
 
-if (sector) {
+if (slug === calculadora.slug) {
+  hydrateRoot(
+    document.getElementById('root'),
+    <StrictMode>
+      <CalculatorPage page={calculadora} />
+    </StrictMode>
+  );
+} else if (sector) {
   hydrateRoot(
     document.getElementById('root'),
     <StrictMode>

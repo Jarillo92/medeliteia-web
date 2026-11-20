@@ -13,6 +13,8 @@ const ROUTES = [
   'salones-de-belleza',
   'gimnasios-y-centros-deportivos',
 ];
+// Páginas generales (no son sector): su archivo está en src/landings/pages/ y se registra en entry-server.jsx
+const PAGE_ROUTES = ['calculadora'];
 
 const SITE = 'https://www.medeliteia.com';
 const OG_IMAGE = `${SITE}/dashboard-mockup.png`;
@@ -33,10 +35,20 @@ function head(sector) {
   const t = escapeHtml(title);
   const d = escapeHtml(description);
 
+  // Páginas generales: nodo propio (p. ej. WebApplication) en lugar del Service de un sector
+  const mainNode = sector.schema
+    ? {
+        ...sector.schema,
+        description,
+        url,
+        provider: { '@type': 'ProfessionalService', name: 'MedElite IA', url: `${SITE}/`, logo: `${SITE}/logo.webp` },
+      }
+    : null;
+
   const structured = {
     '@context': 'https://schema.org',
     '@graph': [
-      {
+      mainNode || {
         '@type': 'Service',
         name: sector.service.name,
         serviceType: sector.service.serviceType,
@@ -87,11 +99,11 @@ if (!template.includes('<!--landing-head-->') || !template.includes('<!--landing
   throw new Error('dist/landing.html no tiene los marcadores <!--landing-head--> y <!--landing-html-->');
 }
 
-const { render, SECTORS } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href);
+const { render, SECTORS, PAGES } = await import(pathToFileURL(resolve(ssrDir, 'entry-server.js')).href);
 
-for (const route of ROUTES) {
-  const sector = SECTORS[route];
-  if (!sector) throw new Error(`Falta src/landings/sectors para /${route}`);
+for (const route of [...ROUTES, ...PAGE_ROUTES]) {
+  const sector = SECTORS[route] || PAGES[route];
+  if (!sector) throw new Error(`Falta src/landings/sectors (o pages) para /${route}`);
   const html = template.replace('<!--landing-head-->', () => head(sector)).replace('<!--landing-html-->', () => render(route));
   const out = resolve(dist, route, 'index.html');
   await mkdir(dirname(out), { recursive: true });
