@@ -13,8 +13,13 @@ const SHOWN = { opacity: 1, transform: 'translateY(0px)' };
  * Tras montar, solo se esconden los bloques que todavía están por debajo de la pantalla.
  * `from` / `to` cambian el movimiento (p. ej. scaleX para la línea de cobre bajo los títulos); por defecto, fundido + translateY.
  */
-export function Reveal({ as = 'div', index = 0, from = HIDDEN, to = SHOWN, children, ...rest }) {
+export function Reveal({ as = 'div', index = 0, from = HIDDEN, to = SHOWN, nodeRef, children, ...rest }) {
   const ref = useRef(null);
+  // nodeRef: ref opcional del llamador al mismo nodo (p. ej. luz que sigue al cursor)
+  const setRef = (node) => {
+    ref.current = node;
+    if (nodeRef) nodeRef.current = node;
+  };
   const controls = useAnimationControls();
   const Comp = m[as];
 
@@ -40,7 +45,7 @@ export function Reveal({ as = 'div', index = 0, from = HIDDEN, to = SHOWN, child
   }, [controls, index, from, to]);
 
   return (
-    <Comp ref={ref} initial={false} animate={controls} {...rest}>
+    <Comp ref={setRef} initial={false} animate={controls} {...rest}>
       {children}
     </Comp>
   );

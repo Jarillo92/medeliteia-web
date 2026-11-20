@@ -1,13 +1,30 @@
-import { useId, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { ArrowRight, Instagram } from 'lucide-react'
 import { DEMO_HREF, FORM_ENDPOINT } from '../../config'
 import { formatEuros, formatNumber } from '../format'
-import { useCountUp } from '../hooks'
+import { hasFinePointer, useCountUp } from '../hooks'
 import { Reveal } from '../motion'
 import LeadForm from './LeadForm'
 
 // Misma fórmula que la calculadora de las landings (LossCalculator.jsx), con mensajes al día en vez de por semana
 const WEEKS_PER_MONTH = 4.33;
+
+// Luz que sigue al cursor sobre un panel (solo ratón): escribe variables CSS en el nodo, sin re-render
+function useSpotlight() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !hasFinePointer()) return undefined;
+    const move = (e) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    };
+    el.addEventListener('pointermove', move, { passive: true });
+    return () => el.removeEventListener('pointermove', move);
+  }, []);
+  return ref;
+}
 
 function clamp(n, min, max) {
   return Math.min(max, Math.max(min, n));
@@ -109,12 +126,14 @@ function Calculator({ page }) {
 
   const moneyRef = useCountUp(money, formatEuros, { pulse: true });
   const clientsRef = useCountUp(clients, formatNumber, { pulse: true });
+  const inputsRef = useSpotlight();
+  const resultRef = useSpotlight();
 
   return (
-    <section id="calculadora" className="relative scroll-mt-20 bg-ground pb-20 pt-4 md:pb-28">
+    <section id="calculadora" className="relative scroll-mt-20 pb-20 pt-4 md:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
-          <Reveal className="panel space-y-7 p-5 sm:p-8 lg:col-span-6">
+          <Reveal nodeRef={inputsRef} className="cp-spot panel space-y-7 p-5 sm:p-8 lg:col-span-6">
             <h2 className="text-[1.5rem] font-semibold tracking-[-0.02em] text-ink sm:text-[1.75rem]">{calc.title}</h2>
             {calc.fields.map((field) => (
               <BigField key={field.id} field={field} value={values[field.id]} onChange={set(field.id)} />
@@ -125,10 +144,11 @@ function Calculator({ page }) {
           <div className="space-y-6 lg:sticky lg:top-24 lg:col-span-6">
             <Reveal
               index={1}
-              className="relative overflow-hidden rounded-[22px] border border-sector/25 bg-sector-deep p-6 shadow-lift sm:p-8"
+              nodeRef={resultRef}
+              className="cp-spot relative overflow-hidden rounded-[22px] border border-sector/25 bg-sector-deep p-6 shadow-lift sm:p-8"
             >
               <div
-                className="pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full"
+                className="cp-glow pointer-events-none absolute -right-28 -top-28 h-80 w-80 rounded-full"
                 style={{ background: 'radial-gradient(closest-side, rgb(var(--sector) / 0.32), transparent)' }}
                 aria-hidden="true"
               />

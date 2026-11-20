@@ -395,3 +395,67 @@
 .cp-summary::-webkit-details-marker {
   display: none;
 }
+
+/* Dinamismo de /calculadora: orbes de luz a la deriva (solo transform y opacity) */
+.cp-orb {
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgb(var(--sector) / 0.28), transparent);
+  will-change: transform;
+}
+.cp-orb-a {
+  left: -90px;
+  top: 90px;
+  height: 300px;
+  width: 300px;
+}
+.cp-orb-b {
+  right: -110px;
+  top: 220px;
+  height: 340px;
+  width: 340px;
+  background: radial-gradient(closest-side, rgb(156 187 255 / 0.18), transparent);
+}
+@keyframes cp-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(70px, 50px, 0) scale(1.15); }
+}
+@keyframes cp-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.1); }
+  to { transform: translate3d(-60px, 70px, 0) scale(0.95); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cp-orb-a { animation: cp-drift-a 11s ease-in-out infinite alternate; }
+  .cp-orb-b { animation: cp-drift-b 13s ease-in-out infinite alternate; }
+}
+
+/* Luz que sigue al cursor sobre los paneles (solo con ratón; --mx/--my los escribe useSpotlight) */
+.cp-spot {
+  position: relative;
+}
+.cp-spot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 30%), rgb(var(--sector) / 0.16), transparent 70%);
+  transition: opacity 300ms var(--lp-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cp-spot:hover::before {
+    opacity: 1;
+  }
+}
+
+/* Resplandor del resultado: respira despacio */
+@keyframes cp-glow {
+  from { opacity: 0.55; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.12); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cp-glow { animation: cp-glow 4.5s ease-in-out infinite alternate; }
+}

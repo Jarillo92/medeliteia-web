@@ -6,6 +6,7 @@ import { Reveal } from '../motion'
 import { sectorVars } from '../sectorVars'
 import { SECTORS } from '../../landings/sectors'
 import { DEMO_HREF } from '../../config'
+import ParticlesLoader from '../../components/ParticlesLoader'
 import Calculator from './Calculator'
 
 const loadMotionFeatures = () => import('../motionFeatures').then((mod) => mod.default);
@@ -19,14 +20,19 @@ function CalculatorPage({ page }) {
   return (
     <LazyMotion features={loadMotionFeatures} strict>
       <div className="relative min-h-screen" style={sectorVars(page.colors)}>
+        {/* Mismo fondo de átomos que la home: un canvas fijo detrás (solo desde 768 px y sin movimiento reducido) */}
+        <ParticlesLoader />
         <LandingNav href={DEMO_HREF} />
         <main>
-          <section className="relative overflow-x-clip bg-ground pb-10 pt-28 sm:pb-14 sm:pt-36">
+          <section className="relative overflow-x-clip pb-10 pt-28 sm:pb-14 sm:pt-36">
             <div
               className="pointer-events-none absolute inset-x-0 top-0 h-[460px]"
               style={{ background: 'radial-gradient(50% 65% at 50% 0%, rgb(var(--sector) / 0.20), transparent 70%)' }}
               aria-hidden="true"
             />
+            {/* Orbes de luz a la deriva: dan vida también en móvil, donde no hay partículas */}
+            <span className="cp-orb cp-orb-a" aria-hidden="true" />
+            <span className="cp-orb cp-orb-b" aria-hidden="true" />
             <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6">
               <p className="lp-rise font-mono text-[13px] font-medium uppercase tracking-[0.12em] text-sector">{hero.label}</p>
               <h1 className="lp-rise mt-4 text-[2.35rem] font-semibold leading-[1.04] tracking-[-0.035em] text-ink text-balance sm:text-6xl">
