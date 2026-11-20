@@ -11,6 +11,7 @@ const PAGES = {
   '/politica-privacidad': lazy(() => import('./legal/PoliticaPrivacidad')),
   '/politica-cookies': lazy(() => import('./legal/PoliticaCookies')),
   '/prompt-clientes': lazy(() => import('./PromptClientes')),
+  '/recursos': lazy(() => import('./recursos/Recursos')),
 };
 
 const path = window.location.pathname.replace(/\/+$/, '') || '/';

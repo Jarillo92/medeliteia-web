@@ -3,7 +3,7 @@ import { LegalLayout, Section } from './LegalLayout'
 
 function PoliticaPrivacidad() {
   return (
-    <LegalLayout title="Política de privacidad" updated="29 de septiembre de 2026">
+    <LegalLayout title="Política de privacidad" updated="19 de noviembre de 2026">
       <p>
         Esta política explica cómo tratamos tus datos personales cuando usas esta web, reservas una demo, escribes en el chat o nos
         contactas por WhatsApp, de acuerdo con el Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018 de Protección de Datos
@@ -53,6 +53,10 @@ function PoliticaPrivacidad() {
       <Section title="4. Para qué usamos tus datos">
         <ul>
           <li>Responder a tus consultas por el chat, WhatsApp, correo electrónico o teléfono.</li>
+          <li>
+            Darte acceso a los recursos gratuitos de la página de recursos y, si lo aceptas en el formulario, enviarte información
+            comercial sobre {OWNER.brand} por correo electrónico o WhatsApp. Puedes darte de baja cuando quieras.
+          </li>
           <li>Gestionar la demo: reservarla, enviarte la confirmación y los recordatorios, y cambiarla o cancelarla si lo pides.</li>
         </ul>
         <p>No usaremos tus datos para finalidades distintas de estas sin informarte antes.</p>
